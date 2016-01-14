@@ -98,7 +98,7 @@
           var isRoomForPlayerAbove = (indexToMoveTo != -1 &&
                   brickGrid[indexToMoveTo] == TILE_NONE);
           if(indexOfPlayer != -1 && isRoomForPlayerAbove) {
-            brickGrid[indexOfPlayer] = TILE_MOVE;
+            brickGrid[indexOfPlayer] = TILE_LOOSE;
             jumperY=Math.floor(indexOfPlayer/BRICK_COLS)*BRICK_H-JUMPER_RADIUS;
             carryingBlock = false;
           }
@@ -122,8 +122,8 @@
   const BRICK_COLS = 20;
   const BRICK_ROWS = 15;
   const TILE_NONE = 0;
-  const TILE_ROCK = 1;
-  const TILE_MOVE = 2;
+  const TILE_SOLID = 1;
+  const TILE_LOOSE = 2;
   const TILE_PLAYERSTART = 3;
   const TILE_PRIZE = 4;
   const TILE_EVIL_ANT_START = 5;
@@ -177,10 +177,10 @@
   function whichBrickAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
     var index = whichIndexAtPixelCoord(hitPixelX, hitPixelY);
     if(index < 0) {
-       return TILE_ROCK;
+       return TILE_SOLID;
     }
 
-    if(forPlayer && brickGrid[index] == TILE_MOVE) {
+    if(forPlayer && brickGrid[index] == TILE_LOOSE) {
       playerTouchingIndex = index;
     }
     return brickGrid[index];
@@ -339,10 +339,10 @@
         switch( whichBrickAtTileCoord(eachCol, eachRow) ) {
           case TILE_NONE:
             continue;
-          case TILE_ROCK:
+          case TILE_SOLID:
             usePic = tilePic;
             break;
-          case TILE_MOVE:
+          case TILE_LOOSE:
             usePic = tileMovePic;
             break;
           case TILE_PRIZE:
