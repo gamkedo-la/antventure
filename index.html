@@ -11,6 +11,13 @@
   playerPic.src = "images/playerAnt.png";
   var tilePic = document.createElement("img");
   tilePic.src = "images/Tile.png";
+  var tileMovePic = document.createElement("img");
+  tileMovePic.src = "images/TileMove.png";
+  var tilePrizePic = document.createElement("img");
+  tilePrizePic.src = "images/TilePrize.png";
+
+  var playerTouchingIndex = -1;
+  var carryingBlock = false;
 
   var camPanX = 0.0;
   var camPanY = 0.0;
@@ -27,12 +34,14 @@
   var jumperX = 75, jumperY = 75;
   var jumperSpeedX = 0, jumperSpeedY = 0;
   var jumperOnGround = false;
-  var JUMPER_RADIUS = 10;
+  var recentJump = 0;
+  var JUMPER_RADIUS = 15;
 
   const KEY_LEFT_ARROW = 37;
   const KEY_UP_ARROW = 38;
   const KEY_RIGHT_ARROW = 39;
-  const KEY_SPACE = 32;
+  const KEY_Z = 90;
+  const KEY_X = 88;
   var holdLeft = false;
   var holdRight = false;
   var lastFacingLeft = false;
@@ -55,9 +64,31 @@
         lastFacingLeft = false;
       }
     }
-    if(thisKey == KEY_UP_ARROW || thisKey == KEY_SPACE) {
-      if(jumperOnGround) {
-        jumperSpeedY = -JUMP_POWER;
+    if(setTo) {
+      if(thisKey == KEY_UP_ARROW || thisKey == KEY_Z) {
+        if(jumperOnGround) {
+          jumperSpeedY = -JUMP_POWER;
+          recentJump = 5; // giving a few frames to escape groud
+        }
+      }
+      if(thisKey == KEY_X) {
+        if(carryingBlock == false && playerTouchingIndex != -1) {
+          brickGrid[playerTouchingIndex] = TILE_NONE;
+          jumperSpeedY = -JUMP_POWER * 0.3;
+          carryingBlock = true;
+        }
+        else if(carryingBlock == true && jumperOnGround) {
+          playerTouchingIndex = -1;
+          var indexOfPlayer = whichIndexAtPixelCoord(jumperX,jumperY,true);
+          var indexToMoveTo = indexOfPlayer-BRICK_COLS;
+          var isRoomForPlayerAbove = (indexToMoveTo != -1 &&
+                  brickGrid[indexToMoveTo] == TILE_NONE);
+          if(indexOfPlayer != -1 && isRoomForPlayerAbove) {
+            brickGrid[indexOfPlayer] = TILE_MOVE;
+            jumperY=Math.floor(indexOfPlayer/BRICK_COLS)*BRICK_H-JUMPER_RADIUS;
+            carryingBlock = false;
+          }
+        }
       }
     }
   }
@@ -76,21 +107,26 @@
   const BRICK_GAP = 1;
   const BRICK_COLS = 20;
   const BRICK_ROWS = 15;
+  const TILE_NONE = 0;
+  const TILE_ROCK = 1;
+  const TILE_MOVE = 2;
+  const TILE_PLAYERSTART = 3;
+  const TILE_PRIZE = 4;
   var brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-        1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1,
-        1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1,
-        1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1,
-        1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+        1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+        1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 2, 1,
+        1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+        1, 0, 4, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+        1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 2, 1, 1, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 3, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];;
 
   var canvas, canvasContext;
@@ -99,12 +135,12 @@
     return (tileCol + BRICK_COLS*tileRow);
   }
 
-  function isBrickAtTileCoord(brickTileCol, brickTileRow) {
+  function whichBrickAtTileCoord(brickTileCol, brickTileRow) {
     var brickIndex = brickTileToIndex(brickTileCol, brickTileRow);
-    return (brickGrid[brickIndex] == 1);
+    return brickGrid[brickIndex];
   }
 
-  function isBrickAtPixelCoord(hitPixelX, hitPixelY) {
+  function whichIndexAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
     var tileCol = hitPixelX / BRICK_W;
     var tileRow = hitPixelY / BRICK_H;
 
@@ -115,11 +151,23 @@
     // first check whether the jumper is within any part of the brick wall
     if(tileCol < 0 || tileCol >= BRICK_COLS ||
        tileRow < 0 || tileRow >= BRICK_ROWS) {
-       return false;
+       return -1;
     }
 
     var brickIndex = brickTileToIndex(tileCol, tileRow);
-    return (brickGrid[brickIndex] == 1);
+    return brickIndex;
+  }
+
+  function whichBrickAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
+    var index = whichIndexAtPixelCoord(hitPixelX, hitPixelY);
+    if(index < 0) {
+       return TILE_ROCK;
+    }
+
+    if(forPlayer && brickGrid[index] == TILE_MOVE) {
+      playerTouchingIndex = index;
+    }
+    return brickGrid[index];
   }
 
   function jumperMove() {
@@ -140,23 +188,28 @@
       jumperSpeedX = RUN_SPEED;
     }
 
-    if(jumperSpeedY < 0 && isBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS) == 1) {
+    playerTouchingIndex = -1;
+
+    if(jumperSpeedY < 0 && whichBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS,true) != TILE_NONE) {
       jumperY = (Math.floor( jumperY / BRICK_H )) * BRICK_H + JUMPER_RADIUS;
       jumperSpeedY = 0.0;
     }
 
-    if(jumperSpeedY > 0 && isBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS) == 1) {
+    if(recentJump>0 ) {
+      recentJump--;
+      jumperOnGround = false;
+    } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_NONE) {
       jumperY = (1+Math.floor( jumperY / BRICK_H )) * BRICK_H - JUMPER_RADIUS;
       jumperOnGround = true;
       jumperSpeedY = 0;
-    } else if(isBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS+2) == 0) {
+    } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS+2,true) == TILE_NONE) {
       jumperOnGround = false;
     }
 
-    if(jumperSpeedX < 0 && isBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY) == 1) {
+    if(jumperSpeedX < 0 && whichBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY,true) != TILE_NONE) {
       jumperX = (Math.floor( jumperX / BRICK_W )) * BRICK_W + JUMPER_RADIUS;
     }
-    if(jumperSpeedX > 0 && isBrickAtPixelCoord(jumperX+JUMPER_RADIUS,jumperY) == 1) {
+    if(jumperSpeedX > 0 && whichBrickAtPixelCoord(jumperX+JUMPER_RADIUS,jumperY,true) != TILE_NONE) {
       jumperX = (1+Math.floor( jumperX / BRICK_W )) * BRICK_W - JUMPER_RADIUS;
     }
 
@@ -182,10 +235,22 @@
   }
 
   function jumperReset() {
-    // center jumper on screen
+    // center jumper on start tile, but as fallback center in game world:
     jumperX = canvas.width/2;
     jumperY = canvas.height/2;
-  }
+
+    for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
+      for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
+
+        if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_PLAYERSTART) {
+          jumperX = eachCol * BRICK_W + BRICK_W/2;
+          jumperY = eachRow * BRICK_H + BRICK_H/2;
+          var changeAt = brickTileToIndex(eachCol, eachRow);
+          brickGrid[changeAt] = TILE_NONE; // remove tile where player started
+        } // end of player start found
+      } // end of row
+    } // end of col
+  } // end of function
 
   function moveEverything() {
     jumperMove();
@@ -218,18 +283,28 @@
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
 
+    var usePic;
     for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
       for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
 
-        if( isBrickAtTileCoord(eachCol, eachRow) ) {
-          var brickLeftEdgeX = eachCol * BRICK_W;
-          var brickTopEdgeY = eachRow * BRICK_H;
-          //colorRect(brickLeftEdgeX, brickTopEdgeY,
-            //      BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, 'green' );
+        switch( whichBrickAtTileCoord(eachCol, eachRow) ) {
+          case TILE_NONE:
+            continue;
+          case TILE_ROCK:
+            usePic = tilePic;
+            break;
+          case TILE_MOVE:
+            usePic = tileMovePic;
+            break;
+          case TILE_PRIZE:
+            usePic = tilePrizePic;
+            break;
+        } // end of whichBrickAtTileCoord()
+        var brickLeftEdgeX = eachCol * BRICK_W;
+        var brickTopEdgeY = eachRow * BRICK_H;
 
-          canvasContext.drawImage(tilePic,brickLeftEdgeX, brickTopEdgeY);
+        canvasContext.drawImage(usePic,brickLeftEdgeX, brickTopEdgeY);
 
-        } // end of isBrickAtTileCoord()
       } // end of for eachRow
     } // end of for eachCol
   } // end of drawBricks()
@@ -255,10 +330,12 @@
     } else {
       canvasContext.drawImage(playerPic,jumperX - JUMPER_RADIUS, jumperY - JUMPER_RADIUS);
     }
-
+    if(carryingBlock) {
+      canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
+        jumperY - JUMPER_RADIUS-BRICK_H*0.7);
+    }
 
     drawOnlyBricksOnScreen();
-
 
     canvasContext.restore(); // undoes the .translate() used for cam scroll
 
@@ -315,10 +392,6 @@
       camPanY = maxPanTop;
     }
   }
-
-
-
-
 
 </script>
 
