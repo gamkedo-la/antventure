@@ -9,12 +9,12 @@
 <script>
   var playerPic = document.createElement("img");
   playerPic.src = "images/playerAnt.png";
-  
+
   var evilBugPic = document.createElement("img");
   evilBugPic.src = "images/evilBug.png";
   var evilFlyPic = document.createElement("img");
   evilFlyPic.src = "images/evilFly.png";
-  
+
   var tilePic = document.createElement("img");
   tilePic.src = "images/Tile.png";
   var tileMovePic = document.createElement("img");
@@ -51,11 +51,18 @@
   var evilFlyLastMovingUp = false;
   const EVIL_FLY_SPEED = 1.0;
 
+
+
   const KEY_LEFT_ARROW = 37;
+  const KEY_A = 65;
   const KEY_UP_ARROW = 38;
+  const KEY_W = 87;
   const KEY_RIGHT_ARROW = 39;
-  const KEY_Z = 90;
-  const KEY_X = 88;
+  const KEY_D = 68;
+  const KEY_DOWN_ARROW = 40;
+  const KEY_S = 83;
+
+
   var holdLeft = false;
   var holdRight = false;
   var lastFacingLeft = false;
@@ -66,26 +73,26 @@
   }
 
   function setKeyHoldState(thisKey, setTo) {
-    if(thisKey == KEY_LEFT_ARROW) {
+    if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {
       holdLeft = setTo;
       if(setTo) {
         lastFacingLeft = true;
       }
     }
-    if(thisKey == KEY_RIGHT_ARROW) {
+    if(thisKey == KEY_RIGHT_ARROW || thisKey == KEY_D) {
       holdRight = setTo;
       if(setTo) {
         lastFacingLeft = false;
       }
     }
     if(setTo) {
-      if(thisKey == KEY_UP_ARROW || thisKey == KEY_Z) {
+      if(thisKey == KEY_UP_ARROW || thisKey == KEY_W) {
         if(jumperOnGround) {
           jumperSpeedY = -JUMP_POWER;
           recentJump = 5; // giving a few frames to escape groud
         }
       }
-      if(thisKey == KEY_X) {
+      if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {
         if(carryingBlock == false && playerTouchingIndex != -1) {
           brickGrid[playerTouchingIndex] = TILE_NONE;
           jumperSpeedY = -JUMP_POWER * 0.3;
@@ -98,7 +105,7 @@
           var isRoomForPlayerAbove = (indexToMoveTo != -1 &&
                   brickGrid[indexToMoveTo] == TILE_NONE);
           if(indexOfPlayer != -1 && isRoomForPlayerAbove) {
-            brickGrid[indexOfPlayer] = TILE_LOOSE;
+            brickGrid[indexOfPlayer] = TILE_ROCK;
             jumperY=Math.floor(indexOfPlayer/BRICK_COLS)*BRICK_H-JUMPER_RADIUS;
             carryingBlock = false;
           }
@@ -122,8 +129,8 @@
   const BRICK_COLS = 20;
   const BRICK_ROWS = 15;
   const TILE_NONE = 0;
-  const TILE_SOLID = 1;
-  const TILE_LOOSE = 2;
+  const TILE_DIRT = 1;
+  const TILE_ROCK = 2;
   const TILE_PLAYERSTART = 3;
   const TILE_PRIZE = 4;
   const TILE_EVIL_ANT_START = 5;
@@ -177,10 +184,10 @@
   function whichBrickAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
     var index = whichIndexAtPixelCoord(hitPixelX, hitPixelY);
     if(index < 0) {
-       return TILE_SOLID;
+       return TILE_DIRT;
     }
 
-    if(forPlayer && brickGrid[index] == TILE_LOOSE) {
+    if(forPlayer && brickGrid[index] == TILE_ROCK) {
       playerTouchingIndex = index;
     }
     return brickGrid[index];
@@ -339,10 +346,10 @@
         switch( whichBrickAtTileCoord(eachCol, eachRow) ) {
           case TILE_NONE:
             continue;
-          case TILE_SOLID:
+          case TILE_DIRT:
             usePic = tilePic;
             break;
-          case TILE_LOOSE:
+          case TILE_ROCK:
             usePic = tileMovePic;
             break;
           case TILE_PRIZE:
@@ -413,7 +420,7 @@
 
 
     drawFacingLeftOption(evilBugPic,evilBugX,evilBugY,evilBugLastFacingLeft);
-    drawFacingLeftOption(evilFlyPic,evilFlyX,evilFlyY,evilFlyX > jumperX);
+    drawFacingLeftOption(evilFlyPic,evilFlyX,evilFlyY,evilFlyX);
 
     drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
 
@@ -426,9 +433,9 @@
 
     canvasContext.restore(); // undoes the .translate() used for cam scroll
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Z JUMPS",10,10);
-    canvasContext.fillText("X LIFTS / DROPS",10,20);
-    canvasContext.fillText("ARROWS MOVE",10,30);
+    canvasContext.fillText("Up Arrow / W to Jump",10,10);
+    canvasContext.fillText("Down Arrow / S to pick up",10,20);
+    canvasContext.fillText("A and D / Arrows to MOVE",10,30);
     canvasContext.fillText("ENEMIES AND GOAL NO EFFECT YET",10,40);
 
   }
