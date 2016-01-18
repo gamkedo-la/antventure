@@ -21,9 +21,13 @@
   tileMovePic.src = "images/TileMove.png";
   var tilePrizePic = document.createElement("img");
   tilePrizePic.src = "images/TilePrize.png";
+  var tileCrumblePic = document.createElement("img");
+  tileCrumblePic.src = "images/TileCrumble.png";
 
   var playerTouchingIndex = -1;
   var carryingBlock = false;
+  const DURATION = 100;
+  var crumbleTimer = DURATION;
 
   var camPanX = 0.0;
   var camPanY = 0.0;
@@ -41,7 +45,7 @@
   var jumperSpeedX = 0, jumperSpeedY = 0;
   var jumperOnGround = false;
   var recentJump = 0;
-  var JUMPER_RADIUS = 15;
+  var JUMPER_RADIUS = 16;
 
   var evilBugX = 75, evilBugY = 75;
   var evilBugLastFacingLeft = false;
@@ -98,7 +102,9 @@
           jumperSpeedY = -JUMP_POWER * 0.3;
           carryingBlock = true;
         }
-        else if(carryingBlock == true && jumperOnGround) {
+        else if(carryingBlock == true && jumperOnGround &&
+        (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_CRUMBLE)) {
+
           playerTouchingIndex = -1;
           var indexOfPlayer = whichIndexAtPixelCoord(jumperX,jumperY,true);
           var indexToMoveTo = indexOfPlayer-BRICK_COLS;
@@ -135,17 +141,18 @@
   const TILE_PRIZE = 4;
   const TILE_EVIL_ANT_START = 5;
   const TILE_EVIL_FLY_START = 6;
+  const TILE_CRUMBLE = 7;
   var brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-        1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 2, 1,
+        1, 0, 0, 0, 0, 1, 7, 1, 1, 1, 1, 7, 7, 7, 1, 1, 0, 0, 0, 1,
+        1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 2, 1,
         1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-        1, 0, 4, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+        1, 0, 4, 1, 0, 0, 1, 1, 1, 1, 7, 0, 0, 1, 0, 1, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 2, 1, 1, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
         1, 3, 6, 0, 0, 0, 1, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
@@ -193,6 +200,16 @@
     return brickGrid[index];
   }
 
+  function crumblingProcess() {
+    crumbleTimer--;
+    console.log (crumbleTimer)
+
+    if (crumbleTimer < 0) {
+        //brickGrid[jumperX,jumperY+JUMPER_RADIUS] = TILE_NONE;                  This doesnt work?
+        crumbleTimer = DURATION;
+    }
+  }
+
   function jumperMove() {
    if(jumperOnGround) {
       jumperSpeedX *= GROUND_FRICTION;
@@ -227,6 +244,12 @@
       jumperSpeedY = 0;
     } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS+2,true) == TILE_NONE) {
       jumperOnGround = false;
+    }
+
+    if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
+      crumblingProcess()
+    } else {
+      crumbleTimer = DURATION;
     }
 
     if(jumperSpeedX < 0 && whichBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY,true) != TILE_NONE) {
@@ -354,6 +377,9 @@
             break;
           case TILE_PRIZE:
             usePic = tilePrizePic;
+            break;
+          case TILE_CRUMBLE:
+            usePic = tileCrumblePic;
             break;
         } // end of whichBrickAtTileCoord()
         var brickLeftEdgeX = eachCol * BRICK_W;
