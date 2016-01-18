@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
 </head>
-<canvas id="gameCanvas" width="800" height="600"></canvas>
 
+<<<<<<< HEAD
 <script>
   var playerPic = document.createElement("img");
   playerPic.src = "images/playerAnt.png";
@@ -205,7 +205,7 @@
     console.log (crumbleTimer)
 
     if (crumbleTimer < 0) {
-        //brickGrid[jumperX,jumperY+JUMPER_RADIUS] = TILE_NONE;                  This doesnt work?
+        brickGrid[jumperX,jumperY+JUMPER_RADIUS] = TILE_NONE;                   //This doesnt work?
         crumbleTimer = DURATION;
     }
   }
@@ -519,6 +519,11 @@
   }
 
 </script>
+=======
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script src="js/main.js"></script>
+>>>>>>> origin/master
 
 </body>
 </html>
