@@ -5,7 +5,6 @@
   <meta content="utf-8" http-equiv="encoding">
 </head>
 
-<<<<<<< HEAD
 <script>
   var playerPic = document.createElement("img");
   playerPic.src = "images/playerAnt.png";
@@ -26,7 +25,7 @@
 
   var playerTouchingIndex = -1;
   var carryingBlock = false;
-  const DURATION = 100;
+  const DURATION = 50;
   var crumbleTimer = DURATION;
 
   var camPanX = 0.0;
@@ -200,13 +199,14 @@
     return brickGrid[index];
   }
 
+
   function crumblingProcess() {
     crumbleTimer--;
-    console.log (crumbleTimer)
 
     if (crumbleTimer < 0) {
-        brickGrid[jumperX,jumperY+JUMPER_RADIUS] = TILE_NONE;                   //This doesnt work?
-        crumbleTimer = DURATION;
+      brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
+      crumbleTimer = DURATION;
+
     }
   }
 
@@ -236,6 +236,9 @@
     }
 
     if(recentJump>0 ) {
+      if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
+        brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
+      }
       recentJump--;
       jumperOnGround = false;
     } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_NONE) {
@@ -519,11 +522,9 @@
   }
 
 </script>
-=======
 <body>
   <canvas id="gameCanvas" width="800" height="600"></canvas>
-  <script src="js/main.js"></script>
->>>>>>> origin/master
+
 
 </body>
 </html>
