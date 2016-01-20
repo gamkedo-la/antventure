@@ -8,6 +8,8 @@
 <script>
   var playerPic = document.createElement("img");
   playerPic.src = "images/playerAnt.png";
+  var playerPicWizHat = document.createElement("img");
+  playerPicWizHat.src = "images/playerAntWizHat.png";
 
   var evilBugPic = document.createElement("img");
   evilBugPic.src = "images/evilBug.png";
@@ -22,6 +24,8 @@
   tilePrizePic.src = "images/TilePrize.png";
   var tileCrumblePic = document.createElement("img");
   tileCrumblePic.src = "images/TileCrumble.png";
+  var tileWizHatPic = document.createElement("img");
+  tileWizHatPic.src = "images/WizHat.png";
 
   var playerTouchingIndex = -1;
   var carryingBlock = false;
@@ -45,6 +49,9 @@
   var jumperOnGround = false;
   var recentJump = 0;
   var JUMPER_RADIUS = 16;
+  var health = 3;
+  var damagedRecentely = 0;
+  var wearingWizHat = false;
 
   var evilBugX = 75, evilBugY = 75;
   var evilBugLastFacingLeft = false;
@@ -141,13 +148,14 @@
   const TILE_EVIL_ANT_START = 5;
   const TILE_EVIL_FLY_START = 6;
   const TILE_CRUMBLE = 7;
+  const TILE_WIZ_HAT = 8;
   var brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 1, 7, 1, 1, 1, 1, 7, 7, 7, 1, 1, 0, 0, 0, 1,
-        1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 2, 1,
-        1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
+        1, 0, 0, 0, 1, 1, 8, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 2, 1,
+        1, 0, 0, 1, 1, 0, 7, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
@@ -255,6 +263,24 @@
       crumbleTimer = DURATION;
     }
 
+    if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_WIZ_HAT) {
+      brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
+      wearingWizHat = true;
+    }
+    if (whichBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS,true) == TILE_WIZ_HAT) {
+      brickGrid[whichIndexAtPixelCoord(jumperX, jumperY - JUMPER_RADIUS)] = TILE_NONE;
+      wearingWizHat = true;
+    }
+    if (whichBrickAtPixelCoord(jumperX + JUMPER_RADIUS,jumperY,true) == TILE_WIZ_HAT) {
+      brickGrid[whichIndexAtPixelCoord(jumperX + JUMPER_RADIUS, jumperY)] = TILE_NONE;
+      wearingWizHat = true;
+    }
+    if (whichBrickAtPixelCoord(jumperX - JUMPER_RADIUS,jumperY,true) == TILE_WIZ_HAT) {
+      brickGrid[whichIndexAtPixelCoord(jumperX - JUMPER_RADIUS, jumperY)] = TILE_NONE;
+      wearingWizHat = true;
+    }
+
+
     if(jumperSpeedX < 0 && whichBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY,true) != TILE_NONE) {
       jumperX = (Math.floor( jumperX / BRICK_W )) * BRICK_W + JUMPER_RADIUS;
     }
@@ -309,7 +335,7 @@
 
         if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_EVIL_ANT_START) {
           evilBugX = eachCol * BRICK_W + BRICK_W/2;
-          evilBugY = eachRow * BRICK_H + BRICK_H/2;
+          evilBugY = (eachRow * BRICK_H + BRICK_H/2) + 14;
           var changeAt = brickTileToIndex(eachCol, eachRow);
           brickGrid[changeAt] = TILE_NONE; // remove tile where player started
         } // end of player start found
@@ -384,6 +410,9 @@
           case TILE_CRUMBLE:
             usePic = tileCrumblePic;
             break;
+          case TILE_WIZ_HAT:
+            usePic = tileWizHatPic;
+            break;
         } // end of whichBrickAtTileCoord()
         var brickLeftEdgeX = eachCol * BRICK_W;
         var brickTopEdgeY = eachRow * BRICK_H;
@@ -404,6 +433,20 @@
       canvasContext.restore();
     } else {
       canvasContext.drawImage(image,atX - JUMPER_RADIUS, atY - JUMPER_RADIUS);
+    }
+  }
+
+  function hitDetection (enemyX, enemyY) {
+    if (damagedRecentely > 0) {
+      damagedRecentely --;
+      return;
+    }
+
+    if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
+      if (enemyY > jumperY - JUMPER_RADIUS && enemyY < jumperY + JUMPER_RADIUS) {
+        health --;
+        damagedRecentely = 100;
+      }
     }
   }
 
@@ -432,6 +475,8 @@
       }
     }
 
+    hitDetection (evilBugX, evilBugY)
+
     // movement for the one hard coded enemy fly
     if(evilFlyLastMovingUp) {
       evilFlyY -= EVIL_FLY_SPEED;
@@ -446,12 +491,18 @@
         evilFlyY -= EVIL_FLY_SPEED;
       }
     }
+    hitDetection (evilFlyX, evilFlyY)
 
 
     drawFacingLeftOption(evilBugPic,evilBugX,evilBugY,evilBugLastFacingLeft);
-    drawFacingLeftOption(evilFlyPic,evilFlyX,evilFlyY,evilFlyX);
+    drawFacingLeftOption(evilFlyPic,evilFlyX,evilFlyY, evilFlyX);
 
-    drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
+    if (wearingWizHat) {
+      drawFacingLeftOption(playerPicWizHat,jumperX,jumperY,lastFacingLeft);
+    } else {
+      drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
+    }
+
 
     if(carryingBlock) {
       canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
@@ -462,10 +513,7 @@
 
     canvasContext.restore(); // undoes the .translate() used for cam scroll
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Up Arrow / W to Jump",10,10);
-    canvasContext.fillText("Down Arrow / S to pick up",10,20);
-    canvasContext.fillText("A and D / Arrows to MOVE",10,30);
-    canvasContext.fillText("ENEMIES AND GOAL NO EFFECT YET",10,40);
+    canvasContext.fillText("Health: " + health,10,20);
 
   }
 
