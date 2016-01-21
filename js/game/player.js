@@ -46,8 +46,8 @@ function jumperMove() {
 
   playerTouchingIndex = -1;
 
-  if(jumperSpeedY < 0 && whichBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS,true) != TILE_NONE) {
-    jumperY = (Math.floor( jumperY / BRICK_H )) * BRICK_H + JUMPER_RADIUS;
+  if(jumperSpeedY < 0 && whichBrickAtPixelCoord(jumperX,jumperY-0.4*JUMPER_RADIUS,true) != TILE_NONE) {
+    jumperY = (Math.floor( jumperY / BRICK_H )) * BRICK_H + 0.4*JUMPER_RADIUS;
     jumperSpeedY = 0.0;
   }
 

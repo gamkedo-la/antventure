@@ -14,8 +14,22 @@ window.onload = function() {
     }, 1000/framesPerSecond);
 
   jumperReset();
-  enemyPlacementFly();
-  enemyPlacementAnt();
+  // enemyPlacementFly();
+  // enemyPlacementAnt();
+
+  var tempEnemy = new enemySlideAndBounce();
+  
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
+    console.log("ant placed");
+    enemyList.push(tempEnemy);
+    tempEnemy = new enemySlideAndBounce();
+  }
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED, evilFlyPic)) {
+    console.log("fly placed");
+    enemyList.push(tempEnemy);
+    tempEnemy = new enemySlideAndBounce();
+  }
+
   sliderReset();
 }
 
@@ -34,7 +48,9 @@ function drawEverything() {
   // this way we can just draw them at their "actual" position coordinates
   canvasContext.translate(-camPanX,-camPanY);
 
-  enemyCollideAndDraw();
+  for(var i=0;i<enemyList.length;i++) {
+    enemyList[i].enemyCollideAndDraw();
+  }
 
   drawJumper();
 
