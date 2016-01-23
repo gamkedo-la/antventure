@@ -3,17 +3,25 @@
 	padding:0;
 }
 
+body{
+	background-color:#704000;
+}
+
 #AntventureLogo{
-	width:800px;
-	height:289px;
-	background:#704000 url('../images/AntVentureWA.png') top center no-repeat;
-	padding:5px
+	margin:10px auto 10px auto;
+	width:820px;
+	height:200px;
+	background:#95600E url('../images/AntVentureWA.png') center no-repeat;
+	padding:20px;
 }
 #Page{
-	width:1000px;
+	margin: 0px auto 0px auto;
+	padding:25px;
+	width: 810px;
 }
 
 #gameCanvas{
+	width:800px;
 	border-style:solid;
 	border-width:3px;
 }
