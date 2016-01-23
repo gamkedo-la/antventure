@@ -34,7 +34,6 @@ window.onload = function() {
 }
 
 function moveEverything() {
-  damagedRecentely --;
   jumperMove();
   cameraFollow();
 }
