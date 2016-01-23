@@ -5,6 +5,7 @@ playerPicWizHat.src = "images/playerAntWizHat.png";
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
+var numberOfKeys = 0;
 
 var camPanX = 0.0;
 var camPanY = 0.0;
@@ -97,6 +98,13 @@ function jumperMove() {
     if (health < 3) {
       health ++;
     }
+  }
+  if (isBlockPickup(TILE_KEY)) {
+    numberOfKeys ++;
+  }
+
+  if (numberOfKeys > 0) {
+    isBlockPickup(TILE_GATE)
   }
 
 
