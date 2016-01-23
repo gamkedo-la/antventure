@@ -13,14 +13,19 @@ body{
 	height:200px;
 	background:#95600E url('../images/AntVentureWA.png') center no-repeat;
 	padding:20px;
+	border: solid 3px #734A0A;
+	border-top-left-radius:80px 80px;
+	border-top-right-radius:80px 80px;
 }
 #Page{
+	border: solid 3px #734A0A;
 	margin: 0px auto 0px auto;
 	padding:25px;
 	width: 810px;
 }
 
 #gameCanvas{
+	border: solid 3px #734A0A;
 	width:800px;
 	border-style:solid;
 	border-width:3px;
