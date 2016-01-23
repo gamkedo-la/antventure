@@ -1,3 +1,5 @@
+var backgroundPic = document.createElement("img");
+backgroundPic.src = "images/background.png"
 var tilePic = document.createElement("img");
 tilePic.src = "images/Tile.png";
 var tileMovePic = document.createElement("img");
@@ -8,6 +10,12 @@ var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/TileCrumble.png";
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/WizHat.png";
+var tileHealth = document.createElement("img");
+tileHealth.src = "images/tileHealth.png";
+var tileGate = document.createElement("img");
+tileGate.src = "images/tileGate.png";
+var tileKey = document.createElement("img");
+tileKey.src = "images/tileKey.png";
 
 const DURATION = 20;
 var crumbleTimer = DURATION;
@@ -26,6 +34,9 @@ const TILE_EVIL_ANT_START = 5;
 const TILE_EVIL_FLY_START = 6;
 const TILE_CRUMBLE = 7;
 const TILE_WIZ_HAT = 8;
+const TILE_HEALTH = 9;
+const TILE_GATE = 10;
+const TILE_KEY = 11;
 var brickGrid =
     [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
@@ -35,12 +46,12 @@ var brickGrid =
       1, 0, 0, 1, 1, 0, 7, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
       1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-      1, 5, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-      1, 4, 4, 1, 0, 0, 1, 1, 1, 1, 7, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-      1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 2, 1, 1, 0, 1,
+      1, 0, 0, 1, 0, 0, 5, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+      1, 4, 0, 1, 0, 0, 1, 1, 1, 1, 7, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+      1, 1, 1, 1, 0, 0, 0, 1, 9, 0, 0, 0, 0, 1, 0, 2, 1, 1, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-      1, 3, 6, 0, 0, 0, 1, 1, 2, 0, 5, 0, 0, 1, 0, 0, 6, 0, 0, 1,
-      1, 1, 0, 6, 5, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+      1, 3, 6, 0, 0, 0, 1, 1, 2, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,
+      1, 1, 0, 6, 5, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,11, 1, 1,
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];;
 
 function brickTileToIndex(tileCol, tileRow) {
@@ -129,6 +140,15 @@ function drawOnlyBricksOnScreen() {
         case TILE_WIZ_HAT:
           usePic = tileWizHatPic;
           break;
+        case TILE_HEALTH:
+          usePic = tileHealth;
+          break;
+        case TILE_GATE:
+          usePic = tileGate;
+          break;
+        case TILE_KEY:
+          usePic = tileKey;
+          break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
       var brickTopEdgeY = eachRow * BRICK_H;
@@ -138,4 +158,3 @@ function drawOnlyBricksOnScreen() {
     } // end of for eachRow
   } // end of for eachCol
 } // end of drawBricks()
-

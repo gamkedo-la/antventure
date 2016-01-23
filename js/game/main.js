@@ -18,7 +18,7 @@ window.onload = function() {
   // enemyPlacementAnt();
 
   var tempEnemy = new enemySlideAndBounce();
-  
+
   while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
     console.log("ant placed");
     enemyList.push(tempEnemy);
@@ -41,6 +41,8 @@ function moveEverything() {
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "#704000");
 
+  canvasContext.drawImage(backgroundPic,0, 0);
+
   canvasContext.save(); // needed to undo this .translate() used for scroll
 
   // this next line is like subtracting camPanX and camPanY from every
@@ -59,6 +61,14 @@ function drawEverything() {
   canvasContext.restore(); // undoes the .translate() used for cam scroll
   canvasContext.fillStyle = 'white';
   canvasContext.fillText("Health: " + health,10,20);
+
+  if (numberOfKeys > 0) {
+    canvasContext.fillText("Keys: " + numberOfKeys,750,20);
+  }
+  if (damagedRecentely > 0) {
+    canvasContext.fillStyle = 'red';
+    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/6));
+  }
 
 }
 
