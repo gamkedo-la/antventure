@@ -26,6 +26,25 @@ var health = 3;
 var damagedRecentely = 0;
 var wearingWizHat = false;
 
+function isBlockPickup (tileType) {
+  if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == tileType) {
+    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
+    return true;
+  }
+  if (whichBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS,true) == tileType) {
+    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY - JUMPER_RADIUS)] = TILE_NONE;
+    return true;
+  }
+  if (whichBrickAtPixelCoord(jumperX + JUMPER_RADIUS,jumperY,true) == tileType) {
+    brickGrid[whichIndexAtPixelCoord(jumperX + JUMPER_RADIUS, jumperY)] = TILE_NONE;
+    return true;
+  }
+  if (whichBrickAtPixelCoord(jumperX - JUMPER_RADIUS,jumperY,true) == tileType) {
+    brickGrid[whichIndexAtPixelCoord(jumperX - JUMPER_RADIUS, jumperY)] = TILE_NONE;
+    return true;
+  }
+}
+
 function jumperMove() {
  if(jumperOnGround) {
     jumperSpeedX *= GROUND_FRICTION;
@@ -71,21 +90,13 @@ function jumperMove() {
     crumbleTimer = DURATION;
   }
 
-  if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_WIZ_HAT) {
-    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
+  if (isBlockPickup(TILE_WIZ_HAT)) {
     wearingWizHat = true;
   }
-  if (whichBrickAtPixelCoord(jumperX,jumperY-JUMPER_RADIUS,true) == TILE_WIZ_HAT) {
-    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY - JUMPER_RADIUS)] = TILE_NONE;
-    wearingWizHat = true;
-  }
-  if (whichBrickAtPixelCoord(jumperX + JUMPER_RADIUS,jumperY,true) == TILE_WIZ_HAT) {
-    brickGrid[whichIndexAtPixelCoord(jumperX + JUMPER_RADIUS, jumperY)] = TILE_NONE;
-    wearingWizHat = true;
-  }
-  if (whichBrickAtPixelCoord(jumperX - JUMPER_RADIUS,jumperY,true) == TILE_WIZ_HAT) {
-    brickGrid[whichIndexAtPixelCoord(jumperX - JUMPER_RADIUS, jumperY)] = TILE_NONE;
-    wearingWizHat = true;
+  if (isBlockPickup(TILE_HEALTH)) {
+    if (health < 3) {
+      health ++;
+    }
   }
 
 
