@@ -1,3 +1,5 @@
+var backgroundPic = document.createElement("img");
+backgroundPic.src = "images/background.png"
 var tilePic = document.createElement("img");
 tilePic.src = "images/Tile.png";
 var tileMovePic = document.createElement("img");
@@ -138,4 +140,3 @@ function drawOnlyBricksOnScreen() {
     } // end of for eachRow
   } // end of for eachCol
 } // end of drawBricks()
-

@@ -127,7 +127,7 @@ function hitDetection (enemyX, enemyY) {
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
     if (enemyY > jumperY - JUMPER_RADIUS && enemyY < jumperY + JUMPER_RADIUS) {
       health --;
-      damagedRecentely = 100;
+      damagedRecentely = 300;
     }
   }
 }

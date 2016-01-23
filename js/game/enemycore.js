@@ -40,7 +40,7 @@ this.enemyCollideAndDraw = function() {
 	  // movement for the one hard coded enemy red ant
     this.x += this.xv;
     this.y += this.yv;
-    
+
     if(whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_NONE) {
       this.facingLeft = !this.facingLeft;
       this.xv = -this.xv;

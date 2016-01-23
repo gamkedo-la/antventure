@@ -18,7 +18,7 @@ window.onload = function() {
   // enemyPlacementAnt();
 
   var tempEnemy = new enemySlideAndBounce();
-  
+
   while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
     console.log("ant placed");
     enemyList.push(tempEnemy);
@@ -34,12 +34,15 @@ window.onload = function() {
 }
 
 function moveEverything() {
+  damagedRecentely --;
   jumperMove();
   cameraFollow();
 }
 
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "#704000");
+
+  canvasContext.drawImage(backgroundPic,0, 0);
 
   canvasContext.save(); // needed to undo this .translate() used for scroll
 
