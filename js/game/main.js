@@ -62,6 +62,14 @@ function drawEverything() {
   canvasContext.fillStyle = 'white';
   canvasContext.fillText("Health: " + health,10,20);
 
+  if (numberOfKeys > 0) {
+    canvasContext.fillText("Keys: " + numberOfKeys,750,20);
+  }
+  if (damagedRecentely > 0) {
+    canvasContext.fillStyle = 'red';
+    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/6));
+  }
+
 }
 
 function sliderReset() {
