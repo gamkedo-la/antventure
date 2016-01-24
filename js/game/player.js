@@ -85,6 +85,10 @@ function jumperMove() {
     jumperOnGround = false;
   }
 
+  if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_SPIKES) {
+    health --;
+  }
+
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
     crumblingProcess()
   } else {

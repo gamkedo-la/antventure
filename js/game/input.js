@@ -44,7 +44,8 @@ function setKeyHoldState(thisKey, setTo) {
         carryingBlock = true;
       }
       else if(carryingBlock == true && jumperOnGround &&
-      (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_CRUMBLE)) {
+      (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_CRUMBLE) &&
+      (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_MOSS)) {
 
         playerTouchingIndex = -1;
         var indexOfPlayer = whichIndexAtPixelCoord(jumperX,jumperY,true);
