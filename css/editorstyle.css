@@ -309,7 +309,7 @@ html {
   text-align: center;
 }
 
-.saveWindow {
+.newWindow,.saveWindow {
   position: absolute;
   background: #f7f7f7;
   visibility: hidden;
@@ -329,6 +329,13 @@ input[type=text] {
   width: 100%;
   height: 2rem;
   padding: .5rem;
+  margin-bottom: .5rem;
+}
+
+input[type=number] {
+  width: 100%;
+  height: 2rem;
+  padding: 0 0 0 .5rem;
   margin-bottom: .5rem;
 }
 

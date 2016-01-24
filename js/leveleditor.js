@@ -33,6 +33,7 @@ function linkCSS() {
 function createDOM() {
   $(".wrapper").append("<div class='header'></div>");
   $(".wrapper").append("<div class='content'></div>");
+  $(".wrapper").append("<div class='newWindow'></div>");
   $(".wrapper").append("<div class='saveWindow'></div>");
   
   $(".header").append("<div class='dropdown'></div>");
@@ -53,10 +54,17 @@ function createDOM() {
   
   $(".content").append("<div class='grid'></div>");
   
+  $(".newWindow").append("<div class='new-info'>Rows:</div>");
+  $(".newWindow").append("<input id='row-num' type='number' value='15'>");
+  $(".newWindow").append("<div class='new-info'>Cols:</div>");
+  $(".newWindow").append("<input id='col-num' type='number' value='20'>");
+  $(".newWindow").append("<div id='submit-new' class='button'>Submit</div>");
+  $(".newWindow").append("<div id='close-new' class='button'>Cancel</div>");
+  
   $(".saveWindow").append("<div class='save-info'>Please enter a name for the file...</div>");
   $(".saveWindow").append("<input id='save-text' type='text' value='level'>");
-  $(".saveWindow").append("<div class='button'>Submit</div>");
-  $(".saveWindow").append("<div class='button'>Cancel</div>");
+  $(".saveWindow").append("<div id='submit-save' class='button'>Submit</div>");
+  $(".saveWindow").append("<div id='submit-save' class='button'>Cancel</div>");
 }
 
 function hoverCheck() {
@@ -71,7 +79,7 @@ function hoverCheck() {
 function clickCheck() {
     $(".dropdown-item").click(function() {
         if( $(this).attr("id") == "new") {
-          createGrid();
+          popupNew();
         } else if( $(this).attr("id") == "open") {
           var arr;
           openGrid(arr);
@@ -111,12 +119,20 @@ function clickCheck() {
       $(this).addClass("t" + m_optionSelection.toString());
     });
     
+    $("#submit-save").click(function() {
+      saveGrid();
+    });
+    
+    $("#submit-new").click(function() {
+      m_rows = $('#row-num').val();
+      m_cols = $('#col-num').val();
+      createGrid();
+    });
+    
     $(".button").click(function() {
-       if($(this).text() == "Submit") {
-         saveGrid();
-       }
-       $('.saveWindow').css("visibility", "hidden");
-       $('#save-text').val("level");
+      $('.newWindow').css("visibility", "hidden");
+      $('.saveWindow').css("visibility", "hidden");
+      $('#save-text').val("level");
     });
 }
 
@@ -145,6 +161,10 @@ function saveGrid() {
 function closeEditor() {
   // Close editor and go back to game
   
+}
+
+function popupNew() {
+  $('.newWindow').css("visibility", "visible");
 }
 
 function popupSave() {
