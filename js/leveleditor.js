@@ -7,7 +7,8 @@ var m_optionSelection = 0;
 // Start()
 $(function() {
   linkCSS();
-  createDOM();createGrid(m_rows, m_cols);
+  createDOM();
+  createGrid(m_rows, m_cols);
 });
 
 // Update()
@@ -23,7 +24,7 @@ function linkCSS() {
   var link = document.createElement('link');
   link.type = 'text/css';
   link.rel = 'stylesheet';
-  link.href = '../css/editorstyle.css';
+  link.href = '/css/editorstyle.css';
   // Add the link to the head of the html
   head.appendChild(link);
 }
@@ -82,14 +83,20 @@ function clickCheck() {
       cn  = $(this).attr("class");
       var number = cn.substring(cn.lastIndexOf('t') + 1);
       var elements = document.getElementsByClassName("option");
+      
       for( var i=0; i<elements.length; i++) {
         var cl = elements[i].classList;
         if(cl.contains("selected")){
           cl.remove("selected");
         }
       }
+      
       $(this).addClass("selected");
       m_tileTypeCount = number;
+    });
+    
+    $(".gridspace").click(function() {
+      
     });
 }
 
