@@ -1,6 +1,8 @@
 var m_grid = [];
 var m_cols = 20;
 var m_rows = 15;
+var m_tileTypeCount = 12;
+var m_optionSelection = 0;
 
 // Start()
 $(function() {
@@ -40,15 +42,11 @@ function createDOM() {
   
   $(".header").append("<div class='options'></div>");
   $(".options").append("<div class='option-title'>Options: </div>");
-  $(".options").append("<div class='option t0'></div>");
-  $(".options").append("<div class='option t1'></div>");
-  $(".options").append("<div class='option t2'></div>");
-  $(".options").append("<div class='option t3'></div>");
-  $(".options").append("<div class='option t4'></div>");
-  $(".options").append("<div class='option t5'></div>");
-  $(".options").append("<div class='option t6'></div>");
-  $(".options").append("<div class='option t7'></div>");
-  $(".options").append("<div class='option t8'></div>");
+  
+  for( var i=0; i<m_tileTypeCount; i++){
+    $(".options").append("<div class='option t" + i + "'></div>");
+  }
+  $('.t0').addClass("selected");
   
   $(".content").append("<div class='grid'></div>");
 }
@@ -78,27 +76,41 @@ function clickCheck() {
         }
         $(".dropdown").removeClass("hover");
     });
+    
+    $(".option").click(function() {
+      var cn = "";
+      cn  = $(this).attr("class");
+      var number = cn.substring(cn.lastIndexOf('t') + 1);
+      var elements = document.getElementsByClassName("option");
+      for( var i=0; i<elements.length; i++) {
+        var cl = elements[i].classList;
+        if(cl.contains("selected")){
+          cl.remove("selected");
+        }
+      }
+      $(this).addClass("selected");
+      m_tileTypeCount = number;
+    });
 }
 
 function createGrid() {
   // Create a new grid
   makeGrid(m_cols, m_rows, []);
-  console.log("new");
 }
 
 function openGrid(arr) {
   // Open a grid
-  console.log("open");
+  
 }
 
 function saveGrid() {
   // Save grid to file
-  console.log("save");
+  
 }
 
 function closeEditor() {
   // Close editor and go back to game
-  console.log("close");
+  
 }
 
 function makeGrid(w,h,arr) {
@@ -122,6 +134,4 @@ function makeGrid(w,h,arr) {
     }
     document.getElementsByClassName("grid")[0].appendChild(row);
   }
-  
-  console.log(m_grid);
 }
