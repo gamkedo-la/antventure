@@ -4,11 +4,11 @@
 }
 
 body{
-	background:#704000 url(../images/background.png);
+	background:white);
 }
 
 #AntventureLogo{
-	margin:10px auto 10px auto;
+	margin:0px auto 0px auto;
 	width:820px;
 	height:200px;
 	background:#95600E url('../images/AntVentureWA.png') center no-repeat;
@@ -17,6 +17,18 @@ body{
 	border-top-left-radius:80px 80px;
 	border-top-right-radius:80px 80px;
 }
+
+#slogan{
+	margin:0px auto 0px auto;
+	width:826px;
+	background:white;
+	padding: 0px 17px ;
+	text-align:center;
+	font-size:30px;
+	border: solid 3px #734A0A;
+}
+
+
 #Page{
 	border: solid 3px #734A0A;
 	margin: 0px auto 0px auto;
