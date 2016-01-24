@@ -6,6 +6,7 @@ playerPicWizHat.src = "images/playerAntWizHat.png";
 var playerTouchingIndex = -1;
 var carryingBlock = false;
 var numberOfKeys = 0;
+var antsRescued = 0;
 
 var camPanX = 0.0;
 var camPanY = 0.0;
@@ -97,6 +98,9 @@ function jumperMove() {
 
   if (isBlockPickup(TILE_WIZ_HAT)) {
     wearingWizHat = true;
+  }
+  if (isBlockPickup(TILE_FRIENDLY_ANT)) {
+    antsRescued ++;
   }
   if (isBlockPickup(TILE_HEALTH)) {
     if (health < 3) {
