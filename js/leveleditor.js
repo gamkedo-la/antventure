@@ -77,7 +77,7 @@ function hoverCheck() {
 }
 
 function clickCheck() {
-    $(".dropdown-item").click(function() {
+    $("body").on("click", ".dropdown-item",function() {
         if( $(this).attr("id") == "new") {
           popupNew();
         } else if( $(this).attr("id") == "open") {
@@ -93,7 +93,7 @@ function clickCheck() {
         $(".dropdown").removeClass("hover");
     });
     
-    $(".option").click(function() {
+    $("body").on("click", ".option",function() {
       var cn = "";
       cn  = $(this).attr("class");
       var number = cn.substring(cn.lastIndexOf('t') + 1);
@@ -110,7 +110,7 @@ function clickCheck() {
       m_optionSelection = number;
     });
     
-    $(".gridspace").click(function() {
+    $("body").on("click", ".gridspace",function() {
       var index = parseInt($(this).attr("id"));
       m_grid[index] = m_optionSelection;
       
@@ -119,17 +119,17 @@ function clickCheck() {
       $(this).addClass("t" + m_optionSelection.toString());
     });
     
-    $("#submit-save").click(function() {
+    $("body").on("click", "#submit-save",function() {
       saveGrid();
     });
     
-    $("#submit-new").click(function() {
+    $("body").on("click", "#submit-new",function() {
       m_rows = $('#row-num').val();
       m_cols = $('#col-num').val();
       createGrid();
     });
     
-    $(".button").click(function() {
+    $("body").on("click", ".button",function() {
       $('.newWindow').css("visibility", "hidden");
       $('.saveWindow').css("visibility", "hidden");
       $('#save-text').val("level");
