@@ -4,18 +4,20 @@ var tilePic = document.createElement("img");
 tilePic.src = "images/Tile.png";
 var tileMovePic = document.createElement("img");
 tileMovePic.src = "images/TileMove.png";
-var tilePrizePic = document.createElement("img");
-tilePrizePic.src = "images/TilePrize.png";
+var tileMossPic = document.createElement("img");
+tileMossPic.src = "images/TileMoss.png";
 var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/TileCrumble.png";
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/WizHat.png";
 var tileHealth = document.createElement("img");
 tileHealth.src = "images/tileHealth.png";
-var tileGate = document.createElement("img");
-tileGate.src = "images/tileGate.png";
-var tileKey = document.createElement("img");
-tileKey.src = "images/tileKey.png";
+var tileGatePic = document.createElement("img");
+tileGatePic.src = "images/tileGate.png";
+var tileKeyPic = document.createElement("img");
+tileKeyPic.src = "images/tileKey.png";
+var tileSpikesPic = document.createElement("img");
+tileSpikesPic.src = "images/tileSpikes.png";
 
 const DURATION = 20;
 var crumbleTimer = DURATION;
@@ -29,7 +31,7 @@ const TILE_NONE = 0;
 const TILE_DIRT = 1;
 const TILE_ROCK = 2;
 const TILE_PLAYERSTART = 3;
-const TILE_PRIZE = 4;
+const TILE_MOSS = 4;
 const TILE_EVIL_ANT_START = 5;
 const TILE_EVIL_FLY_START = 6;
 const TILE_CRUMBLE = 7;
@@ -37,6 +39,7 @@ const TILE_WIZ_HAT = 8;
 const TILE_HEALTH = 9;
 const TILE_GATE = 10;
 const TILE_KEY = 11;
+const TILE_SPIKES = 12;
 var brickGrid =
     [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
@@ -47,12 +50,12 @@ var brickGrid =
       1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,
       1, 0, 0, 1, 0, 0, 5, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-      1, 4, 0, 1, 0, 0, 1, 1, 1, 1, 7, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+      1, 4, 0, 1, 0, 0, 4, 1, 1, 1, 7, 0, 0, 1, 0, 1, 0, 0, 0, 1,
       1, 1, 1, 1, 0, 0, 0, 1, 9, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,
       1, 0, 0, 1, 7, 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-      1, 3, 6, 0, 0, 0, 1, 1, 2, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,
+      1, 3, 0, 0, 0, 0, 1, 1, 2, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,
       1, 1, 0, 6, 5, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];;
+      1, 1, 1, 1, 1,12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];;
 
 function brickTileToIndex(tileCol, tileRow) {
   return (tileCol + BRICK_COLS*tileRow);
@@ -131,8 +134,8 @@ function drawOnlyBricksOnScreen() {
         case TILE_ROCK:
           usePic = tileMovePic;
           break;
-        case TILE_PRIZE:
-          usePic = tilePrizePic;
+        case TILE_MOSS:
+          usePic = tileMossPic;
           break;
         case TILE_CRUMBLE:
           usePic = tileCrumblePic;
@@ -144,10 +147,13 @@ function drawOnlyBricksOnScreen() {
           usePic = tileHealth;
           break;
         case TILE_GATE:
-          usePic = tileGate;
+          usePic = tileGatePic;
           break;
         case TILE_KEY:
-          usePic = tileKey;
+          usePic = tileKeyPic;
+          break;
+        case TILE_SPIKES:
+          usePic = tileSpikesPic;
           break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;

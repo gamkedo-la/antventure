@@ -65,9 +65,9 @@ function drawEverything() {
   if (numberOfKeys > 0) {
     canvasContext.fillText("Keys: " + numberOfKeys,750,20);
   }
-  if (damagedRecentely > 0) {
+  if (damagedRecentely > 20) {
     canvasContext.fillStyle = 'red';
-    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -40 - camPanY + (damagedRecentely/6));
+    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/10  ));
   }
 
 }
