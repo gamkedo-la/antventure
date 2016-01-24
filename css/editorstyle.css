@@ -34,6 +34,14 @@ html {
   overflow-y: scroll;
 }
 
+.wrapper {
+  position:relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
 .itemSpan {
   padding: .35rem 0;
   text-align: center;
@@ -168,9 +176,9 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* Gray */
+/* Moss */
 .t2 {
-  background: #c7c7c7;
+  background: #005500;
 }
 .t2:after {
   content: "2";
@@ -182,9 +190,9 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* Light Blue */
+/* Tan */
 .t3 {
-  background: #22e0d0;
+  background: #edb76b;
 }
 .t3:after {
   content: "3";
@@ -196,9 +204,9 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* White */
+/* Gray */
 .t4 {
-  background: #fff;
+  background: #c7c7c7;
 }
 .t4:after {
   content: "4";
@@ -238,9 +246,9 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* Tan */
+/* Spikes */
 .t7 {
-  background: #edb76b;
+  background: #800000;
 }
 .t7:after {
   content: "7";
@@ -252,9 +260,9 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* Blue */
+/* Pink */
 .t8 {
-  background: #00f;
+  background: #ff99cc;
 }
 .t8:after {
   content: "8";
@@ -300,6 +308,48 @@ html {
 }
 .t11:after {
   content: "11";
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  width: 100%;
+  height: 100%;
+  padding: .25rem 0;
+  text-align: center;
+}
+/* Light Blue */
+.t12 {
+  background: #22e0d0;
+}
+.t12:after {
+  content: "12";
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  width: 100%;
+  height: 100%;
+  padding: .25rem 0;
+  text-align: center;
+}
+/* Port-1 */
+.t13 {
+  background: #cc0099;
+}
+.t13:after {
+  content: "13";
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  width: 100%;
+  height: 100%;
+  padding: .25rem 0;
+  text-align: center;
+}
+/* Blue */
+.t14 {
+  background: #00f;
+}
+.t14:after {
+  content: "14";
   position: absolute;
   top: 0rem;
   left: 0rem;
