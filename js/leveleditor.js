@@ -35,12 +35,13 @@ function createDOM() {
   $(".wrapper").append("<div class='content'></div>");
   $(".wrapper").append("<div class='newWindow'></div>");
   $(".wrapper").append("<div class='saveWindow'></div>");
+  $(".wrapper").append("<div class='openWindow'></div>");
   
   $(".header").append("<div class='dropdown'></div>");
   $(".dropdown").append("<div class='itemSpan'>File</div>");
   $(".dropdown").append("<div class='dropdown-content'></div>");
   $(".dropdown-content").append("<div id='new' class='dropdown-item'>New Grid...</div>");
-  //$(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
+  $(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
   $(".dropdown-content").append("<div id='save' class='dropdown-item'>Save Grid...</div>");
   //$(".dropdown-content").append("<div id='close' class='dropdown-item'>Close Editor...</div>");
   
@@ -65,6 +66,11 @@ function createDOM() {
   $(".saveWindow").append("<input id='save-text' type='text' value='level'>");
   $(".saveWindow").append("<div id='submit-save' class='button'>Submit</div>");
   $(".saveWindow").append("<div id='submit-save' class='button'>Cancel</div>");
+  
+  $(".openWindow").append("<div class='open-info'>Please enter the name of the file...</div>");
+  $(".openWindow").append("<input id='open-text' type='text' value='level'>");
+  $(".openWindow").append("<div id='submit-open' class='button'>Submit</div>");
+  $(".openWindow").append("<div id='submit-open' class='button'>Cancel</div>");
 }
 
 function hoverCheck() {
@@ -81,8 +87,7 @@ function clickCheck() {
         if( $(this).attr("id") == "new") {
           popupNew();
         } else if( $(this).attr("id") == "open") {
-          var arr;
-          openGrid(arr);
+          popupOpen();
         } else if( $(this).attr("id") == "save") {
           popupSave();
         } else if( $(this).attr("id") == "close") {
@@ -96,7 +101,7 @@ function clickCheck() {
     $("body").on("click", ".option",function() {
       var cn = "";
       cn  = $(this).attr("class");
-      var number = cn.substring(cn.lastIndexOf('t') + 1);
+      var number = parseInt(cn.substring(cn.lastIndexOf('t') + 1));
       var elements = document.getElementsByClassName("option");
       
       for( var i=0; i<elements.length; i++) {
@@ -119,20 +124,26 @@ function clickCheck() {
       $(this).addClass("t" + m_optionSelection.toString());
     });
     
-    $("body").on("click", "#submit-save",function() {
-      saveGrid();
-    });
-    
     $("body").on("click", "#submit-new",function() {
       m_rows = $('#row-num').val();
       m_cols = $('#col-num').val();
       createGrid();
     });
     
+    $("body").on("click", "#submit-save",function() {
+      saveGrid();
+    });
+    
+    $("body").on("click", "#submit-open",function() {
+      openGrid();
+    });
+    
     $("body").on("click", ".button",function() {
       $('.newWindow').css("visibility", "hidden");
       $('.saveWindow').css("visibility", "hidden");
+      $('.openWindow').css("visibility", "hidden");
       $('#save-text').val("level");
+      $('#open-text').val("level");
     });
 }
 
@@ -143,6 +154,12 @@ function createGrid() {
 
 function openGrid() {
   // Open a grid
+  $.getJSON( "levels/"+ $('#open-text').val() +".json", function( data ) {
+    m_rows = data["rows"];
+    m_cols = data["cols"];
+    m_grid = data["gridspaces"];
+    makeGrid(m_cols, m_rows, m_grid);
+  });
   
 }
 
@@ -171,9 +188,15 @@ function popupSave() {
   $('.saveWindow').css("visibility", "visible");
 }
 
+function popupOpen() {
+  $('.openWindow').css("visibility", "visible");
+}
+
 function makeGrid(w,h,arr) {
   var num = 0;
-  m_grid = [w*h];
+  if(arr.length <= 0) {
+    m_grid = [w*h];
+  }
   
   $(".grid").text("");
   $(".grid").css("width", (2*w).toString() + "rem");
@@ -185,9 +208,13 @@ function makeGrid(w,h,arr) {
     for(var j=0; j<w; j++){
       var gridspace = document.createElement("div");
       gridspace.id = num;
-      gridspace.className = "gridspace t1";
+      if(arr.length <= 0) {
+        gridspace.className = "gridspace t1";
+        m_grid[num] = 1;
+      } else {
+        gridspace.className = "gridspace t" + arr[num].toString();
+      }
       row.appendChild(gridspace);
-      m_grid[num] = 1;
       num++;
     }
     document.getElementsByClassName("grid")[0].appendChild(row);
