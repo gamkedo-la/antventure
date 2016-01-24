@@ -2,6 +2,23 @@ var m_grid = [];
 var m_cols = 20;
 var m_rows = 15;
 var m_tileTypeCount = 15;
+var m_tooltips = [
+  "nothing",
+  "dirt",
+  "moss",
+  "crumble",
+  "pillar",
+  "red ant",
+  "fly",
+  "spikes",
+  "friendlies",
+  "health",
+  "gate",
+  "key",
+  "start",
+  "portal",
+  "wiz hat"
+  ];
 var m_optionSelection = 0;
 var m_name = "level";
 
@@ -49,7 +66,7 @@ function createDOM() {
   $(".options").append("<div class='option-title'>Options: </div>");
   
   for( var i=0; i<m_tileTypeCount; i++){
-    $(".options").append("<div class='option t" + i + "'></div>");
+    $(".options").append("<div title=" + m_tooltips[i] + " class='option t" + i + "'></div>");
   }
   $('.t0').addClass("selected");
   
