@@ -3,6 +3,7 @@ var m_cols = 20;
 var m_rows = 15;
 var m_tileTypeCount = 12;
 var m_optionSelection = 0;
+var m_name = "level";
 
 // Start()
 $(function() {
@@ -32,6 +33,7 @@ function linkCSS() {
 function createDOM() {
   $(".wrapper").append("<div class='header'></div>");
   $(".wrapper").append("<div class='content'></div>");
+  $(".wrapper").append("<div class='saveWindow'></div>");
   
   $(".header").append("<div class='dropdown'></div>");
   $(".dropdown").append("<div class='itemSpan'>File</div>");
@@ -50,6 +52,11 @@ function createDOM() {
   $('.t0').addClass("selected");
   
   $(".content").append("<div class='grid'></div>");
+  
+  $(".saveWindow").append("<div class='save-info'>Please enter a name for the file...</div>");
+  $(".saveWindow").append("<input id='save-text' type='text' value='level'>");
+  $(".saveWindow").append("<div class='button'>Submit</div>");
+  $(".saveWindow").append("<div class='button'>Cancel</div>");
 }
 
 function hoverCheck() {
@@ -69,7 +76,7 @@ function clickCheck() {
           var arr;
           openGrid(arr);
         } else if( $(this).attr("id") == "save") {
-          saveGrid();
+          popupSave();
         } else if( $(this).attr("id") == "close") {
           closeEditor();
         } else {
@@ -96,13 +103,20 @@ function clickCheck() {
     });
     
     $(".gridspace").click(function() {
-      var index = $(this).id;
+      var index = parseInt($(this).attr("id"));
       m_grid[index] = m_optionSelection;
-      
       
       var lastClass = $(this).attr('class').split(' ').pop();
       $(this).removeClass(lastClass);
       $(this).addClass("t" + m_optionSelection.toString());
+    });
+    
+    $(".button").click(function() {
+       if($(this).text() == "Submit") {
+         saveGrid();
+       }
+       $('.saveWindow').css("visibility", "hidden");
+       $('#save-text').val("level");
     });
 }
 
@@ -111,19 +125,24 @@ function createGrid() {
   makeGrid(m_cols, m_rows, []);
 }
 
-function openGrid(arr) {
+function openGrid() {
   // Open a grid
   
 }
 
 function saveGrid() {
   // Save grid to file
-  
+  m_name = $('#save-text').val();
+  saveData(m_grid, m_name);
 }
 
 function closeEditor() {
   // Close editor and go back to game
   
+}
+
+function popupSave() {
+  $('.saveWindow').css("visibility", "visible");
 }
 
 function makeGrid(w,h,arr) {
@@ -140,11 +159,26 @@ function makeGrid(w,h,arr) {
     for(var j=0; j<w; j++){
       var gridspace = document.createElement("div");
       gridspace.id = num;
-      gridspace.className = "gridspace t0";
+      gridspace.className = "gridspace t1";
       row.appendChild(gridspace);
-      m_grid[num] = 0;
+      m_grid[num] = 1;
       num++;
     }
     document.getElementsByClassName("grid")[0].appendChild(row);
   }
 }
+
+var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "json"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
