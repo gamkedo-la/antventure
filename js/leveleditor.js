@@ -92,11 +92,17 @@ function clickCheck() {
       }
       
       $(this).addClass("selected");
-      m_tileTypeCount = number;
+      m_optionSelection = number;
     });
     
     $(".gridspace").click(function() {
+      var index = $(this).id;
+      m_grid[index] = m_optionSelection;
       
+      
+      var lastClass = $(this).attr('class').split(' ').pop();
+      $(this).removeClass(lastClass);
+      $(this).addClass("t" + m_optionSelection.toString());
     });
 }
 
@@ -134,7 +140,7 @@ function makeGrid(w,h,arr) {
     for(var j=0; j<w; j++){
       var gridspace = document.createElement("div");
       gridspace.id = num;
-      gridspace.className = "gridspace";
+      gridspace.className = "gridspace t0";
       row.appendChild(gridspace);
       m_grid[num] = 0;
       num++;
