@@ -40,9 +40,9 @@ function createDOM() {
   $(".dropdown").append("<div class='itemSpan'>File</div>");
   $(".dropdown").append("<div class='dropdown-content'></div>");
   $(".dropdown-content").append("<div id='new' class='dropdown-item'>New Grid...</div>");
-  $(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
+  //$(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
   $(".dropdown-content").append("<div id='save' class='dropdown-item'>Save Grid...</div>");
-  $(".dropdown-content").append("<div id='close' class='dropdown-item'>Close Editor...</div>");
+  //$(".dropdown-content").append("<div id='close' class='dropdown-item'>Close Editor...</div>");
   
   $(".header").append("<div class='options'></div>");
   $(".options").append("<div class='option-title'>Options: </div>");
