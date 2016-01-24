@@ -13,6 +13,8 @@ window.onload = function() {
       drawEverything();
     }, 1000/framesPerSecond);
 
+  loadLevel(loadedLevelJSON);
+  
   jumperReset();
   // enemyPlacementFly();
   // enemyPlacementAnt();
