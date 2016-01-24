@@ -1,7 +1,7 @@
 var m_grid = [];
 var m_cols = 20;
 var m_rows = 15;
-var m_tileTypeCount = 12;
+var m_tileTypeCount = 15;
 var m_optionSelection = 0;
 var m_name = "level";
 
