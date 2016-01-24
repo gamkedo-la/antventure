@@ -41,14 +41,14 @@ function moveEverything() {
 function drawEverything() {
   colorRect(0, 0, canvas.width, canvas.height, "#704000");
 
-  canvasContext.drawImage(backgroundPic,0, 0);
-
   canvasContext.save(); // needed to undo this .translate() used for scroll
 
   // this next line is like subtracting camPanX and camPanY from every
   // canvasContext draw operation up until we call canvasContext.restore
   // this way we can just draw them at their "actual" position coordinates
   canvasContext.translate(-camPanX,-camPanY);
+
+  canvasContext.drawImage(backgroundPic,0, 0);
 
   for(var i=0;i<enemyList.length;i++) {
     enemyList[i].enemyCollideAndDraw();
@@ -67,7 +67,7 @@ function drawEverything() {
   }
   if (damagedRecentely > 0) {
     canvasContext.fillStyle = 'red';
-    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/6));
+    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -40 - camPanY + (damagedRecentely/6));
   }
 
 }
