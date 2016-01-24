@@ -177,7 +177,7 @@ var saveData = (function () {
             blob = new Blob([json], {type: "json"}),
             url = window.URL.createObjectURL(blob);
         a.href = url;
-        a.download = fileName;
+        a.download = fileName + ".json";
         a.click();
         window.URL.revokeObjectURL(url);
     };
