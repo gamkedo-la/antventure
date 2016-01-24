@@ -24,7 +24,7 @@ function linkCSS() {
   var link = document.createElement('link');
   link.type = 'text/css';
   link.rel = 'stylesheet';
-  link.href = '/css/editorstyle.css';
+  link.href = 'css/editorstyle.css';
   // Add the link to the head of the html
   head.appendChild(link);
 }
