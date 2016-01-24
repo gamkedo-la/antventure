@@ -133,7 +133,13 @@ function openGrid() {
 function saveGrid() {
   // Save grid to file
   m_name = $('#save-text').val();
-  saveData(m_grid, m_name);
+  var json = {
+    "rows": m_rows,
+    "cols": m_cols,
+    "gridspaces": m_grid
+  };
+  
+  saveData(json, m_name);
 }
 
 function closeEditor() {
