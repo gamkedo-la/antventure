@@ -8,7 +8,7 @@ var m_tooltips = [
   "moss",
   "crumble",
   "pillar",
-  "red ant",
+  "red-ant",
   "fly",
   "spikes",
   "friendlies",
@@ -17,7 +17,7 @@ var m_tooltips = [
   "key",
   "start",
   "portal",
-  "wiz hat"
+  "wiz-hat"
   ];
 var m_optionSelection = 0;
 var m_name = "level";
