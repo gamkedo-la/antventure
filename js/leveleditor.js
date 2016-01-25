@@ -82,12 +82,12 @@ function createDOM() {
   $(".saveWindow").append("<div class='save-info'>Please enter a name for the file...</div>");
   $(".saveWindow").append("<input id='save-text' type='text' value='level'>");
   $(".saveWindow").append("<div id='submit-save' class='button'>Submit</div>");
-  $(".saveWindow").append("<div id='submit-save' class='button'>Cancel</div>");
+  $(".saveWindow").append("<div class='button'>Cancel</div>");
   
   $(".openWindow").append("<div class='open-info'>Please enter the name of the file...</div>");
   $(".openWindow").append("<input id='open-text' type='text' value='level'>");
   $(".openWindow").append("<div id='submit-open' class='button'>Submit</div>");
-  $(".openWindow").append("<div id='submit-open' class='button'>Cancel</div>");
+  $(".openWindow").append("<div class='button'>Cancel</div>");
 }
 
 function hoverCheck() {
