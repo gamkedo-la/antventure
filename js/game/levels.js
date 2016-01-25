@@ -12,16 +12,16 @@ var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/WizHat.png";
 var tileHealth = document.createElement("img");
 tileHealth.src = "images/TileHealth.png";
-var tileGatePic = document.createElement("img");
-tileGatePic.src = "images/TileGate.png";
+var tileDoorPic = document.createElement("img");
+tileDoorPic.src = "images/TileDoor.png";
 var tileKeyPic = document.createElement("img");
 tileKeyPic.src = "images/TileKey.png";
 var tileSpikesPic = document.createElement("img");
 tileSpikesPic.src = "images/tileSpikes.png";
 var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/TilePortal.png";
-var tileRescuePic = document.createElement("img");
-tileRescuePic.src = "images/RescueAnt.png";
+var tileFriendlyPic = document.createElement("img");
+tileFriendlyPic.src = "images/FriendlyAnt.png";
 
 const DURATION = 20;
 var crumbleTimer = DURATION;
@@ -168,7 +168,7 @@ function drawOnlyBricksOnScreen() {
           usePic = tileHealth;
           break;
         case TILE_GATE:
-          usePic = tileGatePic;
+          usePic = tileDoorPic;
           break;
         case TILE_KEY:
           usePic = tileKeyPic;
@@ -180,7 +180,7 @@ function drawOnlyBricksOnScreen() {
           usePic = tilePortalPic;
           break;
         case TILE_FRIENDLY_ANT:
-          usePic = tileRescuePic;
+          usePic = tileFriendlyPic;
           break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
