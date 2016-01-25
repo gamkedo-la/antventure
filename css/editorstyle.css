@@ -255,7 +255,7 @@ html {
 .t7:after {
   content: "7";
   position: absolute;
-  color: #202020;
+  color: #f7f7f7;
   top: 0rem;
   left: 0rem;
   width: 100%;
@@ -265,7 +265,7 @@ html {
 }
 /* Black */
 .t8 {
-  background: #000;
+  background: #202020;
 }
 .t8:after {
   content: "8";
