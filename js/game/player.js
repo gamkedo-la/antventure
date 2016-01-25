@@ -112,7 +112,7 @@ function jumperMove() {
   }
 
   if (numberOfKeys > 0) {
-    if (isBlockPickup(TILE_GATE)) {
+    if (isBlockPickup(TILE_DOOR)) {
         numberOfKeys --;
     }
   }

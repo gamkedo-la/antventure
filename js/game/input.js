@@ -53,7 +53,7 @@ function setKeyHoldState(thisKey, setTo) {
         var isRoomForPlayerAbove = (indexToMoveTo != -1 &&
                 brickGrid[indexToMoveTo] == TILE_NONE);
         if(indexOfPlayer != -1 && isRoomForPlayerAbove) {
-          brickGrid[indexOfPlayer] = TILE_ROCK;
+          brickGrid[indexOfPlayer] = TILE_PILLAR;
           jumperY=Math.floor(indexOfPlayer/BRICK_COLS)*BRICK_H-JUMPER_RADIUS;
           carryingBlock = false;
         }

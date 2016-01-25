@@ -1,27 +1,27 @@
 var backgroundPic = document.createElement("img");
 backgroundPic.src = "images/background.png"
 var tilePic = document.createElement("img");
-tilePic.src = "images/Tile.png";
+tilePic.src = "images/tile.png";
 var tileMovePic = document.createElement("img");
-tileMovePic.src = "images/TileMove.png";
+tileMovePic.src = "images/tileMove.png";
 var tileMossPic = document.createElement("img");
-tileMossPic.src = "images/TileMoss.png";
+tileMossPic.src = "images/tileMoss.png";
 var tileCrumblePic = document.createElement("img");
-tileCrumblePic.src = "images/TileCrumble.png";
+tileCrumblePic.src = "images/tileCrumble.png";
 var tileWizHatPic = document.createElement("img");
-tileWizHatPic.src = "images/WizHat.png";
+tileWizHatPic.src = "images/tileWizHat.png";
 var tileHealth = document.createElement("img");
-tileHealth.src = "images/TileHealth.png";
+tileHealth.src = "images/tileHealth.png";
 var tileDoorPic = document.createElement("img");
-tileDoorPic.src = "images/TileDoor.png";
+tileDoorPic.src = "images/tileDoor.png";
 var tileKeyPic = document.createElement("img");
-tileKeyPic.src = "images/TileKey.png";
+tileKeyPic.src = "images/tileKey.png";
 var tileSpikesPic = document.createElement("img");
 tileSpikesPic.src = "images/tileSpikes.png";
 var tilePortalPic = document.createElement("img");
-tilePortalPic.src = "images/TilePortal.png";
+tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
-tileFriendlyPic.src = "images/FriendlyAnt.png";
+tileFriendlyPic.src = "images/tileFriendly.png";
 
 const DURATION = 20;
 var crumbleTimer = DURATION;
@@ -38,13 +38,13 @@ const TILE_NONE = 0;
 const TILE_DIRT = 1;
 const TILE_MOSS = 2;
 const TILE_CRUMBLE = 3;
-const TILE_ROCK = 4;
+const TILE_PILLAR = 4;
 const TILE_EVIL_ANT_START = 5;
 const TILE_EVIL_FLY_START = 6;
 const TILE_SPIKES = 7;
 const TILE_FRIENDLY_ANT = 8;
 const TILE_HEALTH = 9;
-const TILE_GATE = 10;
+const TILE_DOOR = 10;
 const TILE_KEY = 11;
 const TILE_PLAYERSTART = 12;
 const TILE_PORTAL = 13;
@@ -111,7 +111,7 @@ function whichBrickAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
      return TILE_DIRT;
   }
 
-  if(forPlayer && brickGrid[index] == TILE_ROCK) {
+  if(forPlayer && brickGrid[index] == TILE_PILLAR) {
     playerTouchingIndex = index;
   }
   return brickGrid[index];
@@ -152,7 +152,7 @@ function drawOnlyBricksOnScreen() {
         case TILE_DIRT:
           usePic = tilePic;
           break;
-        case TILE_ROCK:
+        case TILE_PILLAR:
           usePic = tileMovePic;
           break;
         case TILE_MOSS:
@@ -167,7 +167,7 @@ function drawOnlyBricksOnScreen() {
         case TILE_HEALTH:
           usePic = tileHealth;
           break;
-        case TILE_GATE:
+        case TILE_DOOR:
           usePic = tileDoorPic;
           break;
         case TILE_KEY:
