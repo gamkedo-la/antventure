@@ -183,6 +183,7 @@ html {
 .t2:after {
   content: "2";
   position: absolute;
+  color: #f7f7f7;
   top: 0rem;
   left: 0rem;
   width: 100%;
@@ -239,6 +240,7 @@ html {
 .t6:after {
   content: "6";
   position: absolute;
+  color: #f7f7f7;
   top: 0rem;
   left: 0rem;
   width: 100%;
@@ -253,6 +255,7 @@ html {
 .t7:after {
   content: "7";
   position: absolute;
+  color: #f7f7f7;
   top: 0rem;
   left: 0rem;
   width: 100%;
@@ -260,13 +263,14 @@ html {
   padding: .25rem 0;
   text-align: center;
 }
-/* Pink */
+/* Black */
 .t8 {
-  background: #ff99cc;
+  background: #000;
 }
 .t8:after {
   content: "8";
   position: absolute;
+  color: #f7f7f7;
   top: 0rem;
   left: 0rem;
   width: 100%;
