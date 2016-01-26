@@ -151,6 +151,7 @@ html {
 .t0 {
   background: #f7f7f7;
   border: 1px dashed #a7a7a7;
+  background-size: 100% 100%;
 }
 /* Dirt */
 .t1 {
