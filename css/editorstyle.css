@@ -3,6 +3,7 @@
 }
 
 html {
+  font-size: 12px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -285,6 +286,13 @@ input[type=number] {
 .button:hover {
   background: #202020;
   color: #c7c7c7;
+}
+
+
+@media screen and (min-width: 750px) {
+  html {
+    font-size: 16px;
+  }
 }
 
 @media screen and (min-width: 1000px) {
