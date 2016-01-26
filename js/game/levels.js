@@ -11,7 +11,8 @@ tileCrumblePic.src = "images/tileCrumble.png";
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/tileWizHat.png";
 var tileHealth = document.createElement("img");
-tileHealth.src = "images/tileHealth.png";
+tileHealth.src = "images/healthSheet.png";
+const TILE_HEALTH_FRAMES = 4;
 var tileDoorPic = document.createElement("img");
 tileDoorPic.src = "images/tileDoor.png";
 var tileKeyPic = document.createElement("img");
@@ -22,6 +23,10 @@ var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
+
+var animFrame = 0;
+var cyclesTillAnimStep = 0;
+const FRAMES_BETWEEN_ANIM = 4;
 
 const DURATION = 20;
 var crumbleTimer = DURATION;
@@ -129,6 +134,14 @@ function crumblingProcess() {
 }
 
 function drawOnlyBricksOnScreen() {
+
+  cyclesTillAnimStep--;
+  if(cyclesTillAnimStep < 0) {
+    cyclesTillAnimStep = FRAMES_BETWEEN_ANIM;
+    animFrame++;
+  }
+
+
   var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
   var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
 
@@ -143,8 +156,12 @@ function drawOnlyBricksOnScreen() {
   var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
 
   var usePic;
+  var tileFrame;
   for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
     for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+
+      // will be overridden in switch-case with cycled frame for animated tiles
+      tileFrame = 0; // by default use first tile position
 
       switch( whichBrickAtTileCoord(eachCol, eachRow) ) {
         case TILE_NONE:
@@ -165,6 +182,7 @@ function drawOnlyBricksOnScreen() {
           usePic = tileWizHatPic;
           break;
         case TILE_HEALTH:
+          tileFrame = animFrame % TILE_HEALTH_FRAMES;
           usePic = tileHealth;
           break;
         case TILE_DOOR:
@@ -186,7 +204,12 @@ function drawOnlyBricksOnScreen() {
       var brickLeftEdgeX = eachCol * BRICK_W;
       var brickTopEdgeY = eachRow * BRICK_H;
 
-      canvasContext.drawImage(usePic,brickLeftEdgeX, brickTopEdgeY);
+      canvasContext.drawImage(usePic,
+        tileFrame * BRICK_W, 0, // top-left corner of tile art
+        BRICK_W, BRICK_H, // get full tile size from source
+        brickLeftEdgeX, brickTopEdgeY, // x,y top-left corner for image destination
+        BRICK_W, BRICK_H); // draw full full tile size for destination
+
 
     } // end of for eachRow
   } // end of for eachCol
