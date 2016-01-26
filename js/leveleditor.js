@@ -102,7 +102,8 @@ function hoverCheck() {
 function clickCheck() {
     $("body").on("click", ".dropdown-item",function() {
         if( $(this).attr("id") == "new") {
-          popupNew();
+          // popupNew();
+          createGrid();
         } else if( $(this).attr("id") == "open") {
           popupOpen();
         } else if( $(this).attr("id") == "save") {
