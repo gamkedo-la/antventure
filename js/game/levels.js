@@ -56,7 +56,6 @@ const TILE_KEY = 11;
 const TILE_PLAYERSTART = 12;
 const TILE_PORTAL = 13;
 const TILE_WIZ_HAT = 14;
-const TILE_CRUMBLING = 17;
 
 var loadedLevelJSON =
 {"rows":15,"cols":20,"gridspaces":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 3, 3, 1, 1, 0, 0, 0, 1,1, 0, 0, 0, 1, 1,14, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 4, 1,1, 0, 0, 1, 1, 0, 3, 1, 1, 0, 1, 0, 0, 9, 0, 1, 1, 0, 0, 1,1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 2,1, 0, 0, 1, 0, 0, 5, 0, 4, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,1, 0, 0, 1, 0, 0, 1, 2, 1, 1, 3, 0, 0, 1, 0, 1, 0, 0, 0, 1,2, 1, 1, 1, 0, 0, 0, 1, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,1, 0, 0, 1, 3, 0, 0, 1, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,1,12, 0, 0, 0, 0, 1, 1, 4, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,1, 1, 0, 6, 5, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]};
@@ -166,46 +165,47 @@ function drawOnlyBricksOnScreen() {
       // will be overridden in switch-case with cycled frame for animated tiles
       tileFrame = 0; // by default use first tile position
 
-      switch( whichBrickAtTileCoord(eachCol, eachRow) ) {
-        case TILE_NONE:
-          continue;
-        case TILE_DIRT:
-          usePic = tilePic;
-          break;
-        case TILE_PILLAR:
-          usePic = tileMovePic;
-          break;
-        case TILE_MOSS:
-          usePic = tileMossPic;
-          break;
-        case TILE_CRUMBLE:
-          usePic = tileCrumblePic;
-          break;
-        case TILE_CRUMBLING:
-          usePic = tileCrumblingPic;
-          break;
-        case TILE_WIZ_HAT:
-          usePic = tileWizHatPic;
-          break;
-        case TILE_HEALTH:
-          tileFrame = animFrame % TILE_HEALTH_FRAMES;
-          usePic = tileHealth;
-          break;
-        case TILE_DOOR:
-          usePic = tileDoorPic;
-          break;
-        case TILE_KEY:
-          usePic = tileKeyPic;
-          break;
-        case TILE_SPIKES:
-          usePic = tileSpikesPic;
-          break;
-        case TILE_PORTAL:
-          usePic = tilePortalPic;
-          break;
-        case TILE_FRIENDLY_ANT:
-          usePic = tileFriendlyPic;
-          break;
+      var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
+      if(tileValueHere < 0) {
+        usePic = tileCrumblingPic;
+        brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
+      } else switch(whichBrickAtTileCoord(eachCol, eachRow) ) {
+          case TILE_NONE:
+            continue;
+          case TILE_DIRT:
+            usePic = tilePic;
+            break;
+          case TILE_PILLAR:
+            usePic = tileMovePic;
+            break;
+          case TILE_MOSS:
+            usePic = tileMossPic;
+            break;
+          case TILE_CRUMBLE:
+            usePic = tileCrumblePic;
+            break;
+          case TILE_WIZ_HAT:
+            usePic = tileWizHatPic;
+            break;
+          case TILE_HEALTH:
+            tileFrame = animFrame % TILE_HEALTH_FRAMES;
+            usePic = tileHealth;
+            break;
+          case TILE_DOOR:
+            usePic = tileDoorPic;
+            break;
+          case TILE_KEY:
+            usePic = tileKeyPic;
+            break;
+          case TILE_SPIKES:
+            usePic = tileSpikesPic;
+            break;
+          case TILE_PORTAL:
+            usePic = tilePortalPic;
+            break;
+          case TILE_FRIENDLY_ANT:
+            usePic = tileFriendlyPic;
+            break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
       var brickTopEdgeY = eachRow * BRICK_H;
