@@ -8,6 +8,8 @@ var tileMossPic = document.createElement("img");
 tileMossPic.src = "images/tileMoss.png";
 var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/tileCrumble.png";
+var tileCrumblingPic = document.createElement("img");
+tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/tileWizHat.png";
 var tileHealth = document.createElement("img");
@@ -54,6 +56,7 @@ const TILE_KEY = 11;
 const TILE_PLAYERSTART = 12;
 const TILE_PORTAL = 13;
 const TILE_WIZ_HAT = 14;
+const TILE_CRUMBLING = 17;
 
 var loadedLevelJSON =
 {"rows":15,"cols":20,"gridspaces":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 3, 3, 1, 1, 0, 0, 0, 1,1, 0, 0, 0, 1, 1,14, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 4, 1,1, 0, 0, 1, 1, 0, 3, 1, 1, 0, 1, 0, 0, 9, 0, 1, 1, 0, 0, 1,1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 2,1, 0, 0, 1, 0, 0, 5, 0, 4, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,1, 0, 0, 1, 0, 0, 1, 2, 1, 1, 3, 0, 0, 1, 0, 1, 0, 0, 0, 1,2, 1, 1, 1, 0, 0, 0, 1, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,1, 0, 0, 1, 3, 0, 0, 1, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,1,12, 0, 0, 0, 0, 1, 1, 4, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,1, 1, 0, 6, 5, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]};
@@ -177,6 +180,9 @@ function drawOnlyBricksOnScreen() {
           break;
         case TILE_CRUMBLE:
           usePic = tileCrumblePic;
+          break;
+        case TILE_CRUMBLING:
+          usePic = tileCrumblingPic;
           break;
         case TILE_WIZ_HAT:
           usePic = tileWizHatPic;
