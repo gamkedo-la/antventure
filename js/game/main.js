@@ -14,7 +14,7 @@ window.onload = function() {
     }, 1000/framesPerSecond);
 
   loadLevel(loadedLevelJSON);
-  
+
   jumperReset();
   // enemyPlacementFly();
   // enemyPlacementAnt();
@@ -22,12 +22,10 @@ window.onload = function() {
   var tempEnemy = new enemySlideAndBounce();
 
   while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
-    console.log("ant placed");
     enemyList.push(tempEnemy);
     tempEnemy = new enemySlideAndBounce();
   }
   while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED, evilFlyPic)) {
-    console.log("fly placed");
     enemyList.push(tempEnemy);
     tempEnemy = new enemySlideAndBounce();
   }
@@ -38,6 +36,7 @@ window.onload = function() {
 function moveEverything() {
   jumperMove();
   cameraFollow();
+  crumblingTracker ();
 }
 
 function drawEverything() {

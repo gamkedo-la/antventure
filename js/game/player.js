@@ -28,6 +28,38 @@ var health = 3;
 var damagedRecentely = 0;
 var wearingWizHat = false;
 
+var crumblingList = [];
+
+function crumblingProperties (col, row, duration) {
+  this.col = col
+  this.row = row
+  this.timeLeft = duration
+}
+
+function crumblingTracker () {
+  console.log(crumblingList.length)
+  if (crumblingList.length = 0) {
+    return;
+  }
+  for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
+    for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
+      if(whichBrickAtTileCoord(eachCol, eachRow) == TILE_CRUMBLING) {
+
+        for(var i=0;crumblingList.length > i;i++) {
+          console.log ("ding")
+
+          if (crumblingList[i].col == eachCol && crumblingList[i].row == eachRow) {
+            crumblingList[i].timeLeft --;
+            if (crumblingList[i].timeLeft < 0) {
+              brickGrid[brickTileToIndex(eachCol, eachRow)] = TILE_NONE;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 function isBlockPickup (tileType) {
   if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == tileType) {
     brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
@@ -73,9 +105,6 @@ function jumperMove() {
   }
 
   if(recentJump>0 ) {
-    if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
-      brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
-    }
     recentJump--;
     jumperOnGround = false;
   } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_NONE) {
@@ -91,9 +120,9 @@ function jumperMove() {
   }
 
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
-    crumblingProcess()
-  } else {
-    crumbleTimer = DURATION;
+    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_CRUMBLING;
+    var tempCrumble = new crumblingProperties(jumperX / BRICK_W,(jumperY + JUMPER_RADIUS) / BRICK_H, 20);
+    crumblingList.push(tempCrumble)
   }
 
   if (isBlockPickup(TILE_WIZ_HAT)) {
