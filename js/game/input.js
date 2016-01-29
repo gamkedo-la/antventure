@@ -40,11 +40,12 @@ function setKeyHoldState(thisKey, setTo) {
     if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {
       //console.log(whichIndexAtPixelCoord(jumperX, jumperY, true))
       if(carryingBlock == false && (whichBrickAtPixelCoord(jumperX,jumperY,true) == TILE_PORTAL)) {
+        var indexOfPortalUsed = whichIndexAtPixelCoord(jumperX, jumperY, true);
         for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
           for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
 
             if(whichBrickAtTileCoord(eachCol, eachRow) == TILE_PORTAL){
-              if(whichIndexAtPixelCoord(jumperX, jumperY, true) != brickTileToIndex(eachCol, eachRow)) {
+              if(indexOfPortalUsed != brickTileToIndex(eachCol, eachRow)) {
                 //console.log(whichIndexAtPixelCoord(jumperX, jumperY, true))
                 //console.log(brickTileToIndex(eachCol, eachRow))
                 jumperX = eachCol * BRICK_W + BRICK_W/2;
