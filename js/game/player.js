@@ -67,8 +67,7 @@ function jumperMove() {
 
   playerTouchingIndex = -1;
 
-  if(jumperSpeedY < 0 && whichBrickAtPixelCoord(jumperX,jumperY-0.4*JUMPER_RADIUS,true) != TILE_NONE &&
-  whichBrickAtPixelCoord(jumperX,jumperY-0.4*JUMPER_RADIUS,true) != TILE_PORTAL) {
+  if(jumperSpeedY < 0 && isTileHereSolid(jumperX,jumperY-0.4*JUMPER_RADIUS)) {
     jumperY = (Math.floor( jumperY / BRICK_H )) * BRICK_H + 0.4*JUMPER_RADIUS;
     jumperSpeedY = 0.0;
   }
@@ -76,13 +75,11 @@ function jumperMove() {
   if(recentJump>0 ) {
     recentJump--;
     jumperOnGround = false;
-  } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_NONE &&
-            whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_PORTAL) {
+  } else if(isTileHereSolid(jumperX,jumperY+JUMPER_RADIUS)) {
     jumperY = (1+Math.floor( jumperY / BRICK_H )) * BRICK_H - JUMPER_RADIUS;
     jumperOnGround = true;
     jumperSpeedY = 0;
-  } else if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS+2,true) == TILE_NONE ||
-            whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS+2,true) == TILE_PORTAL) {
+  } else if(isTileHereSolid(jumperX,jumperY+JUMPER_RADIUS+2) == false) {
     jumperOnGround = false;
   }
 
@@ -116,12 +113,10 @@ function jumperMove() {
   }
 
 
-  if(jumperSpeedX < 0 && whichBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY,true) != TILE_NONE &&
-  whichBrickAtPixelCoord(jumperX-JUMPER_RADIUS,jumperY,true) != TILE_PORTAL) {
+  if(jumperSpeedX < 0 && isTileHereSolid(jumperX-JUMPER_RADIUS,jumperY)) {
     jumperX = (Math.floor( jumperX / BRICK_W )) * BRICK_W + JUMPER_RADIUS;
   }
-  if(jumperSpeedX > 0 && whichBrickAtPixelCoord(jumperX+JUMPER_RADIUS,jumperY,true) != TILE_NONE &&
-  whichBrickAtPixelCoord(jumperX+JUMPER_RADIUS,jumperY,true) != TILE_PORTAL) {
+  if(jumperSpeedX > 0 && isTileHereSolid(jumperX+JUMPER_RADIUS,jumperY)) {
     jumperX = (1+Math.floor( jumperX / BRICK_W )) * BRICK_W - JUMPER_RADIUS;
   }
 

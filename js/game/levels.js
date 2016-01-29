@@ -57,6 +57,11 @@ const TILE_PLAYERSTART = 12;
 const TILE_PORTAL = 13;
 const TILE_WIZ_HAT = 14;
 
+function isTileHereSolid(atX,atY) {
+  var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
+  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL);
+}
+
 var loadedLevelJSON =
 {"rows":15,"cols":20,"gridspaces":[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
