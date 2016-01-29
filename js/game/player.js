@@ -2,6 +2,10 @@ var playerPic = document.createElement("img");
 playerPic.src = "images/playerAnt.png";
 var playerPicWizHat = document.createElement("img");
 playerPicWizHat.src = "images/playerAntWizHat.png";
+var playerPicArmor = document.createElement("img");
+playerPicArmor.src = "images/playerAntArmor.png";
+var playerPicCloak = document.createElement("img");
+playerPicCloak.src = "images/playerAntCloak.png";
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
@@ -26,7 +30,13 @@ var recentJump = 0;
 var JUMPER_RADIUS = 16;
 var health = 3;
 var damagedRecentely = 0;
-var wearingWizHat = false;
+
+var playerState = 0
+
+const playerNormal = 0
+const playerWiz = 1
+const playerArmor = 2
+const playerCloak = 3
 
 function isBlockPickup (tileType) {
   if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == tileType) {
@@ -92,7 +102,19 @@ function jumperMove() {
   }
 
   if (isBlockPickup(TILE_WIZ_HAT)) {
-    wearingWizHat = true;
+    playerState = playerWiz;
+  }
+  if (isBlockPickup(TILE_ARMOR)) {
+    playerState = playerArmor;
+  }
+  if (isBlockPickup(TILE_CLOAK)) {
+    playerState = playerCloak;
+  }
+  if (isBlockPickup(TILE_ARMOR)) {
+    playerState = playerArmor;
+  }
+  if (isBlockPickup(TILE_CLOAK)) {
+    playerState = playerCloak;
   }
   if (isBlockPickup(TILE_FRIENDLY_ANT)) {
     antsRescued ++;
@@ -150,17 +172,27 @@ function hitDetection (enemyX, enemyY) {
 
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
     if (enemyY > jumperY - JUMPER_RADIUS && enemyY < jumperY + JUMPER_RADIUS) {
-      health --;
+      if (playerState != playerArmor) {
+          health --;
+      }
+      playerState = playerNormal
       damagedRecentely = 300;
     }
   }
 }
 
 function drawJumper() {
-  if (wearingWizHat) {
-    drawFacingLeftOption(playerPicWizHat,jumperX,jumperY,lastFacingLeft);
-  } else {
+  if (playerState == playerNormal) {
     drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
+  }
+  if (playerState == playerWiz) {
+    drawFacingLeftOption(playerPicWizHat,jumperX,jumperY,lastFacingLeft);
+  }
+  if (playerState == playerArmor) {
+    drawFacingLeftOption(playerPicArmor,jumperX,jumperY,lastFacingLeft);
+  }
+  if (playerState == playerCloak) {
+    drawFacingLeftOption(playerPicCloak,jumperX,jumperY,lastFacingLeft);
   }
   if(carryingBlock) {
     canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
