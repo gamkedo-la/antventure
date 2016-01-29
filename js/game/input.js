@@ -38,6 +38,21 @@ function setKeyHoldState(thisKey, setTo) {
       }
     }
     if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {
+      if(carryingBlock == false && (whichBrickAtPixelCoord(jumperX,jumperY,true) == TILE_PORTAL)) {
+        for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
+          for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
+
+            if(whichBrickAtTileCoord(eachCol, eachRow) == TILE_PORTAL &&
+            whichIndexAtPixelCoord(jumperX, jumperY) != brickTileToIndex(eachCol, eachRow)) {
+              console.log(whichIndexAtPixelCoord(jumperX, jumperY, true))
+              console.log(brickTileToIndex(eachCol, eachRow))
+
+              jumperX = eachCol * BRICK_W + BRICK_W/2;
+              jumperY = (eachRow * BRICK_H + BRICK_H/2) + 14;
+            }
+          }
+        }
+      }
       if(carryingBlock == false && playerTouchingIndex != -1) {
         brickGrid[playerTouchingIndex] = TILE_NONE;
         jumperSpeedY = -JUMP_POWER * 0.3;
@@ -46,7 +61,8 @@ function setKeyHoldState(thisKey, setTo) {
       else if(carryingBlock == true && jumperOnGround &&
       (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_CRUMBLE) &&
       (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) > 0) &&
-      (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_MOSS)) {
+      (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) != TILE_MOSS) &&
+      (whichBrickAtPixelCoord(jumperX,jumperY,true) != TILE_PORTAL)) {
 
         playerTouchingIndex = -1;
         var indexOfPlayer = whichIndexAtPixelCoord(jumperX,jumperY,true);

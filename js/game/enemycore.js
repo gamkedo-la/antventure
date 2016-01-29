@@ -41,22 +41,24 @@ this.enemyCollideAndDraw = function() {
     this.x += this.xv;
     this.y += this.yv;
 
-    if(whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_NONE) {
+    if(whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_NONE &&
+    whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_PORTAL) {
       this.facingLeft = !this.facingLeft;
       this.xv = -this.xv;
       this.yv = -this.yv;
       this.x += this.xv;
       this.y += this.yv;
     } else {
-      if (this.yv == 0 && whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) == TILE_NONE) {
-        this.facingLeft = !this.facingLeft;
-        this.xv = -this.xv;
-        this.x += this.xv;
-      }
-      if (this.yv == 0 && whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) == TILE_SPIKES) {
-        this.facingLeft = !this.facingLeft;
-        this.xv = -this.xv;
-        this.x += this.xv;
+      if (this.yv == 0) {
+        if (whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DIRT &&
+            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_MOSS &&
+            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DOOR &&
+            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_PILLAR &&
+            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_CRUMBLE) {
+              this.facingLeft = !this.facingLeft;
+              this.xv = -this.xv;
+              this.x += this.xv;
+            }
       }
     }
 

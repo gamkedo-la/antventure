@@ -51,13 +51,13 @@ function drawEverything() {
 
   canvasContext.drawImage(backgroundPic,0, 0);
 
+  drawOnlyBricksOnScreen();
+
   for(var i=0;i<enemyList.length;i++) {
     enemyList[i].enemyCollideAndDraw();
   }
 
   drawJumper();
-
-  drawOnlyBricksOnScreen();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll
   canvasContext.fillStyle = 'white';
