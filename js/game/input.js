@@ -6,11 +6,13 @@ const KEY_RIGHT_ARROW = 39;
 const KEY_D = 68;
 const KEY_DOWN_ARROW = 40;
 const KEY_S = 83;
+const KEY_SPACE = 32;
 
 
 var holdLeft = false;
 var holdRight = false;
 var lastFacingLeft = false;
+var abilityCoolDown = 0;
 
 function initInput() {
   document.addEventListener("keydown", keyPressed);
@@ -18,6 +20,16 @@ function initInput() {
 }
 
 function setKeyHoldState(thisKey, setTo) {
+  if(thisKey == KEY_SPACE && abilityCoolDown == 0) {
+    if(playerState == playerCloak) {
+      if (lastFacingLeft == true) {
+        jumperSpeedX = -40
+      } else {
+        jumperSpeedX = 40
+      }
+    abilityCoolDown = 100
+    }
+  }
   if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {
     holdLeft = setTo;
     if(setTo) {

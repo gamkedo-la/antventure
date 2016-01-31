@@ -36,7 +36,9 @@ window.onload = function() {
 function moveEverything() {
   jumperMove();
   cameraFollow();
-  //crumblingTracker ();
+  if (abilityCoolDown > 0) {
+    abilityCoolDown --;
+  }
 }
 
 function drawEverything() {
