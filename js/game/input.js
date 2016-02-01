@@ -20,16 +20,31 @@ function initInput() {
 }
 
 function setKeyHoldState(thisKey, setTo) {
-  if(thisKey == KEY_SPACE && abilityCoolDown == 0) {
+  if(thisKey == KEY_SPACE && abilityCoolDown == 0 && playerState > 0) {
     if(playerState == playerCloak) {
       if (lastFacingLeft == true) {
         jumperSpeedX = -40
       } else {
         jumperSpeedX = 40
       }
-    abilityCoolDown = 100
+    }
+
+
+  if(playerState == playerWiz) {
+    iceBolt = true;
+    iceBoltY = jumperY + 10;
+    if (lastFacingLeft == true) {
+      iceBoltSpeed = -5;
+      iceBoltX = jumperX -10;
+      iceFacingLeft = true;
+    } else {
+      iceBoltSpeed = 5;
+      iceBoltX = jumperX +10;
+      iceFacingLeft = false;
     }
   }
+  abilityCoolDown = 100
+}
   if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {
     holdLeft = setTo;
     if(setTo) {

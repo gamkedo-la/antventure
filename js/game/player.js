@@ -6,11 +6,19 @@ var playerPicArmor = document.createElement("img");
 playerPicArmor.src = "images/playerAntArmor.png";
 var playerPicCloak = document.createElement("img");
 playerPicCloak.src = "images/playerAntCloak.png";
+var iceBoltPic = document.createElement("img");
+iceBoltPic.src = "images/iceBolt.png";
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
 var numberOfKeys = 0;
 var antsRescued = 0;
+
+var iceBolt = false;
+var iceBoltX = 0;
+var iceBoltY = 0;
+var iceBoltSpeed = 0;
+var iceFacingLeft = false;
 
 var camPanX = 0.0;
 var camPanY = 0.0;
@@ -164,6 +172,19 @@ function jumperReset() {
   } // end of col
 }
 
+function iceDetection (enemyX, enemyY) {
+  if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_NONE &&
+      whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_PORTAL) {
+    iceBolt = false;
+  }
+  if (enemyX > iceBoltX - 20 && enemyX < iceBoltX + 20) {
+    if (enemyY > iceBoltY - 20 && enemyY < iceBoltY + 20) {
+      console.log("ding")
+      brickGrid[whichIndexAtPixelCoord(iceBoltX, iceBoltY)] = TILE_ICE;
+    }
+  }
+}
+
 function hitDetection (enemyX, enemyY) {
   if (damagedRecentely > 0) {
     damagedRecentely --;
@@ -181,7 +202,14 @@ function hitDetection (enemyX, enemyY) {
   }
 }
 
+
+
 function drawJumper() {
+  if(iceBolt == true) {
+    drawFacingLeftOption(iceBoltPic,iceBoltX,iceBoltY, iceFacingLeft);
+    iceBoltX += iceBoltSpeed;
+  }
+
   if (playerState == playerNormal) {
     drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
   }

@@ -64,6 +64,8 @@ this.enemyCollideAndDraw = function() {
 
     hitDetection (this.x, this.y);
 
+    iceDetection (this.x, this.Y);
+
     drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft);
   }
 }

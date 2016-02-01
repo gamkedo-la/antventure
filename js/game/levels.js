@@ -29,6 +29,8 @@ var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
+var tileIcePic = document.createElement("img");
+tileIcePic.src = "images/tileIce.png";
 
 var animFrame = 0;
 var cyclesTillAnimStep = 0;
@@ -62,6 +64,7 @@ const TILE_PORTAL = 13;
 const TILE_WIZ_HAT = 14;
 const TILE_ARMOR = 15;
 const TILE_CLOAK = 16;
+const TILE_ICE = 17;
 
 function isTileHereSolid(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
@@ -225,6 +228,9 @@ function drawOnlyBricksOnScreen() {
             break;
           case TILE_FRIENDLY_ANT:
             usePic = tileFriendlyPic;
+            break;
+          case TILE_ICE:
+            usePic = tileIcePic;
             break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
