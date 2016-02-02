@@ -8,6 +8,10 @@ const EVIL_BUG_SPEED = 1.0;
 enemyList = [];
 
 function enemySlideAndBounce() {
+  // these reflect which overworld room coord the creature exists in
+  this.myRoomC = 0;
+  this.myRoomR = 0;
+
   this.x = 50;
   this.y = 50;
   this.xv = 0;
@@ -28,6 +32,10 @@ function enemySlideAndBounce() {
           this.y = (eachRow * BRICK_H + BRICK_H/2) + 14;
           var changeAt = brickTileToIndex(eachCol, eachRow);
           brickGrid[changeAt] = TILE_NONE; // remove tile where player started
+
+          this.myRoomC = roomsOverC;
+          this.myRoomR = roomsDownR;
+
           return true;
         } // end of player start found
       } // end of row
@@ -37,6 +45,10 @@ function enemySlideAndBounce() {
   } // end of function
 
 this.enemyCollideAndDraw = function() {
+    if(this.myRoomC != roomsOverC || this.myRoomR != roomsDownR) {
+      return; // not in this room, skip this one
+    }
+    
 	  // movement for the one hard coded enemy red ant
     this.x += this.xv;
     this.y += this.yv;

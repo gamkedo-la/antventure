@@ -178,7 +178,6 @@ function jumperMove() {
     }
   }
 
-
   if(jumperSpeedX < 0 && isTileHereSolid(jumperX-JUMPER_RADIUS,jumperY)) {
     jumperX = (Math.floor( jumperX / BRICK_W )) * BRICK_W + JUMPER_RADIUS;
   }
@@ -188,6 +187,47 @@ function jumperMove() {
 
   jumperX += jumperSpeedX; // move the jumper based on its current horizontal speed
   jumperY += jumperSpeedY; // same as above, but for vertical
+
+  checkIfChangingRooms();
+}
+
+function checkIfChangingRooms() {
+  // saving these in case we need to reverse due to non-existing level
+  var wasROC = roomsOverC;
+  var wasRDR = roomsDownR;
+  var wasJX = jumperX;
+  var wasJY = jumperY;
+
+  var tryToReloadLevel = false;
+  // edge of world checking to change rooms:
+  if(jumperX < BRICK_W/2) {
+    roomsOverC--;
+    jumperX = (BRICK_COLS-1)*BRICK_W;
+    tryToReloadLevel = true;
+  }
+  if(jumperX > (BRICK_COLS-1)*BRICK_W+BRICK_W/2) {
+    roomsOverC++;
+    jumperX = BRICK_W;
+    tryToReloadLevel = true;
+  }
+  if(jumperY < BRICK_H/4 && jumperSpeedY<0) {
+    roomsDownR--;
+    jumperY = (BRICK_ROWS-1)*BRICK_H-BRICK_H/2;
+    tryToReloadLevel = true;
+  }
+  if(jumperY > (BRICK_ROWS-1)*BRICK_H+BRICK_H/2 && jumperSpeedY>0) {
+    roomsDownR++;
+    jumperY = BRICK_H/2;
+    tryToReloadLevel = true;
+  }
+  if( tryToReloadLevel ) {
+    if( loadLevel() == false ) {  // didn't exist, womp womp, undo shift
+     roomsOverC = wasROC;
+     roomsDownR = wasRDR;
+     jumperX = wasJX;
+     jumperY = wasJY;
+    }
+  }
 }
 
 function jumperReset() {
