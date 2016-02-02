@@ -33,6 +33,8 @@ var tileIcePic = document.createElement("img");
 tileIcePic.src = "images/tileIce.png";
 
 // where is the player/gameplay happening in the overworld level grid?
+// NOTE: this should match the level file pointed from index.html
+// and it also should be the room which has the player start tile in it
 var roomsOverC = 4;
 var roomsDownR = 4; // 'e'
 
