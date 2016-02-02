@@ -61,6 +61,8 @@ function drawEverything() {
 
   drawJumper();
 
+  drawShield();
+
   canvasContext.restore(); // undoes the .translate() used for cam scroll
   canvasContext.fillStyle = 'white';
   canvasContext.fillText("Health: " + health,10,20);
