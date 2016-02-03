@@ -38,6 +38,20 @@ tileIcePic.src = "images/tileIce.png";
 var roomsOverC = 4;
 var roomsDownR = 4; // 'e'
 
+var roomsToLoadColsW = 9
+var roomsToLoad =
+//0 1 2 3 4 5 6 7 8
+ [0,0,0,0,2,0,7,0,0, // a
+  0,0,3,2,2,2,3,0,0, // b
+  0,3,3,3,4,3,0,0,7, // c
+  0,3,3,7,4,3,3,3,7, // d
+  0,4,4,4,4,4,4,0,7, // e
+  7,0,7,0,0,4,0,7,7, // f
+  6,6,0,6,4,4,5,5,0, // g
+  0,6,6,6,0,5,5,5,0, // h
+  0,0,6,0,0,7,0,5,5  // i
+  ];
+
 var animFrame = 0;
 var cyclesTillAnimStep = 0;
 const FRAMES_BETWEEN_ANIM = 4;
@@ -108,6 +122,10 @@ function loadLevelsBesidesFirstOne() {
   for(var eachC=0;eachC<9;eachC++) {
     for(var eachR=0;eachR<9;eachR++) {
       if(eachC == roomsOverC && eachR == roomsDownR) {
+        continue;
+      }
+      var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
+      if(roomKind == 0) {
         continue;
       }
       var imported = document.createElement('script');
