@@ -73,7 +73,7 @@ function setKeyHoldState(thisKey, setTo) {
       isBashing = true;
     }
 
-    abilityCoolDown = 100
+    abilityCoolDown = 50
 }
 
   if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {
@@ -90,7 +90,7 @@ function setKeyHoldState(thisKey, setTo) {
     if(setTo) {
       lastFacingLeft = false;
       if (isBashing == false) {
-        shieldFacingLeft = false;        
+        shieldFacingLeft = false;
       }
 
     }
@@ -115,6 +115,7 @@ function setKeyHoldState(thisKey, setTo) {
                 //console.log(brickTileToIndex(eachCol, eachRow))
                 jumperX = eachCol * BRICK_W + BRICK_W/2;
                 jumperY = (eachRow * BRICK_H + BRICK_H/2) + 14;
+                return;
               }
             }
           }
