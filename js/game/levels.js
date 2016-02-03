@@ -36,7 +36,7 @@ tileIcePic.src = "images/tileIce.png";
 // NOTE: this should match the level file pointed from index.html
 // and it also should be the room which has the player start tile in it
 var roomsOverC = 4;
-var roomsDownR = 4; // 'e'
+var roomsDownR = 0; // 'e'
 
 var roomsToLoadColsW = 9
 var roomsToLoad =
