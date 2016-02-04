@@ -293,18 +293,23 @@ function makeGrid(w,h,arr) {
 }
 
 var saveData = (function () {
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    return function (data, fileName) {
-        var json = levelCRToFilename(m_worldLoc.x,m_worldLoc.y) + " = " + JSON.stringify(data),
-            blob = new Blob([json], {type: "plain/text"}),
-            url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName + ".js";
-        a.click();
-        window.URL.revokeObjectURL(url);
-    };
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  return function (data, fileName) {
+    for( var i = 0; i < data.gridspaces.length; i++ ) {
+      if(data.gridspaces[i] == null){
+        data.gridspaces[i] = 0;
+      }
+    }
+    var json = levelCRToFilename(m_worldLoc.x,m_worldLoc.y) + " = " + JSON.stringify(data),
+      blob = new Blob([json], {type: "plain/text"}),
+      url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName + ".js";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 }());
 
 // Code from @chris_deleon
