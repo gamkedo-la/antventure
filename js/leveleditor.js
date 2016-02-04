@@ -21,10 +21,44 @@ var m_tooltips = [
   ];
 var m_optionSelection = 0;
 var m_name = "level0a";
-var m_worldLoc = {x:0,y:0};
+var m_worldLoc = {x:4,y:0};
+
+var roomsToLoadColsW = 9
+var roomsToLoad =
+//0 1 2 3 4 5 6 7 8
+ [0,0,0,0,2,0,7,0,0, // a
+  0,0,3,2,2,2,3,0,0, // b
+  0,3,3,3,4,3,0,0,7, // c
+  0,3,3,7,4,3,3,3,7, // d
+  0,4,4,4,4,4,4,0,7, // e
+  7,0,7,0,0,4,0,7,7, // f
+  6,6,0,6,4,4,5,5,0, // g
+  0,6,6,6,0,5,5,5,0, // h
+  0,0,6,0,0,7,0,5,5  // i
+  ];
+
+function loadLevelsBesidesFirstOne() {
+  for(var eachC=0;eachC<9;eachC++) {
+    for(var eachR=0;eachR<9;eachR++) {
+      if(eachC == m_worldLoc.x && eachR == m_worldLoc.y) {
+        continue;
+      }
+      var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
+      if(roomKind == 0) {
+        continue;
+      }
+      var imported = document.createElement('script');
+      // imported.onerror = noLevelHere;
+      imported.src = 'levels/'+levelCRToFilename(eachC,eachR)+".js";
+      document.head.appendChild(imported);
+    }
+  }
+}
+
 
 // Start()
 $(function() {
+  loadLevelsBesidesFirstOne();
   linkCSS();
   createDOM();
   openGrid();
@@ -224,13 +258,22 @@ function createGrid() {
 function openGrid() {
   // Open a grid
   //$('#open-text').val()
-  $.get("levels/"+ m_name +".js", function( data ) {
+  var loadingRoomName = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
+  fromJSON = window[loadingRoomName];
+
+  m_cols = fromJSON.cols;
+  m_rows = fromJSON.rows;
+  m_grid = fromJSON.gridspaces;
+
+  makeGrid(m_cols, m_rows, m_grid);
+
+  /*$.get("levels/"+ m_name +".js", function( data ) {
     var content = JSON.parse(data.substring(10));
     m_rows = content["rows"];
     m_cols = content["cols"];
     m_grid = content["gridspaces"];
     makeGrid(m_cols, m_rows, m_grid);
-  });
+  });*/
   
 }
 
