@@ -29,6 +29,7 @@ var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
+const TILE_FRIENDLY_FRAMES = 4;
 var tileIcePic = document.createElement("img");
 tileIcePic.src = "images/tileIce.png";
 var tileTorch = document.createElement("img");
@@ -282,6 +283,7 @@ function drawOnlyBricksOnScreen() {
             usePic = tilePortalPic;
             break;
           case TILE_FRIENDLY_ANT:
+            tileFrame = animFrame % TILE_FRIENDLY_FRAMES;
             usePic = tileFriendlyPic;
             break;
           case TILE_ICE:
