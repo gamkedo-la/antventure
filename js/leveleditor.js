@@ -20,13 +20,15 @@ var m_tooltips = [
   "wiz-hat"
   ];
 var m_optionSelection = 0;
-var m_name = "level";
+var m_name = "level0a";
+var m_worldLoc = {x:0,y:0};
 
 // Start()
 $(function() {
   linkCSS();
   createDOM();
   createGrid(m_rows, m_cols);
+  $(".level-name").text(m_name);
 });
 
 // Update()
@@ -58,7 +60,7 @@ function createDOM() {
   $(".dropdown").append("<div class='itemSpan'>File</div>");
   $(".dropdown").append("<div class='dropdown-content'></div>");
   $(".dropdown-content").append("<div id='new' class='dropdown-item'>New Grid...</div>");
-  $(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
+  //$(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
   $(".dropdown-content").append("<div id='save' class='dropdown-item'>Save Grid...</div>");
   //$(".dropdown-content").append("<div id='close' class='dropdown-item'>Close Editor...</div>");
   
@@ -71,6 +73,18 @@ function createDOM() {
   $('.t0').addClass("selected");
   
   $(".content").append("<div class='grid'></div>");
+  
+  $(".content").append("<div class='level-name'></div>");
+  
+  $(".content").append("<div class='world-up'></div>");
+  $(".content").append("<div class='world-down'></div>");
+  $(".content").append("<div class='world-left'></div>");
+  $(".content").append("<div class='world-right'></div>");
+  
+  $(".world-up").append("<div class='arrow-up'></div>");
+  $(".world-down").append("<div class='arrow-down'></div>");
+  $(".world-left").append("<div class='arrow-left'></div>");
+  $(".world-right").append("<div class='arrow-right'></div>");
   
   $(".newWindow").append("<div class='new-info'>Rows:</div>");
   $(".newWindow").append("<input id='row-num' type='number' value='15'>");
@@ -107,7 +121,8 @@ function clickCheck() {
         } else if( $(this).attr("id") == "open") {
           popupOpen();
         } else if( $(this).attr("id") == "save") {
-          popupSave();
+          //popupSave();
+          saveGrid();
         } else if( $(this).attr("id") == "close") {
           closeEditor();
         } else {
@@ -163,6 +178,42 @@ function clickCheck() {
       $('#save-text').val("level");
       $('#open-text').val("level");
     });
+    
+    $("body").on("click", ".world-up", function() {
+      if(m_worldLoc.y > 0) {
+        m_worldLoc.y--;
+        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
+        $(".level-name").text(m_name);
+        openGrid();
+      }
+    });
+    
+    $("body").on("click", ".world-down", function() {
+      if(m_worldLoc.y < 9) {
+        m_worldLoc.y++;
+        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
+        $(".level-name").text(m_name);
+        openGrid();
+      }
+    });
+    
+    $("body").on("click", ".world-left", function() {
+      if(m_worldLoc.x > 0) {
+        m_worldLoc.x--;
+        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
+        $(".level-name").text(m_name);
+        openGrid();
+      }
+    });
+    
+    $("body").on("click", ".world-right", function() {
+      if(m_worldLoc.x < 9) {
+        m_worldLoc.x++;
+        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
+        $(".level-name").text(m_name);
+        openGrid();
+      }
+    });
 }
 
 function createGrid() {
@@ -172,7 +223,8 @@ function createGrid() {
 
 function openGrid() {
   // Open a grid
-  $.getJSON( "levels/"+ $('#open-text').val() +".json", function( data ) {
+  //$('#open-text').val()
+  $.getJSON( "levels/"+ m_name +".json", function( data ) {
     m_rows = data["rows"];
     m_cols = data["cols"];
     m_grid = data["gridspaces"];
@@ -183,7 +235,7 @@ function openGrid() {
 
 function saveGrid() {
   // Save grid to file
-  m_name = $('#save-text').val();
+  //m_name = $('#save-text').val();
   var json = {
     "rows": m_rows,
     "cols": m_cols,
@@ -244,7 +296,7 @@ var saveData = (function () {
     document.body.appendChild(a);
     a.style = "display: none";
     return function (data, fileName) {
-        var json = JSON.stringify(data),
+        var json = levelCRToFilename(m_worldLoc.x,m_worldLoc.y) + " = " + JSON.stringify(data),
             blob = new Blob([json], {type: "json"}),
             url = window.URL.createObjectURL(blob);
         a.href = url;
@@ -253,3 +305,8 @@ var saveData = (function () {
         window.URL.revokeObjectURL(url);
     };
 }());
+
+// Code from @chris_deleon
+function levelCRToFilename(someC, someR) {
+  return "level"+someC+ String.fromCharCode(97+someR); // 97 = 'a'
+}
