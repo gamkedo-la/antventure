@@ -27,7 +27,7 @@ var m_worldLoc = {x:0,y:0};
 $(function() {
   linkCSS();
   createDOM();
-  createGrid(m_rows, m_cols);
+  openGrid();
   $(".level-name").text(m_name);
 });
 
@@ -224,10 +224,11 @@ function createGrid() {
 function openGrid() {
   // Open a grid
   //$('#open-text').val()
-  $.getJSON( "levels/"+ m_name +".json", function( data ) {
-    m_rows = data["rows"];
-    m_cols = data["cols"];
-    m_grid = data["gridspaces"];
+  $.get("levels/"+ m_name +".js", function( data ) {
+    var content = JSON.parse(data.substring(10));
+    m_rows = content["rows"];
+    m_cols = content["cols"];
+    m_grid = content["gridspaces"];
     makeGrid(m_cols, m_rows, m_grid);
   });
   
@@ -297,10 +298,10 @@ var saveData = (function () {
     a.style = "display: none";
     return function (data, fileName) {
         var json = levelCRToFilename(m_worldLoc.x,m_worldLoc.y) + " = " + JSON.stringify(data),
-            blob = new Blob([json], {type: "json"}),
+            blob = new Blob([json], {type: "plain/text"}),
             url = window.URL.createObjectURL(blob);
         a.href = url;
-        a.download = fileName + ".json";
+        a.download = fileName + ".js";
         a.click();
         window.URL.revokeObjectURL(url);
     };
