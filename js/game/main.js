@@ -13,22 +13,14 @@ window.onload = function() {
       drawEverything();
     }, 1000/framesPerSecond);
 
-  loadLevel(loadedLevelJSON);
+  loadLevelsBesidesFirstOne();
 
-  jumperReset();
+  loadLevel(); // load stage for game's location in the overall world grid
+  // loadLevel(loadedLevelJSON); // uncomment to test hand-coded/added stage in levels.js
+
+  jumperReset(); // only calling this for first room player starts in
   // enemyPlacementFly();
   // enemyPlacementAnt();
-
-  var tempEnemy = new enemySlideAndBounce();
-
-  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
-    enemyList.push(tempEnemy);
-    tempEnemy = new enemySlideAndBounce();
-  }
-  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED, evilFlyPic)) {
-    enemyList.push(tempEnemy);
-    tempEnemy = new enemySlideAndBounce();
-  }
 
   sliderReset();
 }
@@ -36,7 +28,9 @@ window.onload = function() {
 function moveEverything() {
   jumperMove();
   cameraFollow();
-  //crumblingTracker ();
+  if (abilityCoolDown > 0) {
+    abilityCoolDown --;
+  }
 }
 
 function drawEverything() {
@@ -51,17 +45,20 @@ function drawEverything() {
 
   canvasContext.drawImage(backgroundPic,0, 0);
 
+  drawOnlyBricksOnScreen();
+
   for(var i=0;i<enemyList.length;i++) {
     enemyList[i].enemyCollideAndDraw();
   }
 
   drawJumper();
 
-  drawOnlyBricksOnScreen();
+  drawShield();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll
   canvasContext.fillStyle = 'white';
   canvasContext.fillText("Health: " + health,10,20);
+  canvasContext.fillText("Room: " + roomsOverC +","+ roomsDownR,10,30);
 
   if (numberOfKeys > 0) {
     canvasContext.fillText("Keys: " + numberOfKeys,750,20);

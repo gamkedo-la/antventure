@@ -12,6 +12,10 @@ var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/tileWizHat.png";
+var tileArmorPic = document.createElement("img");
+tileArmorPic.src = "images/tileArmor.png";
+var tileCloakPic = document.createElement("img");
+tileCloakPic.src = "images/tileCloak.png";
 var tileHealth = document.createElement("img");
 tileHealth.src = "images/healthSheet.png";
 const TILE_HEALTH_FRAMES = 4;
@@ -25,6 +29,28 @@ var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
+var tileIcePic = document.createElement("img");
+tileIcePic.src = "images/tileIce.png";
+
+// where is the player/gameplay happening in the overworld level grid?
+// NOTE: this should match the level file pointed from index.html
+// and it also should be the room which has the player start tile in it
+var roomsOverC = 4;
+var roomsDownR = 0; // 'e'
+
+var roomsToLoadColsW = 9
+var roomsToLoad =
+//0 1 2 3 4 5 6 7 8
+ [0,0,0,0,2,0,7,0,0, // a
+  0,0,3,2,2,2,3,0,0, // b
+  0,3,3,3,4,3,0,0,7, // c
+  0,3,3,7,4,3,3,3,7, // d
+  0,4,4,4,4,4,4,0,7, // e
+  7,0,7,0,0,4,0,7,7, // f
+  6,6,0,6,4,4,5,5,0, // g
+  0,6,6,6,0,5,5,5,0, // h
+  0,0,6,0,0,7,0,5,5  // i
+  ];
 
 var animFrame = 0;
 var cyclesTillAnimStep = 0;
@@ -56,33 +82,85 @@ const TILE_KEY = 11;
 const TILE_PLAYERSTART = 12;
 const TILE_PORTAL = 13;
 const TILE_WIZ_HAT = 14;
+const TILE_ARMOR = 15;
+const TILE_CLOAK = 16;
+const TILE_ICE = 17;
 
-var loadedLevelJSON =
-{"rows":15,"cols":20,"gridspaces":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 3, 3, 1, 1, 0, 0, 0, 1,1, 0, 0, 0, 1, 1,14, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 4, 1,1, 0, 0, 1, 1, 0, 3, 1, 1, 0, 1, 0, 0, 9, 0, 1, 1, 0, 0, 1,1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 2,1, 0, 0, 1, 0, 0, 5, 0, 4, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,1, 0, 0, 1, 0, 0, 1, 2, 1, 1, 3, 0, 0, 1, 0, 1, 0, 0, 0, 1,2, 1, 1, 1, 0, 0, 0, 1, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,1, 0, 0, 1, 3, 0, 0, 1, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,1,12, 0, 0, 0, 0, 1, 1, 4, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,1, 1, 0, 6, 5, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]};
+function isTileHereSolid(atX,atY) {
+  var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
+  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL);
+}
 
-var brickGrid; // now loaded from loadedLevelJSON -- copy/paste above from Charlie's editor file :)
-/*=
-    [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-      1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-      2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 3, 3, 1, 1, 0, 0, 0, 1,
-      1, 0, 0, 0, 1, 1,14, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 4, 1,
-      1, 0, 0, 1, 1, 0, 3, 1, 1, 0, 1, 0, 0, 9, 0, 1, 1, 0, 0, 1,
-      1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 2,
-      1, 0, 0, 1, 0, 0, 5, 0, 4, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-      1, 0, 0, 1, 0, 0, 1, 2, 1, 1, 3, 0, 0, 1, 0, 1, 0, 0, 0, 1,
-      2, 1, 1, 1, 0, 0, 0, 1, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,
-      1, 0, 0, 1, 3, 0, 0, 1, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-      1,12, 0, 0, 0, 0, 1, 1, 4, 0, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,
-      1, 1, 0, 6, 5, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,
-      1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-*/
+/*var loadedLevelJSON = // kept around for ease of one-off testing via override
+{"rows":15,"cols":20,"gridspaces":[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+  2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+  1, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 3, 3, 1, 1, 0, 0, 0, 1,
+  1, 0, 0, 0, 1, 1,14, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 4, 1,
+  1, 0, 0, 1, 1, 0, 3, 1, 1, 0, 1, 0, 0, 9, 0, 1, 1, 0, 0, 1,
+  1, 0, 6, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,
+  1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 2,
+  1, 0, 0, 1, 0, 0, 0,14,15,16, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+  1,13, 0, 1, 0, 0, 1, 1, 1, 1, 3, 0, 0, 1, 0, 1, 0, 0, 0, 1,
+  2, 1, 1, 1, 0, 0, 0, 1, 8, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,
+  1, 0, 0, 1, 3, 0, 0, 1, 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+  1,12, 0, 0, 0, 0, 1, 1, 4, 4, 5, 0, 0,10, 0, 0, 6, 0, 0, 1,
+  1, 1,13, 0, 5, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,11, 0, 1,
+  1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]};*/
 
-function loadLevel(fromJSON) {
+var brickGrid; // now loaded from JSON file
+
+function levelCRToFilename(someC,someR) {
+  return "level"+someC + String.fromCharCode(97+someR); // 97 = 'a'
+}
+
+function noLevelHere() {
+  console.log("no level at this position, skipping it, ignore browser error above for now. TODO: define overworld 9x9 grid for which room R,C are defined, and/or define more room files");
+}
+
+function loadLevelsBesidesFirstOne() {
+  for(var eachC=0;eachC<9;eachC++) {
+    for(var eachR=0;eachR<9;eachR++) {
+      if(eachC == roomsOverC && eachR == roomsDownR) {
+        continue;
+      }
+      var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
+      if(roomKind == 0) {
+        continue;
+      }
+      var imported = document.createElement('script');
+      imported.onerror = noLevelHere;
+      imported.src = 'levels/'+levelCRToFilename(eachC,eachR)+".js";
+      document.head.appendChild(imported);
+    }
+  }
+}
+
+function loadLevel(fromJSON) { // if no test stage argument, load from world grid
+  if(fromJSON == undefined) {
+    var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
+    fromJSON = window[loadingRoomName];
+
+    if(fromJSON == undefined) {
+      console.log(loadingRoomName + "room not defined or found, cannot open it");
+      return false; // level not found for this coord
+    }
+  }
   BRICK_COLS = fromJSON.cols;
   BRICK_ROWS = fromJSON.rows;
   brickGrid = fromJSON.gridspaces;
+
+  var tempEnemy = new enemySlideAndBounce();
+  // enemyList = []; do not clear enemy list, we're keeping old ones around
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
+    enemyList.push(tempEnemy);
+    tempEnemy = new enemySlideAndBounce();
+  }
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED, evilFlyPic)) {
+    enemyList.push(tempEnemy);
+    tempEnemy = new enemySlideAndBounce();
+  }
+  return true;
 }
 
 function brickTileToIndex(tileCol, tileRow) {
@@ -122,17 +200,6 @@ function whichBrickAtPixelCoord(hitPixelX, hitPixelY, forPlayer) {
     playerTouchingIndex = index;
   }
   return brickGrid[index];
-}
-
-
-function crumblingProcess() {
-  crumbleTimer--;
-
-  if (crumbleTimer < 0) {
-    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = TILE_NONE;
-    crumbleTimer = DURATION;
-
-  }
 }
 
 function drawOnlyBricksOnScreen() {
@@ -187,6 +254,12 @@ function drawOnlyBricksOnScreen() {
           case TILE_WIZ_HAT:
             usePic = tileWizHatPic;
             break;
+          case TILE_ARMOR:
+            usePic = tileArmorPic;
+            break;
+          case TILE_CLOAK:
+            usePic = tileCloakPic;
+            break;
           case TILE_HEALTH:
             tileFrame = animFrame % TILE_HEALTH_FRAMES;
             usePic = tileHealth;
@@ -205,6 +278,9 @@ function drawOnlyBricksOnScreen() {
             break;
           case TILE_FRIENDLY_ANT:
             usePic = tileFriendlyPic;
+            break;
+          case TILE_ICE:
+            usePic = tileIcePic;
             break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
