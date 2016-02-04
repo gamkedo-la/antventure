@@ -19,6 +19,37 @@ var m_tooltips = [
   "portal",
   "wiz-hat"
   ];
+
+const KEY_LEFT_ARROW = 37;
+const KEY_A = 65;
+const KEY_UP_ARROW = 38;
+const KEY_W = 87;
+const KEY_RIGHT_ARROW = 39;
+const KEY_D = 68;
+const KEY_DOWN_ARROW = 40;
+const KEY_S = 83;
+document.addEventListener("keydown", keyPressed);
+
+function keyPressed(evt) {
+  if(evt.keyCode == KEY_LEFT_ARROW || evt.keyCode == KEY_A) {
+      m_worldLoc.x--;
+      openGrid();
+  }
+  if(evt.keyCode == KEY_RIGHT_ARROW || evt.keyCode == KEY_D) {
+      m_worldLoc.x++;
+      openGrid();
+  }
+  if(evt.keyCode == KEY_UP_ARROW || evt.keyCode == KEY_W) {
+      m_worldLoc.y--;
+      openGrid();
+  }
+  if(evt.keyCode == KEY_DOWN_ARROW || evt.keyCode == KEY_S) {
+      m_worldLoc.y++;
+      openGrid();
+  }
+  evt.preventDefault(); // without this, arrow keys scroll the browser!
+}
+
 var m_optionSelection = 0;
 var m_name = "level0a";
 var m_worldLoc = {x:4,y:0};
@@ -214,39 +245,23 @@ function clickCheck() {
     });
     
     $("body").on("click", ".world-up", function() {
-      if(m_worldLoc.y > 0) {
-        m_worldLoc.y--;
-        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
-        $(".level-name").text(m_name);
-        openGrid();
-      }
+      m_worldLoc.y--;
+      openGrid();
     });
     
     $("body").on("click", ".world-down", function() {
-      if(m_worldLoc.y < 9) {
-        m_worldLoc.y++;
-        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
-        $(".level-name").text(m_name);
-        openGrid();
-      }
+      m_worldLoc.y++;
+      openGrid();
     });
     
     $("body").on("click", ".world-left", function() {
-      if(m_worldLoc.x > 0) {
-        m_worldLoc.x--;
-        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
-        $(".level-name").text(m_name);
-        openGrid();
-      }
+      m_worldLoc.x--;
+      openGrid();
     });
     
     $("body").on("click", ".world-right", function() {
-      if(m_worldLoc.x < 8) {
-        m_worldLoc.x++;
-        m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
-        $(".level-name").text(m_name);
-        openGrid();
-      }
+      m_worldLoc.x++;
+      openGrid();
     });
 }
 
@@ -256,10 +271,29 @@ function createGrid() {
 }
 
 function openGrid() {
+
+  if(m_worldLoc.x < 0) {
+    m_worldLoc.x = 0;
+    return;
+  }
+  if(m_worldLoc.x > 9) {
+    m_worldLoc.x = 9;
+    return;
+  }
+  if(m_worldLoc.y < 0) {
+    m_worldLoc.y = 0;
+    return;
+  }
+  if(m_worldLoc.y > 9) {
+    m_worldLoc.y = 9;
+    return;
+  }
   // Open a grid
   //$('#open-text').val()
   var loadingRoomName = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
   fromJSON = window[loadingRoomName];
+  
+  $(".level-name").text(loadingRoomName);
 
   m_cols = fromJSON.cols;
   m_rows = fromJSON.rows;
