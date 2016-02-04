@@ -76,9 +76,9 @@ function loadLevelsBesidesFirstOne() {
         continue;
       }
       var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
-      if(roomKind == 0) {
+      /*if(roomKind == 0) {
         continue;
-      }
+      }*/
       var imported = document.createElement('script');
       // imported.onerror = noLevelHere;
       imported.src = 'levels/'+levelCRToFilename(eachC,eachR)+".js";
@@ -281,16 +281,16 @@ function openGrid() {
     m_worldLoc.x = 0;
     return;
   }
-  if(m_worldLoc.x > 9) {
-    m_worldLoc.x = 9;
+  if(m_worldLoc.x > 8) {
+    m_worldLoc.x = 8;
     return;
   }
   if(m_worldLoc.y < 0) {
     m_worldLoc.y = 0;
     return;
   }
-  if(m_worldLoc.y > 9) {
-    m_worldLoc.y = 9;
+  if(m_worldLoc.y > 8) {
+    m_worldLoc.y = 8;
     return;
   }
 
