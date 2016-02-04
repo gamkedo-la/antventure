@@ -51,10 +51,11 @@ function keyPressed(evt) {
 }
 
 var m_optionSelection = 0;
-var m_name = "level0a";
+var m_name = "level4a: green";
 var m_worldLoc = {x:4,y:0};
 
 var roomsToLoadColsW = 9
+var roomColors=["#a0a0a0","#808080","green","yellow","red","purple","brown","blue"];
 var roomsToLoad =
 //0 1 2 3 4 5 6 7 8
  [0,0,0,0,2,0,7,0,0, // a
@@ -122,6 +123,10 @@ function createDOM() {
   $(".wrapper").append("<div class='openWindow'></div>");
   
   $(".header").append("<div class='dropdown'></div>");
+  $(".header").append("<canvas width='45' height='45' id='minimap' style='float:right'>");
+  var worldmap = document.getElementById("minimap");
+  worldmapContext = worldmap.getContext('2d');
+  
   $(".dropdown").append("<div class='itemSpan'>File</div>");
   $(".dropdown").append("<div class='dropdown-content'></div>");
   $(".dropdown-content").append("<div id='new' class='dropdown-item'>New Grid...</div>");
@@ -288,12 +293,30 @@ function openGrid() {
     m_worldLoc.y = 9;
     return;
   }
+
+  worldmapContext.fillStyle="red";
+  var ts = 5;
+  for(var c=0;c<9;c++) {
+    for(var r=0;r<9;r++) {
+      var roomHere = roomsToLoad[c + r*roomsToLoadColsW];
+      worldmapContext.fillStyle = roomColors[roomHere];
+      worldmapContext.fillRect(c*ts,r*ts,ts,ts);
+    }
+  }
+  worldmapContext.beginPath();
+  worldmapContext.rect(m_worldLoc.x*ts,m_worldLoc.y*ts, ts,ts);
+  worldmapContext.lineWidth = 1;
+  worldmapContext.strokeStyle = 'black';
+  worldmapContext.stroke();
+  worldmapContext.closePath();  
+
   // Open a grid
   //$('#open-text').val()
   var loadingRoomName = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
   fromJSON = window[loadingRoomName];
   
-  $(".level-name").text(loadingRoomName);
+  var roomKind = roomsToLoad[m_worldLoc.x + m_worldLoc.y*roomsToLoadColsW];
+  $(".level-name").text(loadingRoomName+": "+roomColors[roomKind]);
 
   m_cols = fromJSON.cols;
   m_rows = fromJSON.rows;
