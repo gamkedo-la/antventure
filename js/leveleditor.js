@@ -207,7 +207,7 @@ function clickCheck() {
     });
     
     $("body").on("click", ".world-right", function() {
-      if(m_worldLoc.x < 9) {
+      if(m_worldLoc.x < 8) {
         m_worldLoc.x++;
         m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
         $(".level-name").text(m_name);
