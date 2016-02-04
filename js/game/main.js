@@ -56,8 +56,10 @@ function drawEverything() {
   drawShield();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll
+
   canvasContext.fillStyle = 'white';
   canvasContext.fillText("Health: " + health,10,20);
+  drawHealthHud();
   canvasContext.fillText("Room: " + roomsOverC +","+ roomsDownR,10,30);
 
   if (numberOfKeys > 0) {

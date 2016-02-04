@@ -31,6 +31,9 @@ var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
 var tileIcePic = document.createElement("img");
 tileIcePic.src = "images/tileIce.png";
+var tileTorch = document.createElement("img");
+tileTorch.src = "images/torchSheet.png";
+const TILE_TORCH_FRAMES = 4;
 
 // where is the player/gameplay happening in the overworld level grid?
 // NOTE: this should match the level file pointed from index.html
@@ -85,10 +88,12 @@ const TILE_WIZ_HAT = 14;
 const TILE_ARMOR = 15;
 const TILE_CLOAK = 16;
 const TILE_ICE = 17;
+const TILE_TORCH = 18;
+
 
 function isTileHereSolid(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
-  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL);
+  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
 }
 
 /*var loadedLevelJSON = // kept around for ease of one-off testing via override
@@ -281,6 +286,10 @@ function drawOnlyBricksOnScreen() {
             break;
           case TILE_ICE:
             usePic = tileIcePic;
+            break;
+          case TILE_TORCH:
+            tileFrame = animFrame % TILE_TORCH_FRAMES;
+            usePic = tileTorch;
             break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
