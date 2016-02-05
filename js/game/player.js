@@ -255,10 +255,6 @@ function checkIfChangingRooms() {
 }
 
 function jumperReset() {
-  // center jumper on start tile, but as fallback center in game world:
-  jumperX = canvas.width/2;
-  jumperY = canvas.height/2;
-
   for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
     for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
 
