@@ -252,85 +252,85 @@ html {
 /* Dirt */
 .t1 {
   background: #9e6019;
-  background: url("../images/tile.png");
+  background: url("../images/tile.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Moss */
 .t2 {
   background: #005500;
-  background: url("../images/tileMoss.png");
+  background: url("../images/tileMoss.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Crumble */
 .t3 {
   background: #edb76b;
-  background: url("../images/tileCrumble.png");
+  background: url("../images/tileCrumble.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Pillar */
 .t4 {
   background: #c7c7c7;
-  background: url("../images/tileMove.png");
+  background: url("../images/tileMove.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Red Ant */
 .t5 {
   background: #f00;
-  background: url("../images/evilBug.png");
+  background: url("../images/evilBug.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Fly */
 .t6 {
   background: #505050;
-  background: url("../images/evilFly.png");
+  background: url("../images/evilFly.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Spikes */
 .t7 {
   background: #800000;
-  background: url("../images/tileSpikes.png");
+  background: url("../images/tileSpikes.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Friendlies */
 .t8 {
   background: #202020;
-  background: url("../images/tileFriendly.png");
+  background: url("../images/tileFriendly.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Health */
 .t9 {
   background: #0f0;
-  background: url("../images/tileHealth.png");
+  background: url("../images/tileHealth.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Gate */
 .t10 {
   background: #ff5900;
-  background: url("../images/tileDoor.png");
+  background: url("../images/tileDoor.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Key */
 .t11 {
   background: #e0dd22;
-  background: url("../images/tileKey.png");
+  background: url("../images/tileKey.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Start */
 .t12 {
   background: #22e0d0;
-  background: url("../images/playerAnt.png");
+  background: url("../images/playerAnt.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Portal */
 .t13 {
   background: #cc0099;
-  background: url("../images/tilePortal.png");
+  background: url("../images/tilePortal.png" no-repeat);
   background-size: 100% 100%;
 }
 /* Wiz Hat */
 .t14 {
   background: #00f;
-  background: url("../images/tileWizHat.png");
+  background: url("../images/tileWizHat.png" no-repeat);
   background-size: 100% 100%;
 }
 
