@@ -8,6 +8,7 @@ var tileMossPic = document.createElement("img");
 tileMossPic.src = "images/tileMoss.png";
 var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/tileCrumble.png";
+const TILE_CRUMBLING_FRAMES = 4;
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
@@ -240,6 +241,7 @@ function drawOnlyBricksOnScreen() {
 
       var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
       if(tileValueHere < 0) {
+        tileFrame = animFrame % TILE_CRUMBLING_FRAMES;
         usePic = tileCrumblingPic;
         brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
       } else switch(whichBrickAtTileCoord(eachCol, eachRow) ) {
