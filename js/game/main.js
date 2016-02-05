@@ -59,6 +59,9 @@ function drawEverything() {
 
   drawHealthHud();
 
+  canvasContext.fillStyle = 'White';
+  canvasContext.fillText("Ants Rescued:" + antsRescued,0,80);
+
   if (numberOfKeys > 0) {
     for (var i = 0; i < numberOfKeys + 1; i++) {
       canvasContext.drawImage(tileKeyPic,800 - (60 * i),-8);

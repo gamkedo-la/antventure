@@ -10,6 +10,7 @@ var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/tileCrumble.png";
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
+const TILE_CRUMBLING_FRAMES = 4;
 var tileWizHatPic = document.createElement("img");
 tileWizHatPic.src = "images/tileWizHat.png";
 var tileArmorPic = document.createElement("img");
@@ -94,7 +95,7 @@ const TILE_TORCH = 18;
 
 function isTileHereSolid(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
-  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
+  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH && tileKindAt != TILE_SPIKES);
 }
 
 /*var loadedLevelJSON = // kept around for ease of one-off testing via override
@@ -240,6 +241,7 @@ function drawOnlyBricksOnScreen() {
 
       var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
       if(tileValueHere < 0) {
+        tileFrame = animFrame % TILE_CRUMBLING_FRAMES;
         usePic = tileCrumblingPic;
         brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
       } else switch(whichBrickAtTileCoord(eachCol, eachRow) ) {
