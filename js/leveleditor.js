@@ -146,6 +146,8 @@ function createDOM() {
   
   $(".content").append("<div class='level-name'></div>");
   
+  // hidden at Johhny's request -cdeleon feb 4 2016
+  /*
   $(".content").append("<div class='world-up'></div>");
   $(".content").append("<div class='world-down'></div>");
   $(".content").append("<div class='world-left'></div>");
@@ -155,7 +157,8 @@ function createDOM() {
   $(".world-down").append("<div class='arrow-down'></div>");
   $(".world-left").append("<div class='arrow-left'></div>");
   $(".world-right").append("<div class='arrow-right'></div>");
-  
+  */  
+
   $(".newWindow").append("<div class='new-info'>Rows:</div>");
   $(".newWindow").append("<input id='row-num' type='number' value='15'>");
   $(".newWindow").append("<div class='new-info'>Cols:</div>");
@@ -248,7 +251,7 @@ function clickCheck() {
       $('#save-text').val("level");
       $('#open-text').val("level");
     });
-    
+    /* // hidden at Johhny's request -cdeleon feb 4 2016
     $("body").on("click", ".world-up", function() {
       m_worldLoc.y--;
       openGrid();
@@ -268,6 +271,7 @@ function clickCheck() {
       m_worldLoc.x++;
       openGrid();
     });
+	*/
 }
 
 function createGrid() {
