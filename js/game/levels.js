@@ -230,6 +230,13 @@ function drawOnlyBricksOnScreen() {
   // +2 for columns since BRICK_W doesn't divide evenly into canvas.width
   var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
   var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
+  
+  if(cameraRightMostCol > BRICK_COLS) {
+    cameraRightMostCol = BRICK_COLS;
+  }
+  if(cameraBottomMostRow > BRICK_ROWS) {
+    cameraBottomMostRow = BRICK_ROWS;
+  }
 
   var usePic;
   var tileFrame;
