@@ -56,12 +56,14 @@ function drawEverything() {
   drawShield();
 
   canvasContext.restore(); // undoes the .translate() used for cam scroll
-  canvasContext.fillStyle = 'white';
-  canvasContext.fillText("Health: " + health,10,20);
-  canvasContext.fillText("Room: " + roomsOverC +","+ roomsDownR,10,30);
+
+  drawHealthHud();
 
   if (numberOfKeys > 0) {
-    canvasContext.fillText("Keys: " + numberOfKeys,750,20);
+    for (var i = 0; i < numberOfKeys + 1; i++) {
+      canvasContext.drawImage(tileKeyPic,800 - (60 * i),-8);
+    }
+
   }
   if (damagedRecentely > 20) {
     canvasContext.fillStyle = 'red';

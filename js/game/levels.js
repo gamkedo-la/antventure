@@ -8,6 +8,7 @@ var tileMossPic = document.createElement("img");
 tileMossPic.src = "images/tileMoss.png";
 var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/tileCrumble.png";
+const TILE_CRUMBLING_FRAMES = 4;
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
@@ -29,8 +30,12 @@ var tilePortalPic = document.createElement("img");
 tilePortalPic.src = "images/tilePortal.png";
 var tileFriendlyPic = document.createElement("img");
 tileFriendlyPic.src = "images/tileFriendly.png";
+const TILE_FRIENDLY_FRAMES = 4;
 var tileIcePic = document.createElement("img");
 tileIcePic.src = "images/tileIce.png";
+var tileTorch = document.createElement("img");
+tileTorch.src = "images/torchSheet.png";
+const TILE_TORCH_FRAMES = 4;
 
 // where is the player/gameplay happening in the overworld level grid?
 // NOTE: this should match the level file pointed from index.html
@@ -85,10 +90,12 @@ const TILE_WIZ_HAT = 14;
 const TILE_ARMOR = 15;
 const TILE_CLOAK = 16;
 const TILE_ICE = 17;
+const TILE_TORCH = 18;
+
 
 function isTileHereSolid(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
-  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL);
+  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
 }
 
 /*var loadedLevelJSON = // kept around for ease of one-off testing via override
@@ -234,6 +241,7 @@ function drawOnlyBricksOnScreen() {
 
       var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
       if(tileValueHere < 0) {
+        tileFrame = animFrame % TILE_CRUMBLING_FRAMES;
         usePic = tileCrumblingPic;
         brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
       } else switch(whichBrickAtTileCoord(eachCol, eachRow) ) {
@@ -277,10 +285,15 @@ function drawOnlyBricksOnScreen() {
             usePic = tilePortalPic;
             break;
           case TILE_FRIENDLY_ANT:
+            tileFrame = animFrame % TILE_FRIENDLY_FRAMES;
             usePic = tileFriendlyPic;
             break;
           case TILE_ICE:
             usePic = tileIcePic;
+            break;
+          case TILE_TORCH:
+            tileFrame = animFrame % TILE_TORCH_FRAMES;
+            usePic = tileTorch;
             break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;

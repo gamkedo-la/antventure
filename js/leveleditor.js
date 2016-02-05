@@ -76,9 +76,9 @@ function loadLevelsBesidesFirstOne() {
         continue;
       }
       var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
-      if(roomKind == 0) {
+      /*if(roomKind == 0) {
         continue;
-      }
+      }*/
       var imported = document.createElement('script');
       // imported.onerror = noLevelHere;
       imported.src = 'levels/'+levelCRToFilename(eachC,eachR)+".js";
@@ -146,6 +146,8 @@ function createDOM() {
   
   $(".content").append("<div class='level-name'></div>");
   
+  // hidden at Johhny's request -cdeleon feb 4 2016
+  /*
   $(".content").append("<div class='world-up'></div>");
   $(".content").append("<div class='world-down'></div>");
   $(".content").append("<div class='world-left'></div>");
@@ -155,7 +157,8 @@ function createDOM() {
   $(".world-down").append("<div class='arrow-down'></div>");
   $(".world-left").append("<div class='arrow-left'></div>");
   $(".world-right").append("<div class='arrow-right'></div>");
-  
+  */  
+
   $(".newWindow").append("<div class='new-info'>Rows:</div>");
   $(".newWindow").append("<input id='row-num' type='number' value='15'>");
   $(".newWindow").append("<div class='new-info'>Cols:</div>");
@@ -248,7 +251,7 @@ function clickCheck() {
       $('#save-text').val("level");
       $('#open-text').val("level");
     });
-    
+    /* // hidden at Johhny's request -cdeleon feb 4 2016
     $("body").on("click", ".world-up", function() {
       m_worldLoc.y--;
       openGrid();
@@ -268,6 +271,7 @@ function clickCheck() {
       m_worldLoc.x++;
       openGrid();
     });
+	*/
 }
 
 function createGrid() {
@@ -281,16 +285,16 @@ function openGrid() {
     m_worldLoc.x = 0;
     return;
   }
-  if(m_worldLoc.x > 9) {
-    m_worldLoc.x = 9;
+  if(m_worldLoc.x > 8) {
+    m_worldLoc.x = 8;
     return;
   }
   if(m_worldLoc.y < 0) {
     m_worldLoc.y = 0;
     return;
   }
-  if(m_worldLoc.y > 9) {
-    m_worldLoc.y = 9;
+  if(m_worldLoc.y > 8) {
+    m_worldLoc.y = 8;
     return;
   }
 

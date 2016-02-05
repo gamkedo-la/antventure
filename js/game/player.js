@@ -11,6 +11,15 @@ iceBoltPic.src = "images/iceBolt.png";
 var shieldPic = document.createElement("img");
 shieldPic.src = "images/shield.png";
 
+var hudHealth1Pic = document.createElement("img");
+hudHealth1Pic.src = "images/hudHealth1.png";
+var hudHealth2Pic = document.createElement("img");
+hudHealth2Pic.src = "images/hudHealth2.png";
+var hudHealth3Pic = document.createElement("img");
+hudHealth3Pic.src = "images/hudHealth3.png";
+var hudHealth0Pic = document.createElement("img");
+hudHealth0Pic.src = "images/hudHealth0.png";
+
 var playerTouchingIndex = -1;
 var carryingBlock = false;
 var numberOfKeys = 0;
@@ -98,6 +107,21 @@ function drawShield () {
       drawFacingLeftOption(shieldPic,shieldX +5,shieldY + JUMPER_RADIUS, shieldFacingLeft);
     }
 
+  }
+}
+
+function drawHealthHud() {
+  if (health == 1) {
+    canvasContext.drawImage(hudHealth1Pic, 0,0);
+  }
+  if (health == 2) {
+    canvasContext.drawImage(hudHealth2Pic,0,0);
+  }
+  if (health == 3) {
+    canvasContext.drawImage(hudHealth3Pic,0,0);
+  }
+  if (health < 1) {
+    canvasContext.drawImage(hudHealth0Pic, 0,0)
   }
 }
 
