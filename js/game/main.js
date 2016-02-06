@@ -59,15 +59,50 @@ function drawEverything() {
 
   drawHealthHud();
 
+
+  if (playerState == playerWiz) {
+      canvasContext.drawImage(tileWizHatPic,200,-10);
+
+      if (tutorialTimerWiz < 500) {
+        canvasContext.fillStyle = 'white';
+        canvasContext.fillText("space bar - shoot an ice bolt that freezes enemies",jumperX - camPanX -120, jumperY -20 - camPanY);
+        tutorialTimerWiz ++;
+      }
+  }
+  if (playerState == playerArmor) {
+      canvasContext.drawImage(tileArmorPic,200,0);
+
+      if (tutorialTimerArmor < 500) {
+        canvasContext.fillStyle = 'white';
+        canvasContext.fillText("space bar - Shield bash enemies or crumble blocks",jumperX - camPanX -120, jumperY -20 - camPanY);
+        tutorialTimerArmor ++;
+      }
+  }
+  if (playerState == playerCloak) {
+      canvasContext.drawImage(tileCloakPic,200,0);
+
+
+      if (tutorialTimerCloak < 500) {
+        canvasContext.fillStyle = 'white';
+        canvasContext.fillText("space bar - quick dash over gaps or through spikes",jumperX - camPanX -120, jumperY -20 - camPanY);
+        tutorialTimerCloak ++;
+      }
+
+  }
+
+  canvasContext.fillStyle = 'white';
+  canvasContext.fillText(antsRescued + ":",734, 58);
+  canvasContext.drawImage(rescuedHudPic,740,0)
+
   if (numberOfKeys > 0) {
-    for (var i = 0; i < numberOfKeys + 1; i++) {
-      canvasContext.drawImage(tileKeyPic,800 - (60 * i),-8);
+    for (var i = 1; i < numberOfKeys + 1; i++) {
+      canvasContext.drawImage(tileKeyPic,720 - (60 * i),00);
     }
 
   }
   if (damagedRecentely > 20) {
-    canvasContext.fillStyle = 'red';
-    canvasContext.fillText("-1",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/10  ));
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillText("Ow",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/10  ));
   }
 
 }

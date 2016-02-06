@@ -20,6 +20,9 @@ hudHealth3Pic.src = "images/hudHealth3.png";
 var hudHealth0Pic = document.createElement("img");
 hudHealth0Pic.src = "images/hudHealth0.png";
 
+var rescuedHudPic = document.createElement("img");
+rescuedHudPic.src = "images/rescuedHud.png";
+
 var playerTouchingIndex = -1;
 var carryingBlock = false;
 var numberOfKeys = 0;
@@ -37,6 +40,9 @@ var shieldFacingLeft = false;
 var shieldX = 0;
 var shieldY = 0;
 
+var tutorialTimerWiz = 0;
+var tutorialTimerArmor = 0;
+var tutorialTimerCloak = 0;
 
 var camPanX = 0.0;
 var camPanY = 0.0;
