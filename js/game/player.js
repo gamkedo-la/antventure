@@ -269,14 +269,26 @@ function jumperReset() {
 }
 
 function iceDetection (enemyX, enemyY) {
+  if (iceBolt && whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) == TILE_ICE) {
+    brickGrid[whichIndexAtPixelCoord(iceBoltX, iceBoltY)] = TILE_NONE;
+    iceBolt = false;
+  }
+
   if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_NONE &&
       whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_PORTAL) {
     iceBolt = false;
   }
+
+  if(iceBolt == false) {
+    return;
+  }
+
   if (enemyX > iceBoltX - 20 && enemyX < iceBoltX + 20) {
     if (enemyY > iceBoltY - 20 && enemyY < iceBoltY + 20) {
-      console.log("ding")
-      brickGrid[whichIndexAtPixelCoord(iceBoltX, iceBoltY)] = TILE_ICE;
+      console.log("CHILL OUT")
+      // freezing location of enemy (not the ice ball)
+      brickGrid[whichIndexAtPixelCoord(enemyX, enemyY)] = TILE_ICE;
+      iceBolt = false; // stop the bolt
     }
   }
 }

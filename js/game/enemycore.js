@@ -48,6 +48,19 @@ this.enemyCollideAndDraw = function() {
     if(this.myRoomC != roomsOverC || this.myRoomR != roomsDownR) {
       return; // not in this room, skip this one
     }
+
+    // doing before move code so it'll snap into correct tile
+    iceDetection (this.x, this.y);
+
+    if(whichBrickAtPixelCoord(this.x,this.y,false) == TILE_ICE) {
+      // snap to center of ice block
+      this.x = Math.floor(this.x/BRICK_W) * BRICK_W + 0.5 * BRICK_W;
+      this.y = Math.floor(this.y/BRICK_H) * BRICK_H + 0.5 * BRICK_H;
+
+      // drawing here since otherwise the draw call later gets skipped too
+      drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft);
+      return; // prevent any other movement
+    }
     
 	  // movement for the one hard coded enemy red ant
     this.x += this.xv;
@@ -75,8 +88,6 @@ this.enemyCollideAndDraw = function() {
     }
 
     hitDetection (this.x, this.y);
-
-    iceDetection (this.x, this.Y);
 
     drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft);
   }

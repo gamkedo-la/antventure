@@ -207,6 +207,17 @@ function loadLevel(fromJSON) { // if no test stage argument, load from world gri
   BRICK_ROWS = fromJSON.rows;
   brickGrid = fromJSON.gridspaces;
 
+  // defrost frozen baddies
+  console.log("defrosting");
+  for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
+    for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
+      if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_ICE) {
+        var changeAt = brickTileToIndex(eachCol, eachRow);
+        brickGrid[changeAt] = TILE_NONE;
+      }    
+    }
+  }
+
   var tempEnemy = new enemySlideAndBounce();
   // enemyList = []; do not clear enemy list, we're keeping old ones around
   while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
