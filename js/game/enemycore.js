@@ -50,7 +50,7 @@ this.enemyCollideAndDraw = function() {
     }
 
     // doing before move code so it'll snap into correct tile
-    iceDetection (this.x, this.y);
+    iceAndShieldDetection (this);
 
     if(whichBrickAtPixelCoord(this.x,this.y,false) == TILE_ICE) {
       // snap to center of ice block

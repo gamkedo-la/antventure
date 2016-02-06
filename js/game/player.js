@@ -86,18 +86,20 @@ function isBlockPickup (tileType) {
 function drawShield () {
   if (isBashing) {
     bashTimer --;
+    shieldX = jumperX + 8*(5-Math.abs(bashTimer-5)) * (shieldFacingLeft ? -1 : 1);
+    shieldY = jumperY;
     if (bashTimer <0){
       isBashing = false;
       bashTimer = 10;
     }
-    if (shieldFacingLeft) {
-      shieldX -= 3;
-    } else {
-      shieldX += 3;
+
+    if (whichBrickAtPixelCoord(shieldX,shieldY,false) == TILE_CRUMBLE) {
+      brickGrid[whichIndexAtPixelCoord(shieldX,shieldY)] = TILE_NONE;
     }
+
   } else {
-    shieldX = jumperX
-    shieldY = jumperY
+    shieldX = jumperX;
+    shieldY = jumperY;
   }
 
   if (playerState == playerArmor) {
@@ -126,6 +128,19 @@ function drawHealthHud() {
 }
 
 function jumperMove() {
+
+  if(iceBolt) {
+    if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) == TILE_ICE) {
+      iceBolt = false;
+      brickGrid[whichIndexAtPixelCoord(iceBoltX, iceBoltY)] = TILE_NONE;
+    }
+
+    if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_NONE &&
+        whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_PORTAL) {
+      iceBolt = false;
+    }
+  }
+
  if(jumperOnGround) {
     jumperSpeedX *= GROUND_FRICTION;
   } else {
@@ -268,15 +283,26 @@ function jumperReset() {
   } // end of col
 }
 
-function iceDetection (enemyX, enemyY) {
-  if (iceBolt && whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) == TILE_ICE) {
-    brickGrid[whichIndexAtPixelCoord(iceBoltX, iceBoltY)] = TILE_NONE;
-    iceBolt = false;
-  }
+function iceAndShieldDetection (theEnemy) {
+  var enemyX = theEnemy.x;
+  var enemyY = theEnemy.y;
 
-  if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_NONE &&
-      whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) != TILE_PORTAL) {
-    iceBolt = false;
+  if(isBashing) {
+    if (enemyX > shieldX - 20 && enemyX < shieldX + 20) {
+      if (enemyY > shieldY - 20 && enemyY < shieldY + 20) {
+        if(enemyX > shieldX) {
+          theEnemy.x += BRICK_W;
+          if( brickGrid[whichIndexAtPixelCoord(theEnemy.x, theEnemy.y)] != TILE_NONE) {
+            theEnemy.x -= BRICK_W;
+          }
+        } else {
+          theEnemy.x -= BRICK_W;
+          if( brickGrid[whichIndexAtPixelCoord(theEnemy.x, theEnemy.y)] != TILE_NONE) {
+            theEnemy.x += BRICK_W;
+          }
+        }
+      }
+    }
   }
 
   if(iceBolt == false) {
