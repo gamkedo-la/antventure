@@ -4,6 +4,7 @@ var evilFlyPic = document.createElement("img");
 evilFlyPic.src = "images/evilFly.png";
 
 const EVIL_BUG_SPEED = 1.0;
+const ANT_GROUND_HEIGHT_OFFSET = 14;
 
 enemyList = [];
 
@@ -29,7 +30,7 @@ function enemySlideAndBounce() {
 
         if( whichBrickAtTileCoord(eachCol, eachRow) == tileLoadIndex) {
           this.x = eachCol * BRICK_W + BRICK_W/2;
-          this.y = (eachRow * BRICK_H + BRICK_H/2) + 14;
+          this.y = (eachRow * BRICK_H + BRICK_H/2) + ANT_GROUND_HEIGHT_OFFSET;
           var changeAt = brickTileToIndex(eachCol, eachRow);
           brickGrid[changeAt] = TILE_NONE; // remove tile where player started
 
@@ -75,6 +76,11 @@ this.enemyCollideAndDraw = function() {
       this.y += this.yv;
     } else {
       if (this.yv == 0) {
+        var heightInTile = this.y % BRICK_H;
+        if(heightInTile < (BRICK_H/2) + ANT_GROUND_HEIGHT_OFFSET) {
+          this.y = Math.floor(this.y/BRICK_H)*BRICK_H +
+                   (BRICK_H/2) + ANT_GROUND_HEIGHT_OFFSET;
+        }
         if (whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DIRT &&
             whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_MOSS &&
             whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DOOR &&
