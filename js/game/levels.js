@@ -25,7 +25,8 @@ const TILE_HEALTH_FRAMES = 4;
 var tileDoorPic = document.createElement("img");
 tileDoorPic.src = "images/tileDoor.png";
 var tileKeyPic = document.createElement("img");
-tileKeyPic.src = "images/tileKey.png";
+tileKeyPic.src = "images/TileKeyAN.png";
+const TILE_KEY_FRAMES = 4;
 var tileSpikesPic = document.createElement("img");
 tileSpikesPic.src = "images/tileSpikes.png";
 var tilePortalPic = document.createElement("img");
@@ -346,6 +347,7 @@ function drawOnlyBricksOnScreen() {
             break;
           case TILE_KEY:
             usePic = tileKeyPic;
+            tileFrame = animFrame % TILE_KEY_FRAMES;
             break;
           case TILE_SPIKES:
             usePic = tileSpikesPic;
