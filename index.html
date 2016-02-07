@@ -16,9 +16,8 @@
     <div id="Page" style=" background: #95600e; ">
       <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-      <!-- this should match levels.js roomsOverC and roomsDownR initial values -->
-      <script type="text/javascript" src="levels/level4b.js"></script> <!-- only load the first one -->
-      <script type="text/javascript" src="levels/level4a.js"></script> <!-- only load the first one -->
+      <!-- change this map to load it first, good for testing, set to 4a for release -->
+      <script type="text/javascript" src="levels/level4a.js"></script> <!-- all rooms other than the first one get loaded by js code -->
 
       <script src="js/jquery-2.1.4.js"></script>
       <script src="js/game/graphicslib.js"></script>

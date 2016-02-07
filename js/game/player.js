@@ -187,7 +187,7 @@ function jumperMove() {
   }
 
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
-    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = -30;
+    brickGrid[whichIndexAtPixelCoord(jumperX, jumperY + JUMPER_RADIUS)] = -CRUMBLE_FRAME_TIME;
   }
 
   if (isBlockPickup(TILE_WIZ_HAT)) {

@@ -9,6 +9,7 @@ tileMossPic.src = "images/tileMoss.png";
 var tileCrumblePic = document.createElement("img");
 tileCrumblePic.src = "images/tileCrumble.png";
 const TILE_CRUMBLING_FRAMES = 4;
+const CRUMBLE_FRAME_TIME = 30;
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
@@ -60,9 +61,6 @@ var roomsToLoad =
 var animFrame = 0;
 var cyclesTillAnimStep = 0;
 const FRAMES_BETWEEN_ANIM = 4;
-
-const DURATION = 20;
-var crumbleTimer = DURATION;
 
 const BRICK_W = 60;
 const BRICK_H = 60;
@@ -309,7 +307,7 @@ function drawOnlyBricksOnScreen() {
 
       var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
       if(tileValueHere < 0) {
-        tileFrame = animFrame % TILE_CRUMBLING_FRAMES;
+        tileFrame = Math.floor( (CRUMBLE_FRAME_TIME+tileValueHere) * TILE_CRUMBLING_FRAMES/CRUMBLE_FRAME_TIME );
         usePic = tileCrumblingPic;
         brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
       } else switch( tileValueHere ) {
