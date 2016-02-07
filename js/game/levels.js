@@ -312,10 +312,11 @@ function drawOnlyBricksOnScreen() {
         tileFrame = animFrame % TILE_CRUMBLING_FRAMES;
         usePic = tileCrumblingPic;
         brickGrid[brickTileToIndex(eachCol, eachRow)] = tileValueHere +1;
-      } else switch(whichBrickAtTileCoord(eachCol, eachRow) ) {
+      } else switch( tileValueHere ) {
           case TILE_NONE:
             continue;
           case TILE_DIRT:
+          case TILE_ICE: // drawing dirt background in addition to ice on next pass
             usePic = tilePic;
             break;
           case TILE_PILLAR:
@@ -356,9 +357,9 @@ function drawOnlyBricksOnScreen() {
             tileFrame = animFrame % TILE_FRIENDLY_FRAMES;
             usePic = tileFriendlyPic;
             break;
-          case TILE_ICE:
+          /* case TILE_ICE:
             usePic = tileIcePic;
-            break;
+            break; */
           case TILE_TORCH:
             tileFrame = animFrame % TILE_TORCH_FRAMES;
             usePic = tileTorch;
@@ -376,4 +377,43 @@ function drawOnlyBricksOnScreen() {
 
     } // end of for eachRow
   } // end of for eachCol
-} // end of drawBricks()
+} // end of drawOnlyBricksOnScreen()
+
+function drawIceOverlay() {
+
+  var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
+  var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
+
+  // how many columns and rows of tiles fit on one screenful of area?
+  var colsThatFitOnScreen = Math.floor(canvas.width / BRICK_W);
+  var rowsThatFitOnScreen = Math.floor(canvas.height / BRICK_H);
+
+  var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
+  var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
+  
+  if(cameraRightMostCol > BRICK_COLS) {
+    cameraRightMostCol = BRICK_COLS;
+  }
+  if(cameraBottomMostRow > BRICK_ROWS) {
+    cameraBottomMostRow = BRICK_ROWS;
+  }
+
+  var usePic = tileIcePic;
+  for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
+    for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+
+      var tileValueHere = whichBrickAtTileCoord(eachCol, eachRow);
+      if(tileValueHere == TILE_ICE) {
+        var brickLeftEdgeX = eachCol * BRICK_W;
+        var brickTopEdgeY = eachRow * BRICK_H;
+
+        canvasContext.drawImage(usePic,
+          0, 0, // top-left corner of tile art
+          BRICK_W, BRICK_H, // get full tile size from source
+          brickLeftEdgeX, brickTopEdgeY, // x,y top-left corner for image destination
+          BRICK_W, BRICK_H); // draw full full tile size for destination
+      } // end of whichBrickAtTileCoord()
+
+    } // end of for eachRow
+  } // end of for eachCol
+} // end of drawIceOverlay()

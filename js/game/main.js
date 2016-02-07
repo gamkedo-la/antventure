@@ -51,6 +51,8 @@ function drawEverything() {
     enemyList[i].enemyCollideAndDraw();
   }
 
+  drawIceOverlay();
+
   drawJumper();
 
   drawShield();
