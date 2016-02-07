@@ -97,8 +97,13 @@ function drawEverything() {
   canvasContext.drawImage(rescuedHudPic,740,0)
 
   if (numberOfKeys > 0) {
+    var keyArtDim = tileKeyPic.height;
     for (var i = 1; i < numberOfKeys + 1; i++) {
-      canvasContext.drawImage(tileKeyPic,720 - (60 * i),00);
+      canvasContext.drawImage(tileKeyPic,
+        0, 0, // don't animtate, just set top-left corner of tile art
+        keyArtDim,keyArtDim, // get full tile size from source
+        720 - (60 * i),0, // x,y top-left corner for image destination
+        keyArtDim, keyArtDim);
     }
 
   }
