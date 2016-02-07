@@ -1,7 +1,7 @@
 var m_grid = [];
 var m_cols = 20;
 var m_rows = 15;
-var m_tileTypeCount = 15;
+var m_tileTypeCount = 19;
 var m_tooltips = [
   "nothing",
   "dirt",
@@ -17,7 +17,11 @@ var m_tooltips = [
   "key",
   "start",
   "portal",
-  "wiz-hat"
+  "wiz-hat",
+  "armor",
+  "cloak",
+  "ice",
+  "torch"
   ];
 
 const KEY_LEFT_ARROW = 37;
@@ -121,43 +125,43 @@ function createDOM() {
   $(".wrapper").append("<div class='newWindow'></div>");
   $(".wrapper").append("<div class='saveWindow'></div>");
   $(".wrapper").append("<div class='openWindow'></div>");
-  
+
   $(".header").append("<div class='dropdown'></div>");
   $(".header").append("<canvas width='45' height='45' id='minimap' style='float:right'>");
   var worldmap = document.getElementById("minimap");
   worldmapContext = worldmap.getContext('2d');
-  
+
   $(".dropdown").append("<div class='itemSpan'>File</div>");
   $(".dropdown").append("<div class='dropdown-content'></div>");
   $(".dropdown-content").append("<div id='new' class='dropdown-item'>New Grid...</div>");
   //$(".dropdown-content").append("<div id='open' class='dropdown-item'>Open Grid...</div>");
   $(".dropdown-content").append("<div id='save' class='dropdown-item'>Save Grid...</div>");
   //$(".dropdown-content").append("<div id='close' class='dropdown-item'>Close Editor...</div>");
-  
+
   $(".header").append("<div class='options'></div>");
   $(".options").append("<div class='option-title'>Options: </div>");
-  
+
   for( var i=0; i<m_tileTypeCount; i++){
     $(".options").append("<div title=" + m_tooltips[i] + " class='option t" + i + "'></div>");
   }
   $('.t0').addClass("selected");
-  
+
   $(".content").append("<div class='grid'></div>");
-  
+
   $(".content").append("<div class='level-name'></div>");
-  
+
   // hidden at Johhny's request -cdeleon feb 4 2016
   /*
   $(".content").append("<div class='world-up'></div>");
   $(".content").append("<div class='world-down'></div>");
   $(".content").append("<div class='world-left'></div>");
   $(".content").append("<div class='world-right'></div>");
-  
+
   $(".world-up").append("<div class='arrow-up'></div>");
   $(".world-down").append("<div class='arrow-down'></div>");
   $(".world-left").append("<div class='arrow-left'></div>");
   $(".world-right").append("<div class='arrow-right'></div>");
-  */  
+  */
 
   $(".newWindow").append("<div class='new-info'>Rows:</div>");
   $(".newWindow").append("<input id='row-num' type='number' value='15'>");
@@ -165,12 +169,12 @@ function createDOM() {
   $(".newWindow").append("<input id='col-num' type='number' value='20'>");
   $(".newWindow").append("<div id='submit-new' class='button'>Submit</div>");
   $(".newWindow").append("<div id='close-new' class='button'>Cancel</div>");
-  
+
   $(".saveWindow").append("<div class='save-info'>Please enter a name for the file...</div>");
   $(".saveWindow").append("<input id='save-text' type='text'>");
   $(".saveWindow").append("<div id='submit-save' class='button'>Submit</div>");
   $(".saveWindow").append("<div class='button'>Cancel</div>");
-  
+
   $(".openWindow").append("<div class='open-info'>Please enter the name of the file...</div>");
   $(".openWindow").append("<input id='open-text' type='text'>");
   $(".openWindow").append("<div id='submit-open' class='button'>Submit</div>");
@@ -203,47 +207,47 @@ function clickCheck() {
         }
         $(".dropdown").removeClass("hover");
     });
-    
+
     $("body").on("click", ".option",function() {
       var cn = "";
       cn  = $(this).attr("class");
       var number = parseInt(cn.substring(cn.lastIndexOf('t') + 1));
       var elements = document.getElementsByClassName("option");
-      
+
       for( var i=0; i<elements.length; i++) {
         var cl = elements[i].classList;
         if(cl.contains("selected")){
           cl.remove("selected");
         }
       }
-      
+
       $(this).addClass("selected");
       m_optionSelection = number;
     });
-    
+
     $("body").on("click", ".gridspace",function() {
       var index = parseInt($(this).attr("id"));
       m_grid[index] = m_optionSelection;
-      
+
       var lastClass = $(this).attr('class').split(' ').pop();
       $(this).removeClass(lastClass);
       $(this).addClass("t" + m_optionSelection.toString());
     });
-    
+
     $("body").on("click", "#submit-new",function() {
       m_rows = $('#row-num').val();
       m_cols = $('#col-num').val();
       createGrid();
     });
-    
+
     $("body").on("click", "#submit-save",function() {
       saveGrid();
     });
-    
+
     $("body").on("click", "#submit-open",function() {
       openGrid();
     });
-    
+
     $("body").on("click", ".button",function() {
       $('.newWindow').css("visibility", "hidden");
       $('.saveWindow').css("visibility", "hidden");
@@ -256,17 +260,17 @@ function clickCheck() {
       m_worldLoc.y--;
       openGrid();
     });
-    
+
     $("body").on("click", ".world-down", function() {
       m_worldLoc.y++;
       openGrid();
     });
-    
+
     $("body").on("click", ".world-left", function() {
       m_worldLoc.x--;
       openGrid();
     });
-    
+
     $("body").on("click", ".world-right", function() {
       m_worldLoc.x++;
       openGrid();
@@ -312,13 +316,13 @@ function openGrid() {
   worldmapContext.lineWidth = 1;
   worldmapContext.strokeStyle = 'black';
   worldmapContext.stroke();
-  worldmapContext.closePath();  
+  worldmapContext.closePath();
 
   // Open a grid
   //$('#open-text').val()
   var loadingRoomName = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
   fromJSON = window[loadingRoomName];
-  
+
   var roomKind = roomsToLoad[m_worldLoc.x + m_worldLoc.y*roomsToLoadColsW];
   $(".level-name").text(loadingRoomName+": "+roomColors[roomKind]);
 
@@ -335,7 +339,7 @@ function openGrid() {
     m_grid = content["gridspaces"];
     makeGrid(m_cols, m_rows, m_grid);
   });*/
-  
+
 }
 
 function saveGrid() {
@@ -346,13 +350,13 @@ function saveGrid() {
     "cols": m_cols,
     "gridspaces": m_grid
   };
-  
+
   saveData(json, m_name);
 }
 
 function closeEditor() {
   // Close editor and go back to game
-  
+
 }
 
 function popupNew() {
@@ -372,11 +376,11 @@ function makeGrid(w,h,arr) {
   if(arr.length <= 0) {
     m_grid = [w*h];
   }
-  
+
   $(".grid").text("");
   $(".grid").css("width", (2*w).toString() + "rem");
   $(".grid").css("height", (2*h).toString() + "rem");
-  
+
   for(var i=0; i<h; i++) {
     var row = document.createElement("div");
     row.className = "row";
