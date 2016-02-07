@@ -32,7 +32,6 @@ function setKeyHoldState(thisKey, setTo) {
               whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_DOOR &&
               whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_PILLAR &&
               whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_CRUMBLE) {
-                console.log("ding")
                 dashPower -= 15
               }
           }
@@ -44,7 +43,6 @@ function setKeyHoldState(thisKey, setTo) {
                 whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_DOOR &&
                 whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_PILLAR &&
                 whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_CRUMBLE) {
-                  console.log("ding")
                   dashPower += 15
                 }
             }
@@ -98,8 +96,13 @@ function setKeyHoldState(thisKey, setTo) {
   if(setTo) {
     if(thisKey == KEY_UP_ARROW || thisKey == KEY_W) {
       if(jumperOnGround) {
-        jumperSpeedY = -JUMP_POWER;
-        recentJump = 5; // giving a few frames to escape groud
+        if (isTileHereSolid(jumperX,jumperY -60)) {
+          jumperSpeedY = -(JUMP_POWER / 2)
+          recentJump = 5;
+        } else {
+          jumperSpeedY = -JUMP_POWER;
+          recentJump = 5; // giving a few frames to escape groud
+        }
       }
     }
     if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {
