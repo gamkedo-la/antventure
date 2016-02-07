@@ -13,7 +13,8 @@ const CRUMBLE_FRAME_TIME = 30;
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
-tileWizHatPic.src = "images/tileWizHat.png";
+tileWizHatPic.src = "images/tileWizHat-sheet.png";
+const TILE_HAT_FRAMES = 4;
 var tileArmorPic = document.createElement("img");
 tileArmorPic.src = "images/tileArmor.png";
 var tileCloakPic = document.createElement("img");
@@ -328,6 +329,7 @@ function drawOnlyBricksOnScreen() {
             break;
           case TILE_WIZ_HAT:
             usePic = tileWizHatPic;
+            tileFrame = animFrame % TILE_HAT_FRAMES;
             break;
           case TILE_ARMOR:
             usePic = tileArmorPic;

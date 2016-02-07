@@ -1,5 +1,5 @@
 var playerPic = document.createElement("img");
-playerPic.src = "images/playerAnt.png";
+playerPic.src = "images/playerAnt-sheet.png";
 var playerPicWizHat = document.createElement("img");
 playerPicWizHat.src = "images/playerAntWizHat.png";
 var playerPicArmor = document.createElement("img");
@@ -10,6 +10,8 @@ var iceBoltPic = document.createElement("img");
 iceBoltPic.src = "images/iceBolt.png";
 var shieldPic = document.createElement("img");
 shieldPic.src = "images/shield.png";
+
+const ANT_RUN_FRAMES = 4;
 
 var hudHealth1Pic = document.createElement("img");
 hudHealth1Pic.src = "images/hudHealth1.png";
@@ -350,9 +352,14 @@ function drawJumper() {
     iceBoltX += iceBoltSpeed;
   }
 
-  if (playerState == playerNormal) {
-    drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft);
+  var antFrame;
+  if (Math.abs(jumperSpeedX)>1) {
+    antFrame = animFrame % ANT_RUN_FRAMES;
+  } else {
+    antFrame = 0;
   }
+  drawFacingLeftOption(playerPic,jumperX,jumperY,lastFacingLeft, antFrame);
+
   if (playerState == playerWiz) {
     drawFacingLeftOption(playerPicWizHat,jumperX,jumperY,lastFacingLeft);
   }
