@@ -63,15 +63,24 @@ var jumperSpeedX = 0, jumperSpeedY = 0;
 var jumperOnGround = false;
 var recentJump = 0;
 var JUMPER_RADIUS = 16;
-var health = 3;
+const START_HEALTH = 3;
+var health = START_HEALTH;
 var damagedRecentely = 0;
-
-var playerState = 0
 
 const playerNormal = 0
 const playerWiz = 1
 const playerArmor = 2
 const playerCloak = 3
+
+var playerState = playerNormal
+
+var startedRoomAtX = 0;
+var startedRoomAtY = 0;
+var startedRoomAtXV = 0;
+var startedRoomAtYV = 0;
+var startedRoomPower = playerNormal;
+var roomAsItStarted = [];
+var blockCarryOnEnter = false;
 
 function isBlockPickup (tileType) {
   if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == tileType) {
@@ -278,6 +287,31 @@ function checkIfChangingRooms() {
   }
 }
 
+function jumperRestoreFromStoredRoomEntry() {
+  var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
+  brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
+  processBrickGrid();
+  playerState = startedRoomPower;
+  carryingBlock = blockCarryOnEnter;
+  damagedRecentely = 0;
+  health = START_HEALTH;
+  jumperX = startedRoomAtX;
+  jumperY = startedRoomAtY;
+  jumperSpeedX = startedRoomAtXV;
+  jumperSpeedY = startedRoomAtYV;
+}
+
+function jumperStoreRoomEntry() {
+  var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
+  roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
+  blockCarryOnEnter = carryingBlock;
+  startedRoomPower = playerState;
+  startedRoomAtX = jumperX;
+  startedRoomAtY = jumperY;
+  startedRoomAtXV = jumperSpeedX;
+  startedRoomAtYV = jumperSpeedY;
+}
+
 function jumperReset() {
   for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
     for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
@@ -287,6 +321,8 @@ function jumperReset() {
         jumperY = eachRow * BRICK_H + BRICK_H/2;
         var changeAt = brickTileToIndex(eachCol, eachRow);
         brickGrid[changeAt] = TILE_NONE; // remove tile where player started
+        jumperSpeedY = jumperSpeedX = 0;
+        jumperStoreRoomEntry();
       } // end of player start found
     } // end of row
   } // end of col
@@ -341,6 +377,9 @@ function hitDetection (enemyX, enemyY) {
       }
       playerState = playerNormal
       damagedRecentely = 300;
+      if(health <= 0) {
+        jumperRestoreFromStoredRoomEntry();
+      }
     }
   }
 }

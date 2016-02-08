@@ -209,6 +209,13 @@ function loadLevel(fromJSON) { // if no test stage argument, load from world gri
   BRICK_ROWS = fromJSON.rows;
   brickGrid = fromJSON.gridspaces;
 
+  jumperStoreRoomEntry();
+  processBrickGrid();
+
+  return true;
+}
+
+function processBrickGrid() {
   // defrost frozen baddies
   console.log("defrosting");
   for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
@@ -230,7 +237,6 @@ function loadLevel(fromJSON) { // if no test stage argument, load from world gri
     enemyList.push(tempEnemy);
     tempEnemy = new enemySlideAndBounce();
   }
-  return true;
 }
 
 function brickTileToIndex(tileCol, tileRow) {
