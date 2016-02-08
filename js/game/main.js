@@ -1,5 +1,26 @@
 var canvas, canvasContext;
 
+var gameTime = 0;
+var timeH = 0;
+var timeM = 0;
+var timeS = 0;
+
+function updateTime () {
+  gameTime ++;
+  if (gameTime == 30) {
+    gameTime = 0;
+    timeS ++;
+  }
+  if (timeS == 60) {
+    timeS = 0;
+    timeM ++;
+  }
+  if (timeM == 60) {
+    timeM = 0;
+    timeH ++;
+  }
+}
+
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
   canvasContext = canvas.getContext('2d');
@@ -11,6 +32,7 @@ window.onload = function() {
   setInterval(function() {
       moveEverything();
       drawEverything();
+      updateTime();
     }, 1000/framesPerSecond);
 
   loadLevelsBesidesFirstOne();
@@ -95,6 +117,14 @@ function drawEverything() {
   canvasContext.fillStyle = 'white';
   canvasContext.fillText(antsRescued + ":",734, 58);
   canvasContext.drawImage(rescuedHudPic,740,0)
+
+  if (timerDelay > 0) {
+    timerDelay --;
+  }
+  if (showTimer == true) {
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillText(timeH + ":" + timeM + ":" + timeS ,400, 40);
+  }
 
   if (numberOfKeys > 0) {
     var keyArtDim = tileKeyPic.height;
