@@ -366,17 +366,15 @@ function iceAndShieldDetection (theEnemy) {
 
 function hitDetection (enemyX, enemyY) {
   if (damagedRecentely > 0) {
-    damagedRecentely --;
     return;
   }
-
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
     if (enemyY > jumperY - JUMPER_RADIUS && enemyY < jumperY + JUMPER_RADIUS) {
       if (playerState != playerArmor) {
           health --;
       }
       playerState = playerNormal
-      damagedRecentely = 300;
+      damagedRecentely = 50;
       if(health <= 0) {
         jumperRestoreFromStoredRoomEntry();
       }

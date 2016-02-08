@@ -53,6 +53,12 @@ function moveEverything() {
   if (abilityCoolDown > 0) {
     abilityCoolDown --;
   }
+
+  if (damagedRecentely > 0) {
+    damagedRecentely --;
+  }
+
+
 }
 
 function drawEverything() {
@@ -137,9 +143,9 @@ function drawEverything() {
     }
 
   }
-  if (damagedRecentely > 20) {
+  if (damagedRecentely > 0) {
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Ow",jumperX - camPanX -5, jumperY -20 - camPanY + (damagedRecentely/10  ));
+    canvasContext.fillText("Ow",jumperX - camPanX -5, jumperY - camPanY + (damagedRecentely/5  ));
   }
 
 }
