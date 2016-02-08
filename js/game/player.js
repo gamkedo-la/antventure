@@ -7,7 +7,8 @@ playerPicArmor.src = "images/playerAntArmor.png";
 var playerPicCloak = document.createElement("img");
 playerPicCloak.src = "images/playerAntCloak.png";
 var iceBoltPic = document.createElement("img");
-iceBoltPic.src = "images/iceBolt.png";
+iceBoltPic.src = "images/iceBoltAn.png";
+ICE_FRAMES = 4
 var shieldPic = document.createElement("img");
 shieldPic.src = "images/shield.png";
 
@@ -348,7 +349,8 @@ function hitDetection (enemyX, enemyY) {
 
 function drawJumper() {
   if(iceBolt == true) {
-    drawFacingLeftOption(iceBoltPic,iceBoltX,iceBoltY, iceFacingLeft);
+    var iceFrame = animFrame % ICE_FRAMES
+    drawFacingLeftOption(iceBoltPic,iceBoltX,iceBoltY, iceFacingLeft, iceFrame);
     iceBoltX += iceBoltSpeed;
   }
 

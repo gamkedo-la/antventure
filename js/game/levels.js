@@ -13,7 +13,9 @@ const CRUMBLE_FRAME_TIME = 30;
 var tileCrumblingPic = document.createElement("img");
 tileCrumblingPic.src = "images/tileCrumbling.png";
 var tileWizHatPic = document.createElement("img");
-tileWizHatPic.src = "images/tileWizHat-sheet.png";
+tileWizHatPic.src = "images/tileWizHat.png";
+var tileWizHatSheet = document.createElement("img");
+tileWizHatSheet.src = "images/tileWizHat-sheet.png";
 const TILE_HAT_FRAMES = 4;
 var tileArmorPic = document.createElement("img");
 tileArmorPic.src = "images/tileArmor.png";
@@ -134,7 +136,7 @@ function loadLevelsBesidesFirstOne() {
         // set this room as first to be in focus
         roomsOverC = eachC;
         roomsDownR = eachR;
-        
+
         // now check for player start
         brickGrid = window[loadingRoomName].gridspaces;
         var playerStartFound = false;
@@ -149,7 +151,7 @@ function loadLevelsBesidesFirstOne() {
 
         if(playerStartFound == false) {
           console.log("NO PLAYER START FOUND -- assuming this is testing?");
-          // we'll now scan for an open tile along the left, top, or right          
+          // we'll now scan for an open tile along the left, top, or right
           for(var eachRow=BRICK_ROWS-1; eachRow>=0; eachRow--) {
             if( whichBrickAtTileCoord(0, eachRow) == TILE_NONE) {
                 jumperX = BRICK_W*0.8;
@@ -180,7 +182,7 @@ function loadLevelsBesidesFirstOne() {
           }
         }
         continue;
-      } 
+      }
       var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
       if(roomKind == 0) {
         continue;
@@ -214,7 +216,7 @@ function loadLevel(fromJSON) { // if no test stage argument, load from world gri
       if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_ICE) {
         var changeAt = brickTileToIndex(eachCol, eachRow);
         brickGrid[changeAt] = TILE_NONE;
-      }    
+      }
     }
   }
 
@@ -291,7 +293,7 @@ function drawOnlyBricksOnScreen() {
   // +2 for columns since BRICK_W doesn't divide evenly into canvas.width
   var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
   var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-  
+
   if(cameraRightMostCol > BRICK_COLS) {
     cameraRightMostCol = BRICK_COLS;
   }
@@ -329,7 +331,7 @@ function drawOnlyBricksOnScreen() {
             usePic = tileCrumblePic;
             break;
           case TILE_WIZ_HAT:
-            usePic = tileWizHatPic;
+            usePic = tileWizHatSheet;
             tileFrame = animFrame % TILE_HAT_FRAMES;
             break;
           case TILE_ARMOR:
@@ -392,7 +394,7 @@ function drawIceOverlay() {
 
   var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
   var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-  
+
   if(cameraRightMostCol > BRICK_COLS) {
     cameraRightMostCol = BRICK_COLS;
   }
