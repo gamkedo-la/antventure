@@ -34,59 +34,64 @@ function setKeyHoldState(thisKey, setTo) {
     timerDelay = 5;
   }
 
-  if(thisKey == KEY_SPACE && abilityCoolDown == 0 && playerState > 0) {
+  if(thisKey == KEY_SPACE) {
+    if(gameGoing == false) {
+      gameGoing = true;
+    }
 
-    if(playerState == playerCloak) {
+    if(abilityCoolDown == 0 && playerState > 0) {
 
-      if (lastFacingLeft == true) {
-        for (var i=1; i < 4; i++) {
-          if (whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_DIRT &&
-              whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_MOSS &&
-              whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_DOOR &&
-              whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_PILLAR &&
-              whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_CRUMBLE) {
-                dashPower -= 15
-              }
-          }
+      if(playerState == playerCloak) {
 
-      } else {
+        if (lastFacingLeft == true) {
           for (var i=1; i < 4; i++) {
-            if (whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_DIRT &&
-                whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_MOSS &&
-                whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_DOOR &&
-                whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_PILLAR &&
-                whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_CRUMBLE) {
-                  dashPower += 15
+            if (whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_DIRT &&
+                whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_MOSS &&
+                whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_DOOR &&
+                whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_PILLAR &&
+                whichBrickAtPixelCoord(jumperX - (60 * i),jumperY,true) != TILE_CRUMBLE) {
+                  dashPower -= 15
                 }
             }
-        }
-      jumperSpeedX = 0
-      jumperSpeedX = dashPower
-      dashPower = 2
-    }
 
-
-    if(playerState == playerWiz) {
-      iceBolt = true;
-      iceBoltY = jumperY + 10;
-      if (lastFacingLeft == true) {
-        iceBoltSpeed = -5;
-        iceBoltX = jumperX -10;
-        iceFacingLeft = true;
-      } else {
-        iceBoltSpeed = 5;
-        iceBoltX = jumperX +10;
-        iceFacingLeft = false;
+        } else {
+            for (var i=1; i < 4; i++) {
+              if (whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_DIRT &&
+                  whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_MOSS &&
+                  whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_DOOR &&
+                  whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_PILLAR &&
+                  whichBrickAtPixelCoord(jumperX + (60 * i),jumperY,true) != TILE_CRUMBLE) {
+                    dashPower += 15
+                  }
+              }
+          }
+        jumperSpeedX = 0
+        jumperSpeedX = dashPower
+        dashPower = 2
       }
-    }
 
-    if(playerState == playerArmor) {
-      isBashing = true;
-    }
 
-    abilityCoolDown = 50
+      if(playerState == playerWiz) {
+        iceBolt = true;
+        iceBoltY = jumperY + 10;
+        if (lastFacingLeft == true) {
+          iceBoltSpeed = -5;
+          iceBoltX = jumperX -10;
+          iceFacingLeft = true;
+        } else {
+          iceBoltSpeed = 5;
+          iceBoltX = jumperX +10;
+          iceFacingLeft = false;
+        }
+      }
+
+      if(playerState == playerArmor) {
+        isBashing = true;
+      }
+
+      abilityCoolDown = 50
+  }
 }
-
   if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {
     holdLeft = setTo;
     if(setTo) {

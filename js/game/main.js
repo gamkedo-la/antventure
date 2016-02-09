@@ -5,6 +5,8 @@ var timeH = 0;
 var timeM = 0;
 var timeS = 0;
 
+var gameGoing = false;
+
 function updateTime () {
   gameTime ++;
   if (gameTime == 30) {
@@ -30,9 +32,13 @@ window.onload = function() {
   // these next few lines set up our game logic and render to happen 30 times per second
   var framesPerSecond = 30;
   setInterval(function() {
-      moveEverything();
-      drawEverything();
-      updateTime();
+      if(gameGoing) {
+        moveEverything();
+        drawEverything();
+        updateTime();
+      } else {
+          canvasContext.drawImage(startScreen, 0, 0)
+      }
     }, 1000/framesPerSecond);
 
   loadLevelsBesidesFirstOne();
@@ -135,6 +141,9 @@ function drawEverything() {
   }
   if (showMap) {
     canvasContext.drawImage(hudMapPic, 0, 0)
+    mapDotX = 2 + (88 * roomsOverC)
+    mapDotY = 5 + (66 * roomsDownR)
+    canvasContext.drawImage(mapDotPic, mapDotX, mapDotY)
   }
 
   if (showTimer == true) {

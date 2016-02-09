@@ -26,7 +26,9 @@ hudHealth0Pic.src = "images/hudHealth0.png";
 var rescuedHudPic = document.createElement("img");
 rescuedHudPic.src = "images/rescuedHud.png";
 var hudMapPic = document.createElement("img");
-hudMapPic.src = "images/hudMap.png"
+hudMapPic.src = "images/hudMap.png";
+var mapDotPic = document.createElement("img");
+mapDotPic.src = "images/mapDotPic.png";
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
@@ -86,6 +88,8 @@ var roomAsItStarted = [];
 var blockCarryOnEnter = false;
 
 var hasMap = false;
+var mapDotX = 0;
+var mapDotY = 0;
 var hasGoldKey = false;
 
 function isBlockPickup (tileType) {
