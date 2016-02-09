@@ -127,6 +127,16 @@ function drawEverything() {
   if (timerDelay > 0) {
     timerDelay --;
   }
+
+  if (hasMap && tutorialTimerWiz < 200) {
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillText("Press M to bring up the Map",jumperX - camPanX -60, jumperY -20 - camPanY);
+    tutorialTimerWiz ++;
+  }
+  if (showMap) {
+    canvasContext.drawImage(hudMapPic, 0, 0)
+  }
+
   if (showTimer == true) {
     canvasContext.fillStyle = 'white';
     canvasContext.fillText(timeH + ":" + timeM + ":" + timeS ,400, 40);
@@ -143,6 +153,7 @@ function drawEverything() {
     }
 
   }
+
   if (damagedRecentely > 0) {
     canvasContext.fillStyle = 'white';
     canvasContext.fillText("Ow",jumperX - camPanX -5, jumperY - camPanY + (damagedRecentely/5  ));

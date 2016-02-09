@@ -25,6 +25,8 @@ hudHealth0Pic.src = "images/hudHealth0.png";
 
 var rescuedHudPic = document.createElement("img");
 rescuedHudPic.src = "images/rescuedHud.png";
+var hudMapPic = document.createElement("img");
+hudMapPic.src = "images/hudMap.png"
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
@@ -46,6 +48,7 @@ var shieldY = 0;
 var tutorialTimerWiz = 0;
 var tutorialTimerArmor = 0;
 var tutorialTimerCloak = 0;
+var tutorialTimerMap = 0;
 
 var camPanX = 0.0;
 var camPanY = 0.0;
@@ -81,6 +84,9 @@ var startedRoomAtYV = 0;
 var startedRoomPower = playerNormal;
 var roomAsItStarted = [];
 var blockCarryOnEnter = false;
+
+var hasMap = false;
+var hasGoldKey = false;
 
 function isBlockPickup (tileType) {
   if (whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == tileType) {
@@ -232,6 +238,18 @@ function jumperMove() {
   if (numberOfKeys > 0) {
     if (isBlockPickup(TILE_DOOR)) {
         numberOfKeys --;
+    }
+  }
+
+  if (isBlockPickup(TILE_MAP)) {
+    hasMap = true;
+  }
+
+  if (isBlockPickup(TILE_GOLD_KEY)) {
+    hasGoldKey = true;
+  }
+  if (hasGoldKey) {
+    if (isBlockPickup(TILE_GOLD_DOOR)) {
     }
   }
 

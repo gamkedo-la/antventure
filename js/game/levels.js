@@ -42,6 +42,15 @@ var tileTorch = document.createElement("img");
 tileTorch.src = "images/torchSheet.png";
 const TILE_TORCH_FRAMES = 4;
 
+var tileMapPic = document.createElement("img");
+tileMapPic.src = "images/tileMap.png";
+var tileGoldDoorPic = document.createElement("img");
+tileGoldDoorPic.src = "images/tileGoldDoor.png";
+var tileGoldKeyPic = document.createElement("img");
+tileGoldKeyPic.src = "images/tileGoldKey.png";
+const TILE_GOLD_KEY_FRAMES = 4;
+
+
 // where is the player/gameplay happening in the overworld level grid?
 // now automatically set at first by loadLevelsBesidesFirstOne
 // should change by which level file is loaded from index.html
@@ -93,6 +102,9 @@ const TILE_ARMOR = 15;
 const TILE_CLOAK = 16;
 const TILE_ICE = 17;
 const TILE_TORCH = 18;
+const TILE_MAP = 19;
+const TILE_GOLD_DOOR = 20;
+const TILE_GOLD_KEY = 21;
 
 
 function isTileHereSolid(atX,atY) {
@@ -373,6 +385,16 @@ function drawOnlyBricksOnScreen() {
           case TILE_TORCH:
             tileFrame = animFrame % TILE_TORCH_FRAMES;
             usePic = tileTorch;
+            break;
+          case TILE_MAP:
+            usePic = tileMapPic;
+            break;
+          case TILE_GOLD_DOOR:
+            usePic = tileGoldDoorPic;
+            break;
+          case TILE_GOLD_KEY:
+            usePic = tileGoldKeyPic;
+            tileFrame = animFrame % TILE_GOLD_KEY_FRAMES;
             break;
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;

@@ -20,8 +20,7 @@ body{
 
 #slogan{
 	margin:0px auto 0px auto;
-	width:826px;
-	background:white;
+	background:green;
 	padding: 0px 17px ;
 	text-align:center;
 	font-size:30px;
@@ -37,7 +36,7 @@ body{
 }
 
 #gameCanvas{
-	border: solid 3px #734A0A;
+	border: solid 3px black;
 	width:800px;
 	border-style:solid;
 	border-width:3px;

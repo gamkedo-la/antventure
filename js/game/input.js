@@ -8,7 +8,7 @@ const KEY_DOWN_ARROW = 40;
 const KEY_S = 83;
 const KEY_SPACE = 32;
 const KEY_T = 84;
-
+const KEY_M = 77;
 
 var holdLeft = false;
 var holdRight = false;
@@ -17,6 +17,7 @@ var abilityCoolDown = 0;
 var dashPower = 2;
 var showTimer = false;
 var timerDelay = 0;
+var showMap = false;
 
 function initInput() {
   document.addEventListener("keydown", keyPressed);
@@ -26,6 +27,10 @@ function initInput() {
 function setKeyHoldState(thisKey, setTo) {
   if(thisKey == KEY_T && timerDelay == 0) {
     showTimer = !showTimer;
+    timerDelay = 5;
+  }
+  if(thisKey == KEY_M && hasMap && timerDelay ==0) {
+    showMap = !showMap;
     timerDelay = 5;
   }
 
