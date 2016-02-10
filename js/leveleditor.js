@@ -24,6 +24,8 @@ var m_tooltips = [
   "torch"
   ];
 
+var draggingTiles = false;
+
 const KEY_LEFT_ARROW = 37;
 const KEY_A = 65;
 const KEY_UP_ARROW = 38;
@@ -214,8 +216,6 @@ function clickCheck() {
       var number = parseInt(cn.substring(cn.indexOf(" t") + 2));
       var elements = document.getElementsByClassName("option");
 
-
-      console.log(cn + " " + number);
       for( var i=0; i<elements.length; i++) {
         var cl = elements[i].classList;
         if(cl.contains("selected")){
@@ -225,12 +225,26 @@ function clickCheck() {
 
       $(this).addClass("selected");
       m_optionSelection = number;
-      console.log("tile type:" + m_optionSelection);
     });
 
-    $("body").on("click", ".gridspace",function() {
+    $("body").on("mousedown", ".gridspace",function() {
+      draggingTiles = true;
       var index = parseInt($(this).attr("id"));
-      console.log(m_optionSelection);
+      m_grid[index] = m_optionSelection;
+
+      var lastClass = $(this).attr('class').split(' ').pop();
+      $(this).removeClass(lastClass);
+      $(this).addClass("t" + m_optionSelection.toString());
+    });
+    $("body").on("mouseup", ".gridspace",function() {
+      draggingTiles = false;
+    });
+
+    $("body").on("mouseenter", ".gridspace",function() {
+      if(draggingTiles == false) {
+        return;
+      }
+      var index = parseInt($(this).attr("id"));
       m_grid[index] = m_optionSelection;
 
       var lastClass = $(this).attr('class').split(' ').pop();
