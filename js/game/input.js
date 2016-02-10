@@ -19,7 +19,7 @@ var dashPower = 2;
 var showTimer = false;
 var timerDelay = 0;
 var showMap = false;
-var channelReset = 0;
+var resetTimer = 0;
 
 function initInput() {
   document.addEventListener("keydown", keyPressed);
@@ -28,16 +28,9 @@ function initInput() {
 
 function setKeyHoldState(thisKey, setTo) {
 
-  if( playerIsDead() ) {
-    if (thisKey == KEY_R) {
-      channelReset ++;
-      if (channelReset > 20) {
-        jumperRestoreFromStoredRoomEntry();
-        channelReset = 0;
-      }
-    } else {
-      channelReset = 0;
-    }
+  if (thisKey == KEY_R && resetTimer == 0) {
+      resetTimer = 30;
+      jumperRestoreFromStoredRoomEntry();
     return; // block other keys
   }
 
