@@ -157,12 +157,16 @@ function drawHealthHud() {
   }
 }
 
+function playerIsDead() {
+  return (health <= 0);
+}
+
 function jumperMove() {
   // used for returning player to valid position if bugged through wall
   var playerNonSolidX = 0;
   var playerNonSolidY = 0;
 
-  if (health <= 0) {
+  if ( playerIsDead() ) {
     jumperSpeedX = 0;
     return;
   }
@@ -339,6 +343,8 @@ function checkIfChangingRooms() {
 }
 
 function jumperRestoreFromStoredRoomEntry() {
+  holdRight = holdLeft = false; // hacky fix to interrupt incorrect key held state after level reload
+
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
   enemyList = enemiesWhenRoomStarted.slice(0);
@@ -351,6 +357,7 @@ function jumperRestoreFromStoredRoomEntry() {
   jumperX = startedRoomAtX;
   jumperY = startedRoomAtY;
   jumperSpeedX = startedRoomAtXV;
+  lastFacingLeft = jumperSpeedX < 0;
   jumperSpeedY = startedRoomAtYV;
 }
 
@@ -420,7 +427,7 @@ function iceAndShieldDetection (theEnemy) {
 }
 
 function hitDetection (enemyX, enemyY) {
-  if (damagedRecentely > 0) {
+  if (damagedRecentely > 0 || playerIsDead() ) {
     return;
   }
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
@@ -437,6 +444,11 @@ function hitDetection (enemyX, enemyY) {
 
 
 function drawJumper() {
+
+  if ( playerIsDead() ) {
+    return;
+  }
+
   if(iceBolt == true) {
     var iceFrame = animFrame % ICE_FRAMES
     drawFacingLeftOption(iceBoltPic,iceBoltX,iceBoltY, iceFacingLeft, iceFrame);

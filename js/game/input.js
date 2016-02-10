@@ -28,14 +28,17 @@ function initInput() {
 
 function setKeyHoldState(thisKey, setTo) {
 
-  if (thisKey == KEY_R) {
-    channelReset ++;
-    if (channelReset > 20) {
-      jumperRestoreFromStoredRoomEntry();
+  if( playerIsDead() ) {
+    if (thisKey == KEY_R) {
+      channelReset ++;
+      if (channelReset > 20) {
+        jumperRestoreFromStoredRoomEntry();
+        channelReset = 0;
+      }
+    } else {
       channelReset = 0;
     }
-  } else {
-    channelReset = 0;
+    return; // block other keys
   }
 
   if(thisKey == KEY_T && timerDelay == 0) {
