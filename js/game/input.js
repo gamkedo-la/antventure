@@ -38,15 +38,11 @@ function setKeyHoldState(thisKey, setTo) {
     channelReset = 0;
   }
 
-  if (health <= 0) {
-    return;
-  }
-
-
   if(thisKey == KEY_T && timerDelay == 0) {
     showTimer = !showTimer;
     timerDelay = 5;
   }
+
   if(thisKey == KEY_M && hasMap && timerDelay ==0) {
     showMap = !showMap;
     timerDelay = 5;

@@ -57,7 +57,9 @@ window.onload = function() {
 }
 
 function moveEverything() {
-  jumperMove();
+  if(health > 0) {
+    jumperMove();
+  }
   cameraFollow();
   if (abilityCoolDown > 0) {
     abilityCoolDown --;
@@ -123,7 +125,7 @@ function drawEverything() {
         canvasContext.fillStyle = 'white';
         canvasContext.fillText("space bar - quick dash over gaps or through spikes",jumperX - camPanX -120, jumperY -20 - camPanY);
         tutorialTimerCloak ++;
-      } 
+      }
   }
 
   canvasContext.fillStyle = 'white';
