@@ -9,6 +9,7 @@ const KEY_S = 83;
 const KEY_SPACE = 32;
 const KEY_T = 84;
 const KEY_M = 77;
+const KEY_R = 82;
 
 var holdLeft = false;
 var holdRight = false;
@@ -18,6 +19,7 @@ var dashPower = 2;
 var showTimer = false;
 var timerDelay = 0;
 var showMap = false;
+var channelReset = 0;
 
 function initInput() {
   document.addEventListener("keydown", keyPressed);
@@ -25,6 +27,22 @@ function initInput() {
 }
 
 function setKeyHoldState(thisKey, setTo) {
+
+  if (thisKey == KEY_R) {
+    channelReset ++;
+    if (channelReset > 20) {
+      jumperRestoreFromStoredRoomEntry();
+      channelReset = 0;
+    }
+  } else {
+    channelReset = 0;
+  }
+
+  if (health <= 0) {
+    return;
+  }
+
+
   if(thisKey == KEY_T && timerDelay == 0) {
     showTimer = !showTimer;
     timerDelay = 5;

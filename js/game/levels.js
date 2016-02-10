@@ -52,6 +52,8 @@ const TILE_GOLD_KEY_FRAMES = 4;
 
 var startScreen = document.createElement("img");
 startScreen.src = "images/startScreen.png";
+var deadScreen = document.createElement("img");
+deadScreen.src = "images/deadScreen.png";
 // where is the player/gameplay happening in the overworld level grid?
 // now automatically set at first by loadLevelsBesidesFirstOne
 // should change by which level file is loaded from index.html

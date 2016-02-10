@@ -83,6 +83,7 @@ var startedRoomAtX = 0;
 var startedRoomAtY = 0;
 var startedRoomAtXV = 0;
 var startedRoomAtYV = 0;
+var startedRoomKeys = 0;
 var startedRoomPower = playerNormal;
 var roomAsItStarted = [];
 var blockCarryOnEnter = false;
@@ -317,6 +318,7 @@ function jumperRestoreFromStoredRoomEntry() {
   carryingBlock = blockCarryOnEnter;
   damagedRecentely = 0;
   health = START_HEALTH;
+  numberOfKeys = startedRoomKeys;
   jumperX = startedRoomAtX;
   jumperY = startedRoomAtY;
   jumperSpeedX = startedRoomAtXV;
@@ -327,6 +329,7 @@ function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
   blockCarryOnEnter = carryingBlock;
+  startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;
   startedRoomAtX = jumperX;
   startedRoomAtY = jumperY;
@@ -397,9 +400,6 @@ function hitDetection (enemyX, enemyY) {
       }
       playerState = playerNormal
       damagedRecentely = 50;
-      if(health <= 0) {
-        jumperRestoreFromStoredRoomEntry();
-      }
     }
   }
 }

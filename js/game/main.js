@@ -36,8 +36,11 @@ window.onload = function() {
         moveEverything();
         drawEverything();
         updateTime();
+        if (health <= 0) {
+          canvasContext.drawImage(deadScreen, 0, 0)
+        }
       } else {
-          canvasContext.drawImage(startScreen, 0, 0)
+        canvasContext.drawImage(startScreen, 0, 0)
       }
     }, 1000/framesPerSecond);
 
@@ -63,8 +66,6 @@ function moveEverything() {
   if (damagedRecentely > 0) {
     damagedRecentely --;
   }
-
-
 }
 
 function drawEverything() {
