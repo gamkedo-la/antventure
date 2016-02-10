@@ -163,8 +163,8 @@ function playerIsDead() {
 
 function jumperMove() {
   // used for returning player to valid position if bugged through wall
-  var playerNonSolidX = 0;
-  var playerNonSolidY = 0;
+  var playerNonSolidX = -1;
+  var playerNonSolidY = -1;
 
   if ( playerIsDead() ) {
     jumperSpeedX = 0;
@@ -295,7 +295,8 @@ function jumperMove() {
   jumperX += jumperSpeedX; // move the jumper based on its current horizontal speed
   jumperY += jumperSpeedY; // same as above, but for vertical
 
-  if(isTileHereSolid(jumperX,jumperY)) {
+  // checking whether both are positive values to avoid the death glitch of them not having been set above 
+  if(isTileHereSolid(jumperX,jumperY) && playerNonSolidX > 0 && playerNonSolidY > 0) {
     jumperX = playerNonSolidX;
     jumperY = playerNonSolidY;
   }
