@@ -158,6 +158,9 @@ function drawHealthHud() {
 }
 
 function jumperMove() {
+  // used for returning player to valid position if bugged through wall
+  var playerNonSolidX = 0;
+  var playerNonSolidY = 0;
 
   if(iceBolt) {
     if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) == TILE_ICE) {
@@ -186,6 +189,12 @@ function jumperMove() {
   }
   if(holdRight) {
     jumperSpeedX = RUN_SPEED;
+  }
+
+    // is player center not inside a brick prior to move? if so save it to restore after move
+  if(isTileHereSolid(jumperX,jumperY) == false) {
+    playerNonSolidX = jumperX;
+    playerNonSolidY = jumperY;
   }
 
   playerTouchingIndex = -1;
@@ -268,6 +277,11 @@ function jumperMove() {
 
   jumperX += jumperSpeedX; // move the jumper based on its current horizontal speed
   jumperY += jumperSpeedY; // same as above, but for vertical
+
+  if(isTileHereSolid(jumperX,jumperY)) {
+    jumperX = playerNonSolidX;
+    jumperY = playerNonSolidY;
+  }
 
   checkIfChangingRooms();
 }
