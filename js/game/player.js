@@ -348,7 +348,13 @@ function jumperRestoreFromStoredRoomEntry() {
 
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
-  enemyList = enemiesWhenRoomStarted.slice(0);
+  enemyList = [];
+  var enemyRespawnData = JSON.parse(enemiesWhenRoomStarted); // deep copy needed for positions etc.
+  for(var i=0;i<enemyRespawnData.length;i++) {
+    var newEnem = new enemySlideAndBounce();
+    newEnem.respawnEnemy(enemyRespawnData[i]);
+    enemyList.push( newEnem );
+  }
   processBrickGrid();
   playerState = startedRoomPower;
   carryingBlock = blockCarryOnEnter;
@@ -365,7 +371,8 @@ function jumperRestoreFromStoredRoomEntry() {
 function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
-  enemiesWhenRoomStarted = enemyList.slice(0);
+  enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
+  console.log(enemiesWhenRoomStarted);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;

@@ -18,11 +18,37 @@ function enemySlideAndBounce() {
   this.xv = 0;
   this.yv = 0;
   this.facingLeft = false;
+  this.myID = enemyList.length;
+  this.myKind = -1; // ant or fly?
+
+  this.restoreImgFromKind =  function() {
+    if(this.myKind == TILE_EVIL_ANT_START) {
+      this.myPic = evilBugPic;
+    } else {
+      this.myPic = evilFlyPic;
+    }
+  }
+
+  this.respawnEnemy = function(jsonInfo) {
+    this.myRoomC = jsonInfo.myRoomC;
+    this.myRoomR = jsonInfo.myRoomR;
+
+    this.x = jsonInfo.x;
+    this.y = jsonInfo.y;
+    this.xv = jsonInfo.xv;
+    this.yv = jsonInfo.yv;
+    this.facingLeft = jsonInfo.facingLeft;
+    this.myID = jsonInfo.myID;
+    this.myKind = jsonInfo.myKind;
+    
+    this.restoreImgFromKind();
+  }
 
   this.enemyPlacementAnt = function(tileLoadIndex,xv,yv,myImg) {
     this.xv = xv;
     this.yv = yv;
-    this.myPic = myImg;
+    this.myKind = tileLoadIndex;
+    this.restoreImgFromKind();
     this.facingLeft = false;
 
     for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
@@ -67,6 +93,11 @@ this.enemyCollideAndDraw = function() {
     this.x += this.xv;
     this.y += this.yv;
 
+    if(this.yv ==0 &&
+      isTileHereWalkOnAble(this.x,this.y + 60) == false) {
+      this.y += BRICK_H; // fall
+    }
+
     if(whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_NONE &&
     whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y+JUMPER_RADIUS*this.yv,false) != TILE_PORTAL) {
       this.facingLeft = !this.facingLeft;
@@ -81,15 +112,11 @@ this.enemyCollideAndDraw = function() {
           this.y = Math.floor(this.y/BRICK_H)*BRICK_H +
                    (BRICK_H/2) + ANT_GROUND_HEIGHT_OFFSET;
         }
-        if (whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DIRT &&
-            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_MOSS &&
-            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_DOOR &&
-            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_PILLAR &&
-            whichBrickAtPixelCoord(this.x+JUMPER_RADIUS*this.xv,this.y + 60,false) != TILE_CRUMBLE) {
+        if (isTileHereWalkOnAble(this.x+JUMPER_RADIUS*this.xv,this.y + 60) == false) {
               this.facingLeft = !this.facingLeft;
               this.xv = -this.xv;
               this.x += this.xv;
-            }
+        }
       }
     }
 
