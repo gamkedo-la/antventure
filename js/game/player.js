@@ -299,6 +299,9 @@ function jumperMove() {
   if(isTileHereSolid(jumperX,jumperY) && playerNonSolidX > 0 && playerNonSolidY > 0) {
     jumperX = playerNonSolidX;
     jumperY = playerNonSolidY;
+    if(jumperSpeedY < 0) { // banged head?
+      jumperSpeedY = 0;
+    }
   }
 
   checkIfChangingRooms();
@@ -372,7 +375,7 @@ function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
   enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
-  console.log(enemiesWhenRoomStarted);
+  // console.log(enemiesWhenRoomStarted);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;

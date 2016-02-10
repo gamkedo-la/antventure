@@ -131,13 +131,13 @@ function setKeyHoldState(thisKey, setTo) {
   if(setTo) {
     if(thisKey == KEY_UP_ARROW || thisKey == KEY_W) {
       if(jumperOnGround) {
-        if (isTileHereSolid(jumperX,jumperY -60)) {
+        /*if (isTileHereSolid(jumperX,jumperY -60)) { // removed, severely limits column stacking, fixed other way
           jumperSpeedY = -(JUMP_POWER / 2)
           recentJump = 5;
-        } else {
+        } else {*/
           jumperSpeedY = -JUMP_POWER;
           recentJump = 5; // giving a few frames to escape groud
-        }
+        //}
       }
     }
     if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {

@@ -40,7 +40,7 @@ function enemySlideAndBounce() {
     this.facingLeft = jsonInfo.facingLeft;
     this.myID = jsonInfo.myID;
     this.myKind = jsonInfo.myKind;
-    
+
     this.restoreImgFromKind();
   }
 
@@ -87,6 +87,10 @@ this.enemyCollideAndDraw = function() {
       // drawing here since otherwise the draw call later gets skipped too
       drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft);
       return; // prevent any other movement
+    }
+
+    if(whichBrickAtPixelCoord(this.x,this.y,false) == TILE_SPIKES) { // ant fell on spikes
+      return;
     }
     
 	  // movement for the one hard coded enemy red ant
