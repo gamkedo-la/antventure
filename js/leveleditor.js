@@ -211,9 +211,11 @@ function clickCheck() {
     $("body").on("click", ".option",function() {
       var cn = "";
       cn  = $(this).attr("class");
-      var number = parseInt(cn.substring(cn.lastIndexOf('t') + 1));
+      var number = parseInt(cn.substring(cn.indexOf(" t") + 2));
       var elements = document.getElementsByClassName("option");
 
+
+      console.log(cn + " " + number);
       for( var i=0; i<elements.length; i++) {
         var cl = elements[i].classList;
         if(cl.contains("selected")){
@@ -223,10 +225,12 @@ function clickCheck() {
 
       $(this).addClass("selected");
       m_optionSelection = number;
+      console.log("tile type:" + m_optionSelection);
     });
 
     $("body").on("click", ".gridspace",function() {
       var index = parseInt($(this).attr("id"));
+      console.log(m_optionSelection);
       m_grid[index] = m_optionSelection;
 
       var lastClass = $(this).attr('class').split(' ').pop();
@@ -351,6 +355,7 @@ function saveGrid() {
     "gridspaces": m_grid
   };
 
+  m_name = levelCRToFilename(m_worldLoc.x,m_worldLoc.y);
   saveData(json, m_name);
 }
 
@@ -410,6 +415,7 @@ var saveData = (function () {
         data.gridspaces[i] = 0;
       }
     }
+
     var json = levelCRToFilename(m_worldLoc.x,m_worldLoc.y) + " = " + JSON.stringify(data),
       blob = new Blob([json], {type: "plain/text"}),
       url = window.URL.createObjectURL(blob);
