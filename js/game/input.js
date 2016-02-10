@@ -83,9 +83,9 @@ function setKeyHoldState(thisKey, setTo) {
                   }
               }
           }
-        jumperSpeedX = 0
-        jumperSpeedX = dashPower
-        dashPower = 2
+        jumperSpeedX = 0;
+        jumperSpeedX = dashPower;
+        dashPower = 0;
       }
 
 
@@ -107,7 +107,7 @@ function setKeyHoldState(thisKey, setTo) {
         isBashing = true;
       }
 
-      abilityCoolDown = 50
+      abilityCoolDown = 50;
   }
 }
   if(thisKey == KEY_LEFT_ARROW || thisKey == KEY_A) {

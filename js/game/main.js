@@ -100,7 +100,7 @@ function drawEverything() {
   if (playerState == playerWiz) {
       canvasContext.drawImage(tileWizHatPic,200,-10);
 
-      if (tutorialTimerWiz < 500) {
+      if (tutorialTimerWiz < 200) {
         canvasContext.fillStyle = 'white';
         canvasContext.fillText("space bar - shoot an ice bolt that freezes enemies",jumperX - camPanX -120, jumperY -20 - camPanY);
         tutorialTimerWiz ++;
@@ -109,7 +109,7 @@ function drawEverything() {
   if (playerState == playerArmor) {
       canvasContext.drawImage(tileArmorPic,200,0);
 
-      if (tutorialTimerArmor < 500) {
+      if (tutorialTimerArmor < 200) {
         canvasContext.fillStyle = 'white';
         canvasContext.fillText("space bar - Shield bash enemies or crumble blocks",jumperX - camPanX -120, jumperY -20 - camPanY);
         tutorialTimerArmor ++;
@@ -119,12 +119,11 @@ function drawEverything() {
       canvasContext.drawImage(tileCloakPic,200,0);
 
 
-      if (tutorialTimerCloak < 500) {
+      if (tutorialTimerCloak < 200) {
         canvasContext.fillStyle = 'white';
         canvasContext.fillText("space bar - quick dash over gaps or through spikes",jumperX - camPanX -120, jumperY -20 - camPanY);
         tutorialTimerCloak ++;
-      }
-
+      } 
   }
 
   canvasContext.fillStyle = 'white';

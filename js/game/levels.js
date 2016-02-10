@@ -112,7 +112,12 @@ const TILE_GOLD_KEY = 21;
 
 function isTileHereSolid(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,true);
-  return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
+  if (playerState == playerCloak && abilityCoolDown > 40) {
+    return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH  && tileKindAt != TILE_SPIKES);
+  } else {
+    return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
+  }
+
 }
 
 /*var loadedLevelJSON = // kept around for ease of one-off testing via override

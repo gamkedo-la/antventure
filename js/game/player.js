@@ -162,6 +162,11 @@ function jumperMove() {
   var playerNonSolidX = 0;
   var playerNonSolidY = 0;
 
+  if (health <= 0) {
+    jumperSpeedX = 0;
+    return;
+  }
+
   if(iceBolt) {
     if (whichBrickAtPixelCoord(iceBoltX, iceBoltY, false) == TILE_ICE) {
       iceBolt = false;
@@ -183,6 +188,7 @@ function jumperMove() {
       jumperSpeedY = JUMPER_RADIUS;
     }
   }
+
 
   if(holdLeft) {
     jumperSpeedX = -RUN_SPEED;
@@ -216,7 +222,14 @@ function jumperMove() {
   }
 
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_SPIKES) {
-    health --;
+    if (playerState == playerCloak && abilityCoolDown > 40) {
+
+    } else {
+      if (playerState != playerArmor) {
+          health --;
+      }
+      playerState = playerNormal
+    }
   }
 
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_CRUMBLE) {
