@@ -86,6 +86,7 @@ var startedRoomAtYV = 0;
 var startedRoomKeys = 0;
 var startedRoomPower = playerNormal;
 var roomAsItStarted = [];
+var enemiesWhenRoomStarted = [];
 var blockCarryOnEnter = false;
 
 var hasMap = false;
@@ -313,6 +314,7 @@ function checkIfChangingRooms() {
 function jumperRestoreFromStoredRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
+  enemyList = enemiesWhenRoomStarted.slice(0);
   processBrickGrid();
   playerState = startedRoomPower;
   carryingBlock = blockCarryOnEnter;
@@ -328,6 +330,7 @@ function jumperRestoreFromStoredRoomEntry() {
 function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
+  enemiesWhenRoomStarted = enemyList.slice(0);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;
