@@ -122,7 +122,13 @@ function drawEverything() {
   // this next line is like subtracting camPanX and camPanY from every
   // canvasContext draw operation up until we call canvasContext.restore
   // this way we can just draw them at their "actual" position coordinates
-  canvasContext.translate(-camPanX,-camPanY);
+
+  // wasStabbed = true; // uncomment to test/tune screen shake for escape route
+  if(wasStabbed) {
+    canvasContext.translate(-camPanX+Math.random()*5,-camPanY+Math.random()*5);
+  } else {
+    canvasContext.translate(-camPanX,-camPanY);
+  }
 
   canvasContext.drawImage(backgroundPic,0, 0);
 
@@ -147,11 +153,6 @@ function drawEverything() {
       enemyList[i].enemyCollideAndDraw();
     }
   }
-
-
-
-
-
 
 
   drawIceOverlay();
