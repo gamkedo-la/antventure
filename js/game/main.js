@@ -85,6 +85,20 @@ function drawEverything() {
 
   canvasContext.drawImage(backgroundPic,0, 0);
 
+  if (roomsOverC == 4 && roomsDownR == 2) {
+    antQueenState = 1;
+  } else {
+    antQueenState = 0;
+  }
+
+  if (antQueenState == 1) {
+    var queenFrame;
+    //queenFrame = animFrame % QUEEN_FRAMES;
+    //queenWingFrame = animFrame % QUEEN_WING_FRAMES;
+    drawFacingLeftOption(queenAntPic,740,570,false, queenFrame);
+    //drawFacingLeftOption(queenAntWingPic,840,700,false, queenWingFrame);
+  }
+
   drawOnlyBricksOnScreen();
 
   for(var i=0;i<enemyList.length;i++) {
@@ -92,14 +106,7 @@ function drawEverything() {
   }
 
 
-  //
-  //if (antQueenState = 1) {
-    //var queenFrame;
-    //queenFrame = animFrame % QUEEN_FRAMES;
-    //queenWingFrame = animFrame % QUEEN_WING_FRAMES;
-    //drawFacingLeftOption(queenAntPic,400,300,false, queenFrame);
-    //drawFacingLeftOption(queenAntWingPic,400,300,false, queenWingFrame);
-  //}
+
 
 
 

@@ -14,6 +14,8 @@ iceBoltPic.src = "images/iceBoltAn.png";
 const ICE_FRAMES = 4;
 var shieldPic = document.createElement("img");
 shieldPic.src = "images/shield.png";
+var playerSwordPic = document.createElement("img");
+playerSwordPic.src = "images/playerSwordPic.png";
 
 const ANT_RUN_FRAMES = 4;
 
@@ -288,6 +290,17 @@ function jumperMove() {
     }
   }
 
+  if (isBlockPickup(TILE_SWORD)) {
+    hasSword = true;
+  }
+
+  if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_WEAKPOINT) {
+    if (wasStabbed == false && hasSword == true) {
+      wasStabbed = true;
+      hasSword = false;
+    }
+  }
+
   if(jumperSpeedX < 0 && isTileHereSolid(jumperX-JUMPER_RADIUS,jumperY)) {
     jumperX = (Math.floor( jumperX / BRICK_W )) * BRICK_W + JUMPER_RADIUS;
   }
@@ -298,7 +311,7 @@ function jumperMove() {
   jumperX += jumperSpeedX; // move the jumper based on its current horizontal speed
   jumperY += jumperSpeedY; // same as above, but for vertical
 
-  // checking whether both are positive values to avoid the death glitch of them not having been set above 
+  // checking whether both are positive values to avoid the death glitch of them not having been set above
   if(isTileHereSolid(jumperX,jumperY) && playerNonSolidX > 0 && playerNonSolidY > 0) {
     jumperX = playerNonSolidX;
     jumperY = playerNonSolidY;
@@ -496,9 +509,20 @@ function drawJumper() {
       drawFacingLeftOption(playerPicCloakStill,jumperX,jumperY,lastFacingLeft, 0);
     }
   }
+
+  if (hasSword) {
+    drawFacingLeftOption(playerSwordPic,jumperX,jumperY,lastFacingLeft);
+  }
+
   if(carryingBlock) {
-    canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
-      jumperY - JUMPER_RADIUS-BRICK_H*0.7);
+    if (roomsOverC == 4 && roomsDownR == 2) {
+      canvasContext.drawImage(tileCrownPic,jumperX - BRICK_W*0.5,
+        jumperY - JUMPER_RADIUS-BRICK_H*0.7);
+    } else {
+      canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
+        jumperY - JUMPER_RADIUS-BRICK_H*0.7);
+    }
+
   }
 }
 

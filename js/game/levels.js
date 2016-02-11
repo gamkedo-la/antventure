@@ -49,6 +49,8 @@ tileGoldDoorPic.src = "images/tileGoldDoor.png";
 var tileGoldKeyPic = document.createElement("img");
 tileGoldKeyPic.src = "images/tileGoldKey.png";
 const TILE_GOLD_KEY_FRAMES = 4;
+var tileSwordPic = document.createElement("img");
+tileSwordPic.src = "images/sword.png";
 
 var startScreen = document.createElement("img");
 startScreen.src = "images/startScreen.png";
@@ -61,8 +63,16 @@ const QUEEN_FRAMES = 6;
 var queenAntWingPic = document.createElement("img");
 queenAntWingPic.src = "images/queenAntWing.png";
 const QUEEN_WING_FRAMES = 4;
+var tileCrownPic = document.createElement("img");
+tileCrownPic.src = "images/crown.png";
+var bloodSprayAn = document.createElement("img");
+bloodSprayAn.src = "images/bloodSheet.png";
+const TILE_BLOOD_FRAMES = 4;
 
-var antQueenState = 1;
+var antQueenState = 0;
+var wasStabbed = false;
+var hasSword = false;
+
 // where is the player/gameplay happening in the overworld level grid?
 // now automatically set at first by loadLevelsBesidesFirstOne
 // should change by which level file is loaded from index.html
@@ -117,6 +127,8 @@ const TILE_TORCH = 18;
 const TILE_MAP = 19;
 const TILE_GOLD_DOOR = 20;
 const TILE_GOLD_KEY = 21;
+const TILE_SWORD = 22;
+const TILE_WEAKPOINT = 23;
 
 
 function isTileHereSolid(atX,atY) {
@@ -367,11 +379,20 @@ function drawOnlyBricksOnScreen() {
             usePic = tilePic;
             break;
           case TILE_PILLAR:
-            usePic = tileMovePic;
-            break;
+            if (roomsOverC == 4 && roomsDownR == 2) {
+              usePic = tileCrownPic;
+              break;
+            } else {
+              usePic = tileMovePic;
+              break;
+            }
           case TILE_MOSS:
-            usePic = tileMossPic;
-            break;
+            if (roomsOverC == 4 && roomsDownR == 2) {
+              continue;
+            } else {
+              usePic = tileMossPic;
+              break;
+            }
           case TILE_CRUMBLE:
             usePic = tileCrumblePic;
             break;
@@ -401,8 +422,8 @@ function drawOnlyBricksOnScreen() {
               continue;
             } else {
               usePic = tileSpikesPic;
+              break;
             }
-            break;
           case TILE_PORTAL:
             usePic = tilePortalPic;
             break;
@@ -427,6 +448,17 @@ function drawOnlyBricksOnScreen() {
             usePic = tileGoldKeyPic;
             tileFrame = animFrame % TILE_GOLD_KEY_FRAMES;
             break;
+          case TILE_SWORD:
+            usePic = tileSwordPic;
+            break;
+          case TILE_WEAKPOINT:
+            if (wasStabbed) {
+              usePic = bloodSprayAn;
+              tileFrame = animFrame % TILE_BLOOD_FRAMES;
+              break;
+            } else {
+              continue;
+            }
       } // end of whichBrickAtTileCoord()
       var brickLeftEdgeX = eachCol * BRICK_W;
       var brickTopEdgeY = eachRow * BRICK_H;
