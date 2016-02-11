@@ -157,12 +157,16 @@ function drawHealthHud() {
   }
 }
 
+function playerIsDead() {
+  return (health <= 0);
+}
+
 function jumperMove() {
   // used for returning player to valid position if bugged through wall
-  var playerNonSolidX = 0;
-  var playerNonSolidY = 0;
+  var playerNonSolidX = -1;
+  var playerNonSolidY = -1;
 
-  if (health <= 0) {
+  if ( playerIsDead() ) {
     jumperSpeedX = 0;
     return;
   }
@@ -291,9 +295,13 @@ function jumperMove() {
   jumperX += jumperSpeedX; // move the jumper based on its current horizontal speed
   jumperY += jumperSpeedY; // same as above, but for vertical
 
-  if(isTileHereSolid(jumperX,jumperY)) {
+  // checking whether both are positive values to avoid the death glitch of them not having been set above 
+  if(isTileHereSolid(jumperX,jumperY) && playerNonSolidX > 0 && playerNonSolidY > 0) {
     jumperX = playerNonSolidX;
     jumperY = playerNonSolidY;
+    if(jumperSpeedY < 0) { // banged head?
+      jumperSpeedY = 0;
+    }
   }
 
   checkIfChangingRooms();
@@ -339,9 +347,17 @@ function checkIfChangingRooms() {
 }
 
 function jumperRestoreFromStoredRoomEntry() {
+  holdRight = holdLeft = false; // hacky fix to interrupt incorrect key held state after level reload
+
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
-  enemyList = enemiesWhenRoomStarted.slice(0);
+  enemyList = [];
+  var enemyRespawnData = JSON.parse(enemiesWhenRoomStarted); // deep copy needed for positions etc.
+  for(var i=0;i<enemyRespawnData.length;i++) {
+    var newEnem = new enemySlideAndBounce();
+    newEnem.respawnEnemy(enemyRespawnData[i]);
+    enemyList.push( newEnem );
+  }
   processBrickGrid();
   playerState = startedRoomPower;
   carryingBlock = blockCarryOnEnter;
@@ -351,13 +367,15 @@ function jumperRestoreFromStoredRoomEntry() {
   jumperX = startedRoomAtX;
   jumperY = startedRoomAtY;
   jumperSpeedX = startedRoomAtXV;
+  lastFacingLeft = jumperSpeedX < 0;
   jumperSpeedY = startedRoomAtYV;
 }
 
 function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
-  enemiesWhenRoomStarted = enemyList.slice(0);
+  enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
+  // console.log(enemiesWhenRoomStarted);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;
@@ -420,7 +438,7 @@ function iceAndShieldDetection (theEnemy) {
 }
 
 function hitDetection (enemyX, enemyY) {
-  if (damagedRecentely > 0) {
+  if (damagedRecentely > 0 || playerIsDead() ) {
     return;
   }
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
@@ -437,6 +455,11 @@ function hitDetection (enemyX, enemyY) {
 
 
 function drawJumper() {
+
+  if ( playerIsDead() ) {
+    return;
+  }
+
   if(iceBolt == true) {
     var iceFrame = animFrame % ICE_FRAMES
     drawFacingLeftOption(iceBoltPic,iceBoltX,iceBoltY, iceFacingLeft, iceFrame);

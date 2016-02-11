@@ -295,7 +295,7 @@ html {
 .t8 {
   background: #202020;
   background: url("../images/tileFriendly.png") no-repeat;
-  background-size: 100% 100%;
+  background-size: 400% 100%; /* to only show first of 4 frames */
 }
 /* Health */
 .t9 {
@@ -332,6 +332,30 @@ html {
   background: #00f;
   background: url("../images/tileWizHat.png") no-repeat;
   background-size: 100% 100%;
+}
+/* Armor */
+.t15 {
+  background: #00f;
+  background: url("../images/tileArmor.png") no-repeat;
+  background-size: 100% 100%;
+}
+/* Cloak */
+.t16 {
+  background: #00f;
+  background: url("../images/tileCloak.png") no-repeat;
+  background-size: 100% 100%;
+}
+/* Ice */
+.t17 {
+  background: #00f;
+  background: url("../images/tileIce.png") no-repeat;
+  background-size: 100% 100%;
+}
+/* Torch */
+.t18 {
+  background: #00f;
+  background: url("../images/torchSheet.png") no-repeat;
+  background-size: 400% 100%; /* only show frame 1 of 4 */
 }
 
 .newWindow,.saveWindow, .openWindow {

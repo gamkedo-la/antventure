@@ -19,7 +19,7 @@ var dashPower = 2;
 var showTimer = false;
 var timerDelay = 0;
 var showMap = false;
-var channelReset = 0;
+var resetTimer = 0;
 
 function initInput() {
   document.addEventListener("keydown", keyPressed);
@@ -28,14 +28,10 @@ function initInput() {
 
 function setKeyHoldState(thisKey, setTo) {
 
-  if (thisKey == KEY_R) {
-    channelReset ++;
-    if (channelReset > 20) {
+  if (thisKey == KEY_R && resetTimer == 0) {
+      resetTimer = 30;
       jumperRestoreFromStoredRoomEntry();
-      channelReset = 0;
-    }
-  } else {
-    channelReset = 0;
+    return; // block other keys
   }
 
   if(thisKey == KEY_T && timerDelay == 0) {
@@ -128,13 +124,13 @@ function setKeyHoldState(thisKey, setTo) {
   if(setTo) {
     if(thisKey == KEY_UP_ARROW || thisKey == KEY_W) {
       if(jumperOnGround) {
-        if (isTileHereSolid(jumperX,jumperY -60)) {
+        /*if (isTileHereSolid(jumperX,jumperY -60)) { // removed, severely limits column stacking, fixed other way
           jumperSpeedY = -(JUMP_POWER / 2)
           recentJump = 5;
-        } else {
+        } else {*/
           jumperSpeedY = -JUMP_POWER;
           recentJump = 5; // giving a few frames to escape groud
-        }
+        //}
       }
     }
     if(thisKey == KEY_DOWN_ARROW || thisKey == KEY_S) {

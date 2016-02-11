@@ -117,7 +117,17 @@ function isTileHereSolid(atX,atY) {
   } else {
     return (tileKindAt != TILE_NONE && tileKindAt != TILE_PORTAL && tileKindAt != TILE_TORCH);
   }
+}
 
+function isTileHereWalkOnAble(atX,atY) {
+  var tileKindAt = whichBrickAtPixelCoord(atX,atY,false);
+  
+  return tileKindAt == TILE_DIRT ||
+          tileKindAt == TILE_MOSS ||
+          tileKindAt == TILE_DOOR ||
+          tileKindAt == TILE_PILLAR ||
+          tileKindAt == TILE_CRUMBLE ||
+          tileKindAt < 0; // mid-decay
 }
 
 /*var loadedLevelJSON = // kept around for ease of one-off testing via override
@@ -249,11 +259,11 @@ function processBrickGrid() {
 
   var tempEnemy = new enemySlideAndBounce();
   // enemyList = []; do not clear enemy list, we're keeping old ones around
-  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0, evilBugPic)) {
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_ANT_START, EVIL_BUG_SPEED, 0.0)) {
     enemyList.push(tempEnemy);
     tempEnemy = new enemySlideAndBounce();
   }
-  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED, evilFlyPic)) {
+  while(tempEnemy.enemyPlacementAnt(TILE_EVIL_FLY_START, 0.0, EVIL_BUG_SPEED)) {
     enemyList.push(tempEnemy);
     tempEnemy = new enemySlideAndBounce();
   }

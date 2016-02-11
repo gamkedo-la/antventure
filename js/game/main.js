@@ -68,6 +68,9 @@ function moveEverything() {
   if (damagedRecentely > 0) {
     damagedRecentely --;
   }
+  if (resetTimer != 0) {
+    resetTimer --;
+  }
 }
 
 function drawEverything() {
