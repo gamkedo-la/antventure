@@ -47,6 +47,7 @@ function setKeyHoldState(thisKey, setTo) {
   if(thisKey == KEY_SPACE) {
     if(gameGoing == false) {
       gameGoing = true;
+      audio_music.play();
     }
 
     if(abilityCoolDown == 0 && playerState > 0) {
