@@ -142,7 +142,12 @@ function drawEverything() {
     var queenFrame;
     //queenFrame = animFrame % QUEEN_FRAMES;
     //queenWingFrame = animFrame % QUEEN_WING_FRAMES;
-    drawFacingLeftOption(queenAntPic,740,570,false, queenFrame);
+    if (wasStabbed) {
+      drawFacingLeftOption(queenAntDeadPic,740,510,false);
+    } else {
+      drawFacingLeftOption(queenAntPic,740,510,false, queenFrame);
+    }
+
     //drawFacingLeftOption(queenAntWingPic,840,700,false, queenWingFrame);
   }
 
