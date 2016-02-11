@@ -158,7 +158,7 @@ function drawEverything() {
     timerDelay --;
   }
 
-  if (hasMap && tutorialTimerWiz < 200) {
+  if (hasMap && tutorialTimerMap < 200) {
     canvasContext.fillStyle = 'white';
     canvasContext.fillText("Press M to bring up the Map",jumperX - camPanX -60, jumperY -20 - camPanY);
     tutorialTimerWiz ++;
@@ -185,6 +185,10 @@ function drawEverything() {
         keyArtDim, keyArtDim);
     }
 
+  }
+
+  if (hasGoldKey) {
+    canvasContext.drawImage(majorKey, 735, 65)
   }
 
   if (damagedRecentely > 0) {

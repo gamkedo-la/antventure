@@ -34,6 +34,8 @@ var hudMapPic = document.createElement("img");
 hudMapPic.src = "images/hudMap.png";
 var mapDotPic = document.createElement("img");
 mapDotPic.src = "images/mapDotPic.png";
+var majorKey = document.createElement("img");
+majorKey.src = "images/majorKey.png";
 
 var playerTouchingIndex = -1;
 var carryingBlock = false;
@@ -287,6 +289,7 @@ function jumperMove() {
   }
   if (hasGoldKey) {
     if (isBlockPickup(TILE_GOLD_DOOR)) {
+      hasGoldKey = false;
     }
   }
 
