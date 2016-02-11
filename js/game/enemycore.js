@@ -1,5 +1,6 @@
 var evilBugPic = document.createElement("img");
-evilBugPic.src = "images/evilBug.png";
+evilBugPic.src = "images/evilBug-sheet.png";
+const ENEMY_FRAMES = 4;
 var evilFlyPic = document.createElement("img");
 evilFlyPic.src = "images/evilFly.png";
 
@@ -92,7 +93,7 @@ this.enemyCollideAndDraw = function() {
     if(whichBrickAtPixelCoord(this.x,this.y,false) == TILE_SPIKES) { // ant fell on spikes
       return;
     }
-    
+
 	  // movement for the one hard coded enemy red ant
     this.x += this.xv;
     this.y += this.yv;
@@ -126,6 +127,8 @@ this.enemyCollideAndDraw = function() {
 
     hitDetection (this.x, this.y);
 
-    drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft);
+    var enemyFrame = animFrame % ENEMY_FRAMES;
+
+    drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft, enemyFrame);
   }
 }

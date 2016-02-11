@@ -91,6 +91,18 @@ function drawEverything() {
     enemyList[i].enemyCollideAndDraw();
   }
 
+
+  //
+  //if (antQueenState = 1) {
+    //var queenFrame;
+    //queenFrame = animFrame % QUEEN_FRAMES;
+    //queenWingFrame = animFrame % QUEEN_WING_FRAMES;
+    //drawFacingLeftOption(queenAntPic,400,300,false, queenFrame);
+    //drawFacingLeftOption(queenAntWingPic,400,300,false, queenWingFrame);
+  //}
+
+
+
   drawIceOverlay();
 
   drawJumper();

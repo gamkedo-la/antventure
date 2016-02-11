@@ -54,6 +54,15 @@ var startScreen = document.createElement("img");
 startScreen.src = "images/startScreen.png";
 var deadScreen = document.createElement("img");
 deadScreen.src = "images/deadScreen.png";
+
+var queenAntPic = document.createElement("img");
+queenAntPic.src = "images/queenAnt.png";
+const QUEEN_FRAMES = 6;
+var queenAntWingPic = document.createElement("img");
+queenAntWingPic.src = "images/queenAntWing.png";
+const QUEEN_WING_FRAMES = 4;
+
+var antQueenState = 1;
 // where is the player/gameplay happening in the overworld level grid?
 // now automatically set at first by loadLevelsBesidesFirstOne
 // should change by which level file is loaded from index.html
@@ -121,7 +130,7 @@ function isTileHereSolid(atX,atY) {
 
 function isTileHereWalkOnAble(atX,atY) {
   var tileKindAt = whichBrickAtPixelCoord(atX,atY,false);
-  
+
   return tileKindAt == TILE_DIRT ||
           tileKindAt == TILE_MOSS ||
           tileKindAt == TILE_DOOR ||
@@ -388,7 +397,11 @@ function drawOnlyBricksOnScreen() {
             tileFrame = animFrame % TILE_KEY_FRAMES;
             break;
           case TILE_SPIKES:
-            usePic = tileSpikesPic;
+            if (roomsOverC == 4 && roomsDownR == 2) {
+              continue;
+            } else {
+              usePic = tileSpikesPic;
+            }
             break;
           case TILE_PORTAL:
             usePic = tilePortalPic;
