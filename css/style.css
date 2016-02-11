@@ -41,3 +41,12 @@ body{
 	border-style:solid;
 	border-width:3px;
 }
+
+footer{
+	background:#95600E;
+	border: solid 3px #734A0A;
+	margin: 0px auto 0px auto;
+	padding:25px;
+	width: 810px;
+	text-align:center;
+}
