@@ -11,7 +11,7 @@ function setFormat() {
 
 setFormat();
 
-var audio_music = new Audio("SFX/natec-strainofthought" + ext);
+var audio_music = new Audio("SFX/antventureTheme" + ext);
 var audio_crumble = new Audio("SFX/CrumbleBrick" + ext);
 var audio_crumbleBreak = new Audio("SFX/CrumbleBrickBreak" + ext);
 var audio_squishSoundV1 = new Audio("SFX/squishSoundV1" + ext);
