@@ -128,6 +128,9 @@ this.enemyCollideAndDraw = function() {
     hitDetection (this.x, this.y);
 
     var enemyFrame = animFrame % ENEMY_FRAMES;
+    if(this.xv == 0) {
+      enemyFrame = 0; // no animation on fly
+    }
 
     drawFacingLeftOption(this.myPic,this.x,this.y, this.facingLeft, enemyFrame);
   }

@@ -10,6 +10,20 @@ function colorCircle(centerX, centerY, radius, fillColor) {
   canvasContext.fill();
 }
 
+function spriteSafeEdge(img,frameNow,dim,offX,offY) {
+  var wid;
+  if(frameNow*dim + dim >= img.width) {
+    wid = img.width - frameNow*dim;
+  } else {
+    wid = dim;
+  }
+  canvasContext.drawImage(img,
+        frameNow * dim, 0, // top-left corner of tile art
+        wid, dim, // get full tile size from source
+        offX-wid/2,offY-dim/2, // x,y top-left corner for image destination
+        wid, dim); // draw full tile size for destination
+}
+
 // warning: currently is written assuming JUMPER_RADIUS is same for all chars
 function drawFacingLeftOption(image,atX,atY,ifFlipped, frameNum) {
   var imageDim = image.height; // making assumption of square animation frames to simplify strips
@@ -22,18 +36,10 @@ function drawFacingLeftOption(image,atX,atY,ifFlipped, frameNum) {
     canvasContext.translate(atX, atY);
     canvasContext.scale(-1, 1);
 
-    canvasContext.drawImage(image,
-        frameNum * imageDim, 0, // top-left corner of tile art
-        imageDim, imageDim, // get full tile size from source
-        -imageDim/2,-imageDim/2, // x,y top-left corner for image destination
-        imageDim, imageDim); // draw full full tile size for destination
+    spriteSafeEdge(image,frameNum,imageDim,0,0);
 
     canvasContext.restore();
   } else {
-    canvasContext.drawImage(image,
-        frameNum * imageDim, 0, // top-left corner of tile art
-        imageDim, imageDim, // get full tile size from source
-        atX-imageDim/2,atY-imageDim/2, // x,y top-left corner for image destination
-        imageDim, imageDim); // draw full full tile size for destination
+    spriteSafeEdge(image,frameNum,imageDim,atX,atY);
   }
 }
