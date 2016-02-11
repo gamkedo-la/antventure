@@ -145,9 +145,9 @@ function drawEverything() {
     //queenFrame = animFrame % QUEEN_FRAMES;
     //queenWingFrame = animFrame % QUEEN_WING_FRAMES;
     if (wasStabbed) {
-      drawFacingLeftOption(queenAntDeadPic,740,510,false);
+      drawFacingLeftOption(queenAntDeadPic,720,520,false);
     } else {
-      drawFacingLeftOption(queenAntPic,740,510,false, queenFrame);
+      drawFacingLeftOption(queenAntPic,720,520,false, queenFrame);
     }
 
     //drawFacingLeftOption(queenAntWingPic,840,700,false, queenWingFrame);
