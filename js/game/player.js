@@ -4,11 +4,14 @@ var playerPicWizHat = document.createElement("img");
 playerPicWizHat.src = "images/playerAntWizHat.png";
 var playerPicArmor = document.createElement("img");
 playerPicArmor.src = "images/playerAntArmor.png";
+var playerPicCloakStill = document.createElement("img");
+playerPicCloakStill.src = "images/playerAntCloak.png";
 var playerPicCloak = document.createElement("img");
-playerPicCloak.src = "images/playerAntCloak.png";
+playerPicCloak.src = "images/playerAntCloak-sheet.png";
+const CLOAK_FRAMES = 3;
 var iceBoltPic = document.createElement("img");
 iceBoltPic.src = "images/iceBoltAn.png";
-ICE_FRAMES = 4
+const ICE_FRAMES = 4;
 var shieldPic = document.createElement("img");
 shieldPic.src = "images/shield.png";
 
@@ -352,12 +355,13 @@ function jumperRestoreFromStoredRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
   enemyList = [];
-  var enemyRespawnData = JSON.parse(enemiesWhenRoomStarted); // deep copy needed for positions etc.
+  /*var enemyRespawnData = JSON.parse(enemiesWhenRoomStarted); // deep copy needed for positions etc.
   for(var i=0;i<enemyRespawnData.length;i++) {
     var newEnem = new enemySlideAndBounce();
     newEnem.respawnEnemy(enemyRespawnData[i]);
     enemyList.push( newEnem );
-  }
+  }*/
+  enemyList = enemiesWhenRoomStarted.slice(0);
   processBrickGrid();
   playerState = startedRoomPower;
   carryingBlock = blockCarryOnEnter;
@@ -374,7 +378,8 @@ function jumperRestoreFromStoredRoomEntry() {
 function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
-  enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
+  //enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
+  enemiesWhenRoomStarted = enemyList.slice(0);
   // console.log(enemiesWhenRoomStarted);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
@@ -467,7 +472,8 @@ function drawJumper() {
   }
 
   var antFrame;
-  if (Math.abs(jumperSpeedX)>1) {
+  var isMoving = Math.abs(jumperSpeedX)>1;
+  if (isMoving) {
     antFrame = animFrame % ANT_RUN_FRAMES;
   } else {
     antFrame = 0;
@@ -481,7 +487,14 @@ function drawJumper() {
     drawFacingLeftOption(playerPicArmor,jumperX,jumperY,lastFacingLeft);
   }
   if (playerState == playerCloak) {
-    drawFacingLeftOption(playerPicCloak,jumperX,jumperY,lastFacingLeft);
+    if(isMoving == false) { // flap if falling, too
+      isMoving = Math.abs(jumperSpeedY)>1;
+    }
+    if(isMoving) {
+      drawFacingLeftOption(playerPicCloak,jumperX,jumperY,lastFacingLeft, animFrame % CLOAK_FRAMES);
+    } else {
+      drawFacingLeftOption(playerPicCloakStill,jumperX,jumperY,lastFacingLeft, 0);
+    }
   }
   if(carryingBlock) {
     canvasContext.drawImage(tileMovePic,jumperX - BRICK_W*0.5,
