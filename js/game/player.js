@@ -403,9 +403,24 @@ function jumperRestoreFromStoredRoomEntry() {
 function jumperStoreRoomEntry() {
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
-  enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
+  enemyListDataOnly = [];
+  for(var i=0;i<enemyList.length;i++) {
+    var dataHolder = {};
+    dataHolder.myRoomC = enemyList[i].myRoomC;
+    dataHolder.myRoomR = enemyList[i].myRoomR;
+
+    dataHolder.x = enemyList[i].x;
+    dataHolder.y = enemyList[i].y;
+    dataHolder.xv = enemyList[i].xv;
+    dataHolder.yv = enemyList[i].yv;
+    dataHolder.facingLeft = enemyList[i].facingLeft;
+    dataHolder.myID = enemyList[i].myID;
+    dataHolder.myKind = enemyList[i].myKind;
+    enemyListDataOnly.push(dataHolder);
+  }
+
+  enemiesWhenRoomStarted = JSON.stringify(enemyListDataOnly); // deep copy needed for positions etc.
   // enemiesWhenRoomStarted = enemyList.slice(0);
-  // console.log(enemiesWhenRoomStarted);
   blockCarryOnEnter = carryingBlock;
   startedRoomKeys = numberOfKeys;
   startedRoomPower = playerState;
