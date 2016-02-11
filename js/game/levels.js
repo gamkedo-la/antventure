@@ -247,7 +247,7 @@ function loadLevel(fromJSON) { // if no test stage argument, load from world gri
 
 function processBrickGrid() {
   // defrost frozen baddies
-  console.log("defrosting");
+  // console.log("defrosting");
   for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
     for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
       if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_ICE) {
