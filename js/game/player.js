@@ -368,6 +368,9 @@ function checkIfChangingRooms() {
 
 function jumperRestoreFromStoredRoomEntry() {
   holdRight = holdLeft = false; // hacky fix to interrupt incorrect key held state after level reload
+  if (wasStabbed) {
+
+  }
 
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   brickGrid = window[loadingRoomName].gridspaces = roomAsItStarted.slice(0);
@@ -390,14 +393,13 @@ function jumperRestoreFromStoredRoomEntry() {
   jumperSpeedX = startedRoomAtXV;
   lastFacingLeft = jumperSpeedX < 0;
   jumperSpeedY = startedRoomAtYV;
-  countdown = 3600;
+  countdown = 0;
+  timeSCD = 00;
+  timeMCD = 2;
   hasSword = false;
 }
 
 function jumperStoreRoomEntry() {
-  if (wasStabbed) {
-    return;
-  }
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
   enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
@@ -540,7 +542,7 @@ function instantCamFollow() {
   camPanY = jumperY - canvas.height/2;
 }
 
-function cameraFollow() {  
+function cameraFollow() {
   var cameraFocusCenterX = camPanX + canvas.width/2;
   var cameraFocusCenterY = camPanY + canvas.height/2;
 

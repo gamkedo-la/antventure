@@ -5,7 +5,9 @@ var timeH = 0;
 var timeM = 0;
 var timeS = 0;
 
-var countdown = 3600;
+var countdown = 0;
+var timeSCD = 30;
+var timeMCD = 2;
 
 var gameGoing = false;
 var isWinner = false;
@@ -26,9 +28,19 @@ function updateTime () {
   }
 
   if(wasStabbed) {
-    countdown --;
-    if (countdown < 0) {
-      jumperRestoreFromStoredRoomEntry();
+    countdown ++;
+    if (countdown == 30) {
+      countdown = 0;
+      timeSCD --;
+    }
+    if (timeSCD == 0) {
+      if (timeMCD == 0) {
+        jumperRestoreFromStoredRoomEntry();
+      } else {
+        timeSCD = 59;
+        timeMCD --;
+      }
+
     }
   }
 }
@@ -209,7 +221,7 @@ function drawEverything() {
 
   if (wasStabbed) {
     canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Escape before time runs out!: " + countdown ,300, 20);
+    canvasContext.fillText("Escape before time runs out!: " + timeMCD + ":" + timeSCD ,300, 20);
   }
 
   if (numberOfKeys > 0) {
