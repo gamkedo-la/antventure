@@ -38,12 +38,12 @@ function setKeyHoldState(thisKey, setTo) {
 
   if(thisKey == KEY_T && timerDelay == 0) {
     showTimer = !showTimer;
-    timerDelay = 5;
+    timerDelay = 10;
   }
 
   if(thisKey == KEY_M && hasMap && timerDelay ==0) {
     showMap = !showMap;
-    timerDelay = 5;
+    timerDelay = 10;
   }
 
   if(thisKey == KEY_SPACE) {

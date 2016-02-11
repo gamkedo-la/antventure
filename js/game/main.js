@@ -161,7 +161,7 @@ function drawEverything() {
   if (hasMap && tutorialTimerMap < 200) {
     canvasContext.fillStyle = 'white';
     canvasContext.fillText("Press M to bring up the Map",jumperX - camPanX -60, jumperY -20 - camPanY);
-    tutorialTimerWiz ++;
+    tutorialTimerMap ++;
   }
   if (showMap) {
     canvasContext.drawImage(hudMapPic, 0, 0)
