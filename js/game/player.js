@@ -397,6 +397,7 @@ function jumperRestoreFromStoredRoomEntry() {
   timeSCD = 00;
   timeMCD = 2;
   hasSword = false;
+  wobble = 1;
 }
 
 function jumperStoreRoomEntry() {

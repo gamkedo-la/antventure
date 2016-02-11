@@ -8,6 +8,7 @@ var timeS = 0;
 var countdown = 0;
 var timeSCD = 30;
 var timeMCD = 2;
+var wobble = 1;
 
 var gameGoing = false;
 var isWinner = false;
@@ -21,6 +22,7 @@ function updateTime () {
   if (timeS == 60) {
     timeS = 0;
     timeM ++;
+    wobble += 2;
   }
   if (timeM == 60) {
     timeM = 0;
@@ -125,7 +127,7 @@ function drawEverything() {
 
   // wasStabbed = true; // uncomment to test/tune screen shake for escape route
   if(wasStabbed) {
-    canvasContext.translate(-camPanX+Math.random()*5,-camPanY+Math.random()*5);
+    canvasContext.translate(-camPanX+Math.random()*wobble,-camPanY+Math.random()*wobble);
   } else {
     canvasContext.translate(-camPanX,-camPanY);
   }
