@@ -47,7 +47,7 @@ function setKeyHoldState(thisKey, setTo) {
   }
 
   if(thisKey == KEY_SPACE) {
-    if(gameGoing == false) {
+    if(gameGoing == false && isWinner == false) {
       gameGoing = true;
       audio_music.play();
     }

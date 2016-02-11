@@ -56,6 +56,8 @@ var startScreen = document.createElement("img");
 startScreen.src = "images/startScreen.png";
 var deadScreen = document.createElement("img");
 deadScreen.src = "images/deadScreen.png";
+var endScreen = document.createElement("img");
+endScreen.src = "images/endScreen.png";
 
 var queenAntPic = document.createElement("img");
 queenAntPic.src = "images/queenAnt.png";

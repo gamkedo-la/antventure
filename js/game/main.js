@@ -5,7 +5,10 @@ var timeH = 0;
 var timeM = 0;
 var timeS = 0;
 
+var countdown = 3600;
+
 var gameGoing = false;
+var isWinner = false;
 
 function updateTime () {
   gameTime ++;
@@ -20,6 +23,13 @@ function updateTime () {
   if (timeM == 60) {
     timeM = 0;
     timeH ++;
+  }
+
+  if(wasStabbed) {
+    countdown --;
+    if (countdown < 0) {
+      jumperRestoreFromStoredRoomEntry();
+    }
   }
 }
 
@@ -39,8 +49,27 @@ window.onload = function() {
         if (health <= 0) {
           canvasContext.drawImage(deadScreen, 0, 0);
         }
+
+        if (roomsOverC == 4 && roomsDownR == 0 && jumperY < 240 && wasStabbed == true) {
+          isWinner = true;
+          gameGoing = false;
+          audio_music.pause()
+        }
+
+
       } else {
-        canvasContext.drawImage(startScreen, 0, 0);
+        if (isWinner) {
+          canvasContext.drawImage(endScreen, 0, 0);
+          canvasContext.fillStyle = 'Green';
+          canvasContext.fillText("Total Time:" ,400, 240);
+          canvasContext.fillText(timeH + ":" + timeM + ":" + timeS ,400, 260);
+          canvasContext.fillText("Total Ants Saved:" ,400, 300);
+          canvasContext.fillText(antsRescued ,490, 300);
+          canvasContext.fillText("Bonuse Keys:" ,400, 340);
+          canvasContext.fillText(antsRescued ,480, 340);
+        } else {
+          canvasContext.drawImage(startScreen, 0, 0);
+        }
       }
     }, 1000/framesPerSecond);
 
@@ -173,6 +202,11 @@ function drawEverything() {
   if (showTimer == true) {
     canvasContext.fillStyle = 'white';
     canvasContext.fillText(timeH + ":" + timeM + ":" + timeS ,400, 40);
+  }
+
+  if (wasStabbed) {
+    canvasContext.fillStyle = 'red';
+    canvasContext.fillText(countdown ,400, 20);
   }
 
   if (numberOfKeys > 0) {

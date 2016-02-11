@@ -299,6 +299,7 @@ function jumperMove() {
 
   if(whichBrickAtPixelCoord(jumperX,jumperY+JUMPER_RADIUS,true) == TILE_WEAKPOINT) {
     if (wasStabbed == false && hasSword == true) {
+      jumperStoreRoomEntry();
       wasStabbed = true;
       hasSword = false;
     }
@@ -389,9 +390,13 @@ function jumperRestoreFromStoredRoomEntry() {
   jumperSpeedX = startedRoomAtXV;
   lastFacingLeft = jumperSpeedX < 0;
   jumperSpeedY = startedRoomAtYV;
+  countdown = 3600
 }
 
 function jumperStoreRoomEntry() {
+  if (wasStabbed) {
+    return;
+  }
   var loadingRoomName = levelCRToFilename(roomsOverC,roomsDownR);
   roomAsItStarted = window[loadingRoomName].gridspaces.slice(0);
   enemiesWhenRoomStarted = JSON.stringify(enemyList); // deep copy needed for positions etc.
