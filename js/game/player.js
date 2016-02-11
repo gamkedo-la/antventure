@@ -390,7 +390,8 @@ function jumperRestoreFromStoredRoomEntry() {
   jumperSpeedX = startedRoomAtXV;
   lastFacingLeft = jumperSpeedX < 0;
   jumperSpeedY = startedRoomAtYV;
-  countdown = 3600
+  countdown = 3600;
+  hasSword = false;
 }
 
 function jumperStoreRoomEntry() {
@@ -464,7 +465,7 @@ function iceAndShieldDetection (theEnemy) {
 }
 
 function hitDetection (enemyX, enemyY) {
-  if (damagedRecentely > 0 || playerIsDead() ) {
+  if (damagedRecentely > 0 || playerIsDead() || wasStabbed ) {
     return;
   }
   if (enemyX > jumperX - JUMPER_RADIUS && enemyX < jumperX + JUMPER_RADIUS) {
@@ -539,7 +540,7 @@ function instantCamFollow() {
   camPanY = jumperY - canvas.height/2;
 }
 
-function cameraFollow() {
+function cameraFollow() {  
   var cameraFocusCenterX = camPanX + canvas.width/2;
   var cameraFocusCenterY = camPanY + canvas.height/2;
 

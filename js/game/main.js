@@ -130,9 +130,12 @@ function drawEverything() {
 
   drawOnlyBricksOnScreen();
 
-  for(var i=0;i<enemyList.length;i++) {
-    enemyList[i].enemyCollideAndDraw();
+  if(wasStabbed ==false) {
+    for(var i=0;i<enemyList.length;i++) {
+      enemyList[i].enemyCollideAndDraw();
+    }
   }
+
 
 
 
@@ -205,8 +208,8 @@ function drawEverything() {
   }
 
   if (wasStabbed) {
-    canvasContext.fillStyle = 'red';
-    canvasContext.fillText(countdown ,400, 20);
+    canvasContext.fillStyle = 'white';
+    canvasContext.fillText("Escape before time runs out!: " + countdown ,300, 20);
   }
 
   if (numberOfKeys > 0) {
