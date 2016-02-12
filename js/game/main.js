@@ -80,7 +80,7 @@ window.onload = function() {
           canvasContext.fillText("Total Ants Saved:" ,400, 300);
           canvasContext.fillText(antsRescued ,490, 300);
           canvasContext.fillText("Bonuse Keys:" ,400, 340);
-          canvasContext.fillText(antsRescued ,480, 340);
+          canvasContext.fillText(numberOfKeys ,480, 340);
         } else {
           canvasContext.drawImage(startScreen, 0, 0);
         }
