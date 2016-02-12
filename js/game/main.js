@@ -53,6 +53,17 @@ window.onload = function() {
 
   initInput();
 
+  loadLevelsBesidesFirstOne();
+
+  loadLevel(); // load stage for game's location in the overall world grid
+  // loadLevel(loadedLevelJSON); // uncomment to test hand-coded/added stage in levels.js
+
+  jumperReset(); // only calling this for first room player starts in
+  // enemyPlacementFly();
+  // enemyPlacementAnt();
+
+  sliderReset();
+
   // these next few lines set up our game logic and render to happen 30 times per second
   var framesPerSecond = 30;
   setInterval(function() {
@@ -86,17 +97,6 @@ window.onload = function() {
         }
       }
     }, 1000/framesPerSecond);
-
-  loadLevelsBesidesFirstOne();
-
-  loadLevel(); // load stage for game's location in the overall world grid
-  // loadLevel(loadedLevelJSON); // uncomment to test hand-coded/added stage in levels.js
-
-  jumperReset(); // only calling this for first room player starts in
-  // enemyPlacementFly();
-  // enemyPlacementAnt();
-
-  sliderReset();
 }
 
 function moveEverything() {

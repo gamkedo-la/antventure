@@ -80,8 +80,8 @@ var hasSword = false;
 // where is the player/gameplay happening in the overworld level grid?
 // now automatically set at first by loadLevelsBesidesFirstOne
 // should change by which level file is loaded from index.html
-var roomsOverC = 0;
-var roomsDownR = 0; // 'e'
+var roomsOverC = 4;
+var roomsDownR = 0;
 
 var roomsToLoadColsW = 9
 var roomsToLoad =
@@ -188,10 +188,6 @@ function loadLevelsBesidesFirstOne() {
       var loadingRoomName = levelCRToFilename(eachC,eachR);
       // the only way it isn't null: if it was the one loaded by html
       if(window[loadingRoomName] != null) {
-        // set this room as first to be in focus
-        roomsOverC = eachC;
-        roomsDownR = eachR;
-
         // now check for player start
         brickGrid = window[loadingRoomName].gridspaces;
         var playerStartFound = false;
@@ -199,53 +195,23 @@ function loadLevelsBesidesFirstOne() {
           for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++) {
 
             if( whichBrickAtTileCoord(eachCol, eachRow) == TILE_PLAYERSTART) {
-              playerStartFound = true;
+	        // set this room as first to be in focus
+        	roomsOverC = eachC;
+	        roomsDownR = eachR;
+	        return;
             } // end of player start found
           } // end of row
         } // end of col
-
-        if(playerStartFound == false) {
-          console.log("NO PLAYER START FOUND -- assuming this is testing?");
-          // we'll now scan for an open tile along the left, top, or right
-          for(var eachRow=BRICK_ROWS-1; eachRow>=0; eachRow--) {
-            if( whichBrickAtTileCoord(0, eachRow) == TILE_NONE) {
-                jumperX = BRICK_W*0.8;
-                jumperY = eachRow*BRICK_H + BRICK_W*0.5;
-                playerStartFound = true;
-                break;
-            } // end of player start found
-          } // end of row
-          if(playerStartFound == false) {
-            for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
-              if( whichBrickAtTileCoord(eachCol, 0) == TILE_NONE) {
-                jumperX = eachCol*BRICK_W + BRICK_W*0.5;
-                jumperY = BRICK_H*0.8;
-                playerStartFound = true;
-                break;
-              } // end of player start found
-            } // end of col
-          }
-          if(playerStartFound == false) {
-            for(var eachRow=BRICK_ROWS-1; eachRow>=0; eachRow--) {
-              if( whichBrickAtTileCoord(eachCol, BRICK_ROWS-1) == TILE_NONE) {
-                jumperX = (BRICK_COLS-1)*BRICK_W - BRICK_W*0.8;
-                jumperY = eachRow*BRICK_H + BRICK_W*0.5;
-                playerStartFound = true;
-                break;
-              } // end of player start found
-            } // end of col
-          }
-        }
-        continue;
       }
-      var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
+      /* var roomKind = roomsToLoad[eachC + eachR*roomsToLoadColsW];
       if(roomKind == 0) {
         continue;
       }
       var imported = document.createElement('script');
       imported.onerror = noLevelHere;
       imported.src = 'levels/'+levelCRToFilename(eachC,eachR)+".js";
-      document.head.appendChild(imported);
+      document.head.appendChild(imported);*/
+	// now all merged in allmaps.js for speedier load
     }
   }
 }
