@@ -10,6 +10,7 @@ const KEY_SPACE = 32;
 const KEY_T = 84;
 const KEY_M = 77;
 const KEY_R = 82;
+const KEY_V = 86;
 
 var holdLeft = false;
 var holdRight = false;
@@ -44,6 +45,14 @@ function setKeyHoldState(thisKey, setTo) {
   if(thisKey == KEY_M && hasMap && timerDelay ==0) {
     showMap = !showMap;
     timerDelay = 10;
+  }
+
+  if(thisKey == KEY_V) {
+    if (audio_music.currentTime > 0) {
+      audio_music.pause();
+    } else {
+      audio_music.play();
+    }
   }
 
   if(thisKey == KEY_SPACE) {
